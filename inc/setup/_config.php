@@ -3,11 +3,11 @@
 
 function define_basic()
 {
-define(PRODUCT,'ESCan');
-define(ORGANIZATION, 'The Engineering Student Council');
-define(EMAIL, 'esc.uci@email.com');
-define(WEBSITE, 'http://escan.site90.com/escan');
-define(DESCRIPTION, 'ESCan Description');
+define(PRODUCT,'ESCan');									//Name of Product
+define(ORGANIZATION, 'The Engineering Student Council');	//Name of Organization or Company
+define(EMAIL, 'esc.uci@email.com');							//Email seen by users when notified
+define(WEBSITE, 'http://yoursite.com/');					//url of your site where this application is hosted
+define(DESCRIPTION, 'ESCan Description');					//Description of the system
 }
 
 
