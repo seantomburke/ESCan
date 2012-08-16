@@ -2,7 +2,8 @@ Read Me
 
 ESCan version 1.0
 
-Steps:
+Steps
+
 1. To install this application, enter in the MySQL credentials in the _congif.php file 
 in the "directory /inc/setup/_config.php"
 
