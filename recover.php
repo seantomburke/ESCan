@@ -69,8 +69,7 @@ if($_GET['ucinetid'] && $_GET['secret'])
 	if($page->DB->isEmpty())
 	{
 		$errors++;
-		$error_message = 'Sorry, there was an error with reseting your password please visit the <a href="/
-		iforgot.php">Forgot Password</a> page to reset your password again.';
+		$error_message = 'Sorry, there was an error with reseting your password please visit the <a href="iforgot.php">Forgot Password</a> page to reset your password again.';
 	}
 	
 	if($errors == 1)
