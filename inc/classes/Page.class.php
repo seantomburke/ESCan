@@ -67,7 +67,6 @@ class Page
 		$this->DB = new DB();
 		//$this->session = new Session();
 		$this->login = new Login();
-		$this->nav = new Nav($_SESSION['access']);
 		$this->sniper = new Sniper();
 		$this->name = $name;
 		$this->access = $access;
@@ -105,6 +104,8 @@ class Page
 		$this->content = $page['content'];
 		$this->title = ucfirst($page['name']);
 		$this->logo_src = WEBSITE.'/images/logo200.png';
+		
+		$this->nav = new Nav($_SESSION['access'], $page['tab']);
 	}
 
 
@@ -211,13 +212,13 @@ class Page
 	public function setTab($tab, $public_only = '0')
 	{
 		$this->tab = $tab;
-		$this->nav->addNewTab($this->tab, $this->title, $public_only, $this->access);
+		//$this->nav->addNewTab($this->tab, $this->title, $public_only, $this->access);
 	}
 	
 	
 	public function startGraph()
 	{
-		$this->graph = '<script type="text/javascript" src="http://omnipotent.net/jquery.sparkline/1.6/jquery.sparkline.min.js"></script>';
+		$this->graph = '<script type="text/javascript" src="http://omnipotent.net/jquery.sparkline/2.1.1/jquery.sparkline.min.js"></script>';
 	}
 	
 	public function setGoogleAnalytics()
@@ -290,16 +291,17 @@ class Page
 		{
 			$css = 'iPhone';
 			$this->addExtraMeta('
-			<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 			<link rel="apple-touch-startup-image" href="images/fb-splash.png">
+			<link rel="apple-touch-icon-precomposed" href="images/facebook.png"/>
+			<link media="only screen and (max-device-width: 480px)"
+			    href="/css/iPhone.css" type="text/css" rel="stylesheet" />
+			
+			<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 			<meta name="apple-mobile-web-app-capable" content="yes" />
 			<meta name="viewport" content="user-scalable=no,width=device-width,height=device-height" />
-			<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-			<link rel="apple-touch-icon-precomposed" href="images/facebook.png"/>
+			<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />			
 			<meta name="apple-touch-fullscreen" content="yes" />
-			<meta name="viewport" content="width=320" />
-			<link media="only screen and (max-device-width: 480px)"
-			    href="/css/iPhone.css" type="text/css" rel="stylesheet" />');
+			<meta name="viewport" content="width=320" />');
 		}	
 		else
 			$css = 'global';
@@ -325,7 +327,11 @@ class Page
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 			<meta name="description" content="'.$this->description.'">
 			<meta name="keywords" content="'.$this->keywords.'">
-			<script src="http://code.jquery.com/jquery-latest.js"></script>'
+			<script src="http://code.jquery.com/jquery-latest.js"></script>
+			<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+			<script type="text/javascript">
+				google.load(\'visualization\', \'1\', {packages: [\'corechart\']});
+			</script>'
 		    .$this->graph
 		    .$this->js_initial
 		    .$css
@@ -355,8 +361,10 @@ class Page
 	private function buildHeader()
 	{
 		$this->buildMessage();
+		
 		$this->header = ' <body>
-		<div id="wrapper">
+		<div id="wrapper">'
+		.$this->banner.'
 		<div id="header">
 			<div id="logo">
 				<a href="index.php?r=logo">
@@ -366,8 +374,7 @@ class Page
 			</div>
 			'.$this->login->loginFormMini('login','login.php','loginmini', $this->isPhone).'
 			<div id="today"><h2>Today: '.date('M d, h:i A', strtotime(NOW_DATE.' '.NOW_TIME)).'</h2></div>
-		</div>'
-		.$this->banner;
+		</div>';
 	}
 
 	/**
@@ -422,6 +429,20 @@ class Page
 		</div>
 		
 		</div>
+		
+		<script type="text/javascript">
+		
+		  var _gaq = _gaq || [];
+		  _gaq.push([\'_setAccount\', \'UA-25773399-3\']);
+		  _gaq.push([\'_trackPageview\']);
+		
+		  (function() {
+		    var ga = document.createElement(\'script\'); ga.type = \'text/javascript\'; ga.async = true;
+		    ga.src = (\'https:\' == document.location.protocol ? \'https://ssl\' : \'http://www\') + \'.google-analytics.com/ga.js\';
+		    var s = document.getElementsByTagName(\'script\')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+		
+		</script>
 		
 		</body>
 		</html>';
