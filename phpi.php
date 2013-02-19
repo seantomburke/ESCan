@@ -1,5 +1,5 @@
 <?php
-ini_set("session.cookie_domain","esc-uci.co.cc");
+ini_set("session.cookie_domain","esc.eng.uci.edu/escan");
 // Show all information, defaults to INFO_ALL
 
 
