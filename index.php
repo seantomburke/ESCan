@@ -2,15 +2,15 @@
 require_once 'inc/standard.php';
 
 //$page = new Page($name, $css);
-
+/*
 if(!DBUSERNAME)
 {
-	die('Read the README.md file to learn how to install this application');
+	die('Read the <a href="README.md">README.md</a> file to learn how to install this application');
 }
+*/
 $page = new Page('index', ALL);
 	
 $page->setTitle('Home');
-$page->setTab('index');
 $page->setDescription(PRODUCT.'-'.DESCRIPTION);
 
 $splash = '
