@@ -2,7 +2,6 @@
 
 require_once 'inc/standard.php';
 $page = new Page('webmaster', WEBMASTER);
-$page->setTab('WebMaster');
 $user_box = new Box('Errors');
 
 //check for valid access
