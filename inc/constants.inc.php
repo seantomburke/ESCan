@@ -12,6 +12,7 @@
  *
  * 
  */
+ date_default_timezone_set('America/Los_Angeles');
  
  function define_all()
  {
@@ -21,7 +22,7 @@
  
  function define_time()
  {
- 	define(OFFSET, 3);
+ 	define(OFFSET, 0);
  	define(NOW_TIME, date('H:i:s', time()-(OFFSET*60*60)));
  	define(NOW_DATE, date('Y-m-d', time()-(OFFSET*60*60)));
  }
