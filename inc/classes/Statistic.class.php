@@ -98,7 +98,8 @@ function buildPie()
 		 			</script>
 		 			<div class="legend_pie">
 			 			<div class="legend_pie_inside">
-			 				<span class="center">Legend</span>
+			 				<div class="row"><span class="center">Legend</span></div>
+			 				<div class="clear"></div>
 			 				'.$stat_legend.'
 			 			</div>
 		 			</div>
