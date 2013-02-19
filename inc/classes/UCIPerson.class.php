@@ -31,25 +31,18 @@ class UCIPerson
 	public $is_valid;
 	public $isEngineer;
 	public $error;
-
-	public static $AEROSPACE_ENGINEERING = 'Engr AE';
-	public static $BIOMEDICAL_ENGINEERING = 'Engr BM';
-	public static $BIOMEDICAL_PREMED_ENGINEERING = 'Engr BMP';
-	public static $CHEMICAL_ENGINEERING = 'EngrChm';
-	public static $CIVIL_ENGINEERING = 'Engr CE';
-	public static $COMPUTER_ENGINEERING = 'EngrCpE';
-	public static $COMPUTER_SCIENCE_ENGINEERING = 'CSE';
-	public static $ELECTRICAL_ENGINEERING = 'Engr EE';
-	public static $ENVIRONMENTAL_ENGINEERING = 'EngrEnv';
-	public static $MATERIAL_SCIENCE_ENGINEERING = 'Enr MSE';
-	public static $MECHANICAL_ENGINEERING = 'Engr ME';
+	public $engineer_array;
+	
 
 	function __construct($id)
 	{
 		$id = $this->clean($id);
 		$this->db = new DB();
 		$this->login = new Login();
-
+		$this->engineer_array = array('Engr AE','Engr BM','EngrBMP','EngrChm','Engr CE','EngrCpE','CSE','Engr EE','EngrEnv','Enr MSE','Engr ME');
+		//have this set in the VarArray class instead
+		
+		
 		if($this->validate($id))
 		{
 			$this->ucinetid = $id;
@@ -85,7 +78,7 @@ class UCIPerson
 			$this->level = $this->user_array['student\'s level'];
 			$this->isEngineer = $this->isEngineer();
 			$this->major = $this->user_array['major'];
-			$this->convertMajor();
+			//$this->convertMajor();
 			$this->convertEmail();
 			$this->convertLevel();
 			$this->is_valid = !(isset($this->user_array['error']));
@@ -216,6 +209,10 @@ class UCIPerson
 			$this->isEngineer = true;
 		}
 		if(stripos($this->department, 'engineer'))
+		{
+			$this->isEngineer = true;
+		}
+		if(in_array($this->major, $this->engineer_array))
 		{
 			$this->isEngineer = true;
 		}
