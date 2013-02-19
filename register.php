@@ -2,9 +2,7 @@
 
 include_once 'inc/standard.php';
 
-$page = new Page('Register', ALL);
-
-$page->setTab('Register');
+$page = new Page('register', ALL);
 
 $js = '$("#search").focus();';
 			
@@ -26,10 +24,14 @@ $page->setMessage($_GET['message'], 'success');
 }*/
 
 //let the person know that they are already signed in
-if(isset($_SESSION['name']))
+if($_SESSION['access'] > PARTICIPANT)
 {
-	$page->setMessage('You are signed in as '.$_SESSION['ucinetid'], 'success');
+	if(!($_GET))
+	{
+	$page->setMessage('Hello '.$_SESSION['name'].', please ask for users UCInetID (their Email)', 'success');
+	}
 }
+
 
 $search = '	<form action="'.$_SERVER['PHP_SELF'].'" method="GET">
 			<div class="row">
@@ -37,6 +39,7 @@ $search = '	<form action="'.$_SERVER['PHP_SELF'].'" method="GET">
 				All information is requested from the <a href="http://directory.uci.edu/?basic_keywords='.$user['ucinetid'].'&modifier=Starts+With&basic_submit=Search&checkbox_employees=Employees&checkbox_students=Students&checkbox_departments=Departments&form_type=basic_search">UCI Directory</a> based on your UCInetID for your convenience. Only public information can be requested, and no other information is collected.
 				</div>
 			</div>
+			<div class="clear"></div>
 			<div class="row">
 			    <label class="fieldname" for="ucinetid">
 			        UCInetID 
@@ -44,9 +47,11 @@ $search = '	<form action="'.$_SERVER['PHP_SELF'].'" method="GET">
 			    </label>
 			    <input id="search" class="textarea" placeholder="UCInetID" autocapitalize="off" type="search" name="ucinetid" value="'.$user['ucinetid'].'">
 			</div>
+			<div class="clear"></div>
 			<div class="row">
 			    <input type="submit" value="Register" name="submit_search">
 			</div>
+			<div class="clear"></div>
 			</form>';
 
 if($_POST['submit_signup'] == 'Register')
@@ -105,7 +110,11 @@ if($_POST['submit_signup'] == 'Register')
 			{
 				if($barcode->associate($user['ucinetid']))
 				{
-					$page->setMessage('You have successfully associated barcode <strong>#'.$barcode->code.'</strong> to <strong>'.$user['ucinetid'].'</strong>', 'success');
+					if($_SESSION['access'] > PARTICIPANT)
+						{$message = 'You have successfully associated barcode <strong>#'.$barcode->code.'</strong> to <strong>'.$user['ucinetid'].'</strong>';}
+					else
+						{$message = 'You have successfully associated barcode <strong>#'.$barcode->code.'</strong> to your UCInetID: <strong>'.$user['ucinetid'].'</strong>';}
+						$page->setMessage($message, 'success');
 				}
 				else
 				{
@@ -134,7 +143,7 @@ if($_POST['submit_signup'] == 'Register')
 				("'.$user['ucinetid'].'",
 				"'.$user['name'].'",
 				"'.$user['email'].'",
-				"'.$user['major'].'",
+				"'.$user['major_val'].'",
 				"'.$user['level'].'",
 				"'.PARTICIPANT.'",
 				"'.$user['opt'].'",
@@ -151,7 +160,7 @@ if($_POST['submit_signup'] == 'Register')
 		//associate barcode
 		$barcode->associate($user['ucinetid']);
 		//mail;
-		$link = WEBSITE.'recover.php?ucinetid='.$user['ucinetid'].'&secret='.$secret;
+		$link = WEBSITE.'/recover.php?ucinetid='.$user['ucinetid'].'&secret='.$secret;
 		$to = $user['email'];
 		$subject = 'Setup your Password';
 		$body = ' <p>Hi '.$user['name'].',</p>
@@ -163,8 +172,14 @@ if($_POST['submit_signup'] == 'Register')
 		$mail = new Mail($to, $subject, $body);
 		$mail->send();
 		
-		
-		$message = 'An email has been sent to <a href="https://webmail.uci.edu/rcm/?_user='.$user['ucinetid'].'">'.$user['email'].'</a> with instructions on how to setup your password. Please allow for 5 to 10 minutes for the email to arrive. Be sure to check your spam folder as well. Visit <a href="https://webmail.uci.edu/rcm/?_user='.$user['ucinetid'].'">WebMail</a>';
+		if($_SESSION['access'] > PARTICIPANT)
+		{
+			$message = 'You successfully registered '.$user['name'].'. Instruct them to head to the scanning booth.';
+		}
+		else
+		{
+			$message = 'An email has been sent to <a href="https://webmail.uci.edu/rcm/?_user='.$user['ucinetid'].'">'.$user['email'].'</a> with instructions on how to setup your password. Please allow for 5 to 10 minutes for the email to arrive. Be sure to check your spam folder as well. Visit <a href="https://webmail.uci.edu/rcm/?_user='.$user['ucinetid'].'">WebMail</a>';
+		}
 		$page->setMessage($message, 'success');
 		unset($ucinetid);
 		unset($_GET['ucinetid']);
@@ -185,6 +200,8 @@ elseif($_GET['ucinetid'])
 	$errors_s = 1;
 	$person = new UCIPerson($_GET['ucinetid']);
 	
+	$page->setMessage('Scan wristband now to register <strong>'.$person->name.'</strong>.', 'success');
+	
 	if(!($person->isValid()))
 	{
 		$errors_s++;
@@ -192,16 +209,27 @@ elseif($_GET['ucinetid'])
 	}	
 	elseif(!($person->isEngineer()))
 	{
-	
 		if($_GET['submit_continue'] != 'Continue')
 		{
-		$errors_s++;
-		$error_message[0] = '
-		<form action="'.$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'" method="GET">
-		Sorry you must be an Engineer to register for '.PRODUCT.'. You are registered as a <strong>'.$person->major.'</strong> major. If you believe you received this message in error, you can still register below by clicking continue and entering your information.</td>
-			<input type="submit" value="Continue" name="submit_continue">
-			<input type="hidden" name="ucinetid" value="'.$_GET['ucinetid'].'">
-		</form>';
+			$errors_s++;
+			if($_SESSION['access'] > PARTICIPANT)
+			{
+				$error_message[0] = '
+				<form action="'.$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'" method="GET">
+				This person is registered as a <strong>'.$person->major.'</strong> major. If they are a grad student, they may have an engineering major that is not recognized by the system, click contine and select the appropriate major. If they are another major, click continue, select other, and enter in their major.
+					<input type="submit" value="Continue" name="submit_continue">
+					<input type="hidden" name="ucinetid" value="'.$_GET['ucinetid'].'">
+				</form>';
+			}
+			else
+			{
+				$error_message[0] = '
+				<form action="'.$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'" method="GET">
+				This event is primarily for Engineers and Computer Scientists. Your major is registered as a <strong>'.$person->major.'</strong> major. If you believe you received this message in error, you can still register below by clicking continue and entering your major.
+					<input type="submit" value="Continue" name="submit_continue">
+					<input type="hidden" name="ucinetid" value="'.$_GET['ucinetid'].'">
+				</form>';
+			}
 		}
 	}
 	elseif($person->getBarcode())
@@ -211,7 +239,7 @@ elseif($_GET['ucinetid'])
 		$errors_s++;
 		$error_message[0] = '
 		<form action="'.$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'" method="GET">
-		The user <strong>'.$person->ucinetid.'</strong> is already registered with the Barcode <strong>#'.$person->getBarcode().'</strong>. </td>
+		The user <strong>'.$person->ucinetid.'</strong> is already registered with the Barcode <strong>#'.$person->getBarcode().'</strong>. If they have lost their wristband and require a new one, please click continue and give them a new one, but remind them to keep their wristband all week.
 			<input type="submit" value="Continue" name="submit_continue">
 			<input type="hidden" name="ucinetid" value="'.$_GET['ucinetid'].'">
 		</form>';
@@ -235,6 +263,7 @@ elseif($_GET['ucinetid'])
 				<div class="disclaimer">
 				    For security purposes, your UCInetID must match up with your UCI email. This security measure is to prevent users from using a UCInetID that does not belong to them. By using your UCI email, this will ensure that you have control over your account under all circumstances.
 				</div>
+				<div class="clear"></div>
 				<div class="row '.$error_id.'">
 				    <label class="fieldname" for="ucinetid">
 				        UCInetID 
@@ -242,6 +271,7 @@ elseif($_GET['ucinetid'])
 				    </label>
 				    <input class="textarea readonly" placeholder="UCInetID" name="ucinetid" type="text" autocapitalize="off" value="'.$person->ucinetid.'" readonly>
 				</div>
+				<div class="clear"></div>
 				<div class="row '.$error_email.'">
 				    <label class="fieldname" for="email">
 				        Email
@@ -249,6 +279,7 @@ elseif($_GET['ucinetid'])
 				    </label>
 				    <input class="textarea readonly" placeholder="Email Address" name="email" type="email" value="'.$person->getEmail().'" READONLY>
 				</div>
+				<div class="clear"></div>
 				<div class="row '.$error_name.'">
 				    <label class="fieldname" for="name">
 				        Name
@@ -256,10 +287,18 @@ elseif($_GET['ucinetid'])
 				    </label>
 				    <input class="textarea" placeholder="First and Last name" name="name" type="text" value="'.$person->name.'">
 				</div>
+				<div class="clear"></div>
 				<div class="row '.$error_major.'">
 				    <label class="fieldname" for="major">Major <span class="require1">*</span>
 				    </label>'.$major_menu->display().'
 				</div>
+				<div class="clear"></div>
+				<div id="major_input" class="row '.$error_major.'">
+				    <label class="fieldname" for="major">Major <span class="require1">*</span>
+				    </label>
+				    <input id="major_val" class="textarea" placeholder="major" name="major_val" type="text" value="'.$person->major.'">
+				</div>
+				<div class="clear"></div>
 				<div class="row '.$error_level.'">
 				    <label class="fieldname" for="level">
 				        Level
@@ -267,6 +306,7 @@ elseif($_GET['ucinetid'])
 				    </label>
 				    '.$level_menu->display().'
 				</div>
+				<div class="clear"></div>
 				<div class="row">
 				    <label class="fieldname" for="opt">
 				        Receive Emails?
@@ -274,19 +314,24 @@ elseif($_GET['ucinetid'])
 				    </label>
 				    <input class="right" name="opt" type="checkbox" value="1" CHECKED>
 				</div>
+				<div class="clear"></div>
 				<div class="separator"></div>
+				<div class="clear"></div>
 				<div class="disclaimer">
 				    Barcodes can be entered in at a later time if you have not been issued a barcode yet.
 				</div>
+				<div class="clear"></div>
 				<div class="row">
 					<img src="images/wristband.png" class="wristband">
 				</div>
+				<div class="clear"></div>
 				<div class="row '.$error_barcode.'">
 					<label class="fieldname" for="barcode">
 					Barcode
 					</label>
 					<input id="barcode" type="text" class="textarea" name="barcode"> 
 				</div>
+				<div class="clear"></div>
 				<div class="separator"></div>
 				<div class="disclaimer">
 				    In order to attend E-Week Events and win prizes, each participant will need to register for '.PRODUCT.', an electronic method for tracking participants. 
@@ -294,10 +339,31 @@ elseif($_GET['ucinetid'])
 				    <a target="_blank" href="/content/terms_of_service/">Terms of Use</a> and 
 				    <a target="_blank" href="/content/privacy_policy/">Privacy Policy</a>.-->
 				</div>
+				<div class="clear"></div>
 				<div class="row">
 				    <input type="submit" value="Register" name="submit_signup">
 				</div>
-			</form>';
+				<div class="clear"></div>
+			</form>
+			<script>
+			$(document).ready( function(){
+				if($("#major").val() != "Other")
+				{
+					$("#major_input").hide();
+				}
+			});
+			
+			$("#major").change(function () {
+					  if($("#major").val() == "Other")
+					  {
+					  	$("#major_val").val("'.$person->major.'");
+			          	$("#major_input").slideDown("fast");
+			          }
+			          else{
+			          	$("#major_val").val($("#major").val());
+			          }
+			          });
+			</script>';
 					
 	}
 	else
