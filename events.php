@@ -3,7 +3,6 @@ require_once 'inc/standard.php';
 
 //$page = new Page($name, $css);
 $page = new Page('events', ALL);
-$page->setTab('events');
 $var = new VarArray();
 //clean each $_POST value of dangerous inputs
 //example $newsettings['email'] = 'stburke@uci.edu';
@@ -134,6 +133,40 @@ if($_GET['action'] == 'add')
 	}
 }
 
+if($_GET['action'] == 'Delete')
+{
+	$delete_event = new Event($_GET['eid']);
+	$errors = 1;
+
+	if($_GET['continue_delete'] != "Continue")
+	{
+		$errors++;
+		$message  = '<form action="'.$_SERVER['PHP_SELF'].'" method="GET">
+						Are you sure you want to delete the event: <strong>'.$delete_event->name.'</strong>
+						<input type="submit" name="continue_delete" value="Continue">
+						<input type="hidden" name="action" value="Delete">
+						<input type="hidden" name="eid" value="'.$_GET['eid'].'"></form>';
+		$page->setMessage($message, 'error');
+	}
+	if(!$delete_event->exists())
+	{
+		$errors++;
+		$message  = 'This event does not exist';
+		$page->setMessage($message, 'failure');
+	}
+	
+	if($errors == 1)
+	{
+		$sql = 'DELETE FROM events WHERE eid = '.$_GET['eid'].';';
+		
+		$page->DB->query($sql);
+		$page->setMessage('<strong>'.$delete_event->name.'</strong> Successfully deleted', 'success');
+
+	}
+		
+}
+
+
 
 $bottom = '<h2>List of Events</h2>';
 
@@ -185,6 +218,8 @@ foreach ($events as $day => $value)
 			});
 		</script>
 	</div>
+	
+	<div class="clear"></div>
 	<div id="daydrop'.$j.'" class="dropday'.$today.'">';
 	unset($today);
 	$i = 0;
@@ -199,9 +234,12 @@ foreach ($events as $day => $value)
 						<label>'.$row['name'].'</label>
 					</div>
 					
+					<div class="clear"></div>
+					
 					<div class="row">
 						<h5>Time: '.date('g:i a',strtotime($row['time'])).'</h5>
 					</div>
+					<div class="clear"></div>
 				</div>
 				<div class="event_row">
 					<script>
@@ -224,10 +262,18 @@ foreach ($events as $day => $value)
 									</form>';
 					
 						if($_SESSION['access'] >= VOLUNTEER)
+						{
 						$bottom .= '<form action="scan.php" method="GET">
 										<input class="right" type="submit" value="Scan">
 										<input type="hidden" name="eid" value="'.$row['eid'].'">
+									</form>
+									<form action="'.$_SERVER['PHP_SELF'].'" method="GET">
+										<input class="right" type="submit" value="Delete">
+										<input type="hidden" name="eid" value="'.$row['eid'].'">
+										<input type="hidden" name="action" value="Delete">
 									</form>';
+						}
+								
 					$bottom .= '
 					</div>
 				</div>';
