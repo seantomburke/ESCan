@@ -25,14 +25,14 @@ class DropMenu
 	 * @param string $selected
 	 * @param string $class
 	 */
-	function __construct($name, $array, $selected = '', $class = '')
+	public function __construct($name, $array, $selected = '', $class = '')
 	{
 		$this->name = $name;
 		$this->class = $class;
-		$this->selected = $selected;
 		$this->array = $array;
 		$this->keys = @array_keys($array);
 		$this->values = @array_values($array);
+		$this->setSelected($selected);
 	}
 
 	public function setName($name)
@@ -40,9 +40,9 @@ class DropMenu
 		$this->name = $name;
 	}
 
-	public function setSelected($seleted)
+	public function setSelected($selected)
 	{
-		$this->selected = $selected;
+		$this->selected = (@in_array($selected, $this->keys)) ? $selected:"Other";		
 	}
 
 	/**
