@@ -23,9 +23,10 @@ class Nav
 	 * 
 	 * @param $access
 	 */
-	function __construct($access)
+	function __construct($access, $tab)
 	{	
 		$this->db = new DB();
+		$this->tab = $tab;
 		$this->access = ($access == '') ? 0:$access;
 		
 		if($access == 0)

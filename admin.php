@@ -5,6 +5,7 @@ $page = new Page('admin', ADMINISTRATOR);
 $page->setTab('admin');
 $user_box = new Box('User Administration');
 $barcode_box = new Box('Barcode Administration');
+$danger_box = new Box('Danger');
 $js_slide_down = false;
 $barcode_focus = false;
 $select_from_post = false;
@@ -19,9 +20,9 @@ if(!$page->login->checkValidAccess($page, $_SERVER['PHP_SELF']))
 }
 
 //clean each $_POST value of dangerous inputs
-//example $newsettings['email'] = 'stburke@uci.edu';
+//example $user['email'] = 'stburke@uci.edu';
 foreach ($_POST as $key => $value) {
-	//echo '$newsettings[\''.$key.'\'] = '.$value.';<br>';
+	//echo '$user[\''.$key.'\'] = '.$value.';<br>';
 	$user[$key] = trim(strip_tags($value));
 }
 $user['ucinetid'] = trim(strip_tags($_GET['ucinetid']));
@@ -109,7 +110,6 @@ if($_GET['action'] == 'associate' && $_POST)
 		if($barcode->unassociate($user['ucinetid']))
 		{
 			$page->setMessage('You have successfully unassociated any barcode from this account', 'success');
-			unset($newsettings['barcode']);
 			unset($user['barcode']);
 		}
 		else
@@ -119,6 +119,8 @@ if($_GET['action'] == 'associate' && $_POST)
 	}
 	
 }
+
+
 
 if($_GET['action'] == 'update' && $_POST)
 {
@@ -157,8 +159,38 @@ if($_GET['action'] == 'update' && $_POST)
 		$error_email = 'failure';
 	}
 	
+	if((strlen($user['password_new']) != 0) || 
+	   (strlen($user['password_con']) != 0))
+	{
+
+		if(strlen($user['password_new']) < 6)
+		{
+			$errors++;
+			$error_message[$errors] = 'Your password must be 6 characters or greater';
+			$error_password_new = 'error';
+		}
+		
+		if($user['password_new'] != $user['password_con'])
+		{
+			$errors++;
+			$error_message[$errors] = 'Your passwords do not match';
+			$error_password_con = 'error';
+		}
+	}
+	
 	if($errors == 1)
 	{
+		$password_new = md5($user['password_new']);
+		
+		if((strlen($user['password_new']) != 0) && 
+		   (strlen($user['password_con']) != 0))
+		{
+			$sql = 'UPDATE logon 
+					SET password = "'.$password_new.'"
+					WHERE ucinetid = "'.$user['ucinetid'].'"';
+					
+			$page->login->qry($sql);
+		}
 		
 		$sql = 'UPDATE users SET
 				name = "'.$user['name'].'",
@@ -180,6 +212,165 @@ if($_GET['action'] == 'update' && $_POST)
 	}
 
 }
+
+if($_GET['action'] == "DELETE EVENTS")
+{
+	$errors = 1;
+	
+	if($_GET['delete_continue'] != "DELETE")
+	{
+		$errors++;
+		$error_message[0] = '
+		<form action="'.$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'" method="GET">
+			Are you sure you want to delete all events?
+			<input type="submit" value="DELETE" name="delete_continue">
+			<input type="hidden" value="DELETE EVENTS" name="action">
+		</form>';
+	}
+	
+	if($errors == 1)
+	{
+		
+		$sql = 'TRUNCATE TABLE events';
+		
+		$page->DB->execute($sql);
+		$page->setMessage('All events have been deleted', 'failure');	
+	}
+	else
+	{
+		$page->setMessage($error_message, 'error');
+	}
+
+}
+
+if($_GET['action'] == "DELETE PAGES")
+{
+	$errors = 1;
+	
+	if($_GET['delete_continue'] != "DELETE")
+	{
+		$errors++;
+		$error_message[0] = '
+		<form action="'.$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'" method="GET">
+			Are you sure you want to delete all pages?
+			<input type="submit" value="DELETE" name="delete_continue">
+			<input type="hidden" value="DELETE PAGES" name="action">
+		</form>';
+	}
+	
+	if($errors == 1)
+	{
+		$sql = 'TRUNCATE TABLE pages';
+		$page->DB->execute($sql);
+		$sql = 'TRUNCATE TABLE tabs';
+		$page->DB->execute($sql);
+		
+		$page->setMessage('All pages have been deleted', 'failure');	
+	}
+	else
+	{
+		$page->setMessage($error_message, 'error');
+	}
+}
+
+if($_GET['action'] == "DELETE USERS")
+{
+	$errors = 1;
+	
+	if($_GET['delete_continue'] != "DELETE")
+	{
+		$errors++;
+		$error_message[0] = '
+		<form action="'.$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'" method="GET">
+			Are you sure you want to delete all users?
+			<input type="submit" value="DELETE" name="delete_continue">
+			<input type="hidden" value="DELETE USERS" name="action">
+		</form>';
+	}
+	
+	if($errors == 1)
+	{
+		
+		$sql = 'TRUNCATE TABLE logon'; 
+		$page->DB->execute($sql);
+		$sql = 'TRUNCATE TABLE users';
+		$page->DB->execute($sql);
+		$sql = 'TRUNCATE TABLE reset';
+		$page->DB->execute($sql);
+		
+		
+		$sql = 'REPLACE INTO `users` VALUES("'.WEBMASTER_USERNAME.'", "", "", "'.WEBMASTER_EMAIL.'", "", "", 1, 8, 1, "", "", "_setup.php")';
+		$db->execute($sql);
+		$sql = 'REPLACE INTO `logon` VALUES("'.WEBMASTER_USERNAME.'", "'.md5(WEBMASTER_PASSWORD).'", "", "", "")';
+		$db->execute($sql);
+			
+		$page->setMessage('All users have been deleted', 'failure');
+	}
+	else
+	{
+		$page->setMessage($error_message, 'error');
+	}
+}
+
+if($_GET['action'] == "DELETE SCANS")
+{
+	$errors = 1;
+	
+	if($_GET['delete_continue'] != "DELETE")
+	{
+		$errors++;
+		$error_message[0] = '
+		<form action="'.$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'" method="GET">
+			Are you sure you want to delete all scans?
+			<input type="submit" value="DELETE" name="delete_continue">
+			<input type="hidden" value="DELETE SCANS" name="action">
+		</form>';
+	}
+	
+	if($errors == 1)
+	{
+		
+		$sql = 'TRUNCATE TABLE scans'; 
+		$page->DB->execute($sql);
+			
+		$page->setMessage('All scans have been deleted', 'failure');
+	}
+	else
+	{
+		$page->setMessage($error_message, 'error');
+	}
+}
+
+if($_GET['action'] == "DELETE BARCODES")
+{
+	$errors = 1;
+	
+	if($_GET['delete_continue'] != "DELETE")
+	{
+		$errors++;
+		$error_message[0] = '
+		<form action="'.$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'" method="GET">
+			Are you sure you want to delete all barcodes?
+			<input type="submit" value="DELETE" name="delete_continue">
+			<input type="hidden" value="DELETE SCANS" name="action">
+		</form>';
+	}
+	
+	if($errors == 1)
+	{
+		
+		$sql = 'TRUNCATE TABLE barcodes'; 
+		$page->DB->execute($sql);
+			
+		$page->setMessage('All scans have been deleted', 'failure');
+	}
+	else
+	{
+		$page->setMessage($error_message, 'error');
+	}
+}
+
+
 	
 if($user['ucinetid'])
 {
@@ -202,9 +393,9 @@ if($user['ucinetid'])
 	$user = $page->DB->resultToSingleArray();
 	
 	//clean each $_POST value of dangerous inputs
-	//example $newsettings['email'] = 'stburke@uci.edu';
+	//example $user['email'] = 'stburke@uci.edu';
 	foreach ($_POST as $key => $value) {
-		//echo '$newsettings[\''.$key.'\'] = '.$value.';<br>';
+		//echo '$user[\''.$key.'\'] = '.$value.';<br>';
 		$update[$key] = trim(strip_tags($value));
 	}
 	
@@ -255,6 +446,11 @@ if($user['ucinetid'])
 			    Major
 			    </label>'.$major_menu->display().'
 			</div>
+			<div id="major_input" class="row '.$class['major'].'">
+			    <label class="fieldname" for="major">Major <span class="require1">*</span>
+			    </label>
+			    <input id="major_val" class="textarea" placeholder="major" name="major_val" type="text" value="'.$display['major'].'">
+			</div>
 			<div class="row '.$class['level'].'">
 			    <label class="fieldname" for="level">
 			        Level
@@ -264,7 +460,24 @@ if($user['ucinetid'])
 			<div class="row  '.$class['opt'].'">
 			    <label class="fieldname" for="opt">
 			        Receive Emails?
-		    	</label>';
+		    	</label>
+		    <div class="separator"></div>
+		    <div class="row '.$error_password_new.'">
+		        <label class="fieldname" for="password_new">
+		            New Password
+		            <span class="require1">*</span>
+		        </label>
+		        <input class="textarea" name="password_new" type="password">
+		    </div>
+		    <div class="row '.$error_password_con.'">
+		        <label class="fieldname" for="password_con">
+		            Confirm
+		            <span class="require1">*</span>
+		        </label>
+		        <input class="textarea" name="password_con" type="password">
+		    </div>
+		    <div class="separator"></div>
+		    ';
 			    
 			$opt_checked = ($display['opt'] == '') ? '':'CHECKED';
 			    
@@ -289,7 +502,27 @@ if($user['ucinetid'])
 			<div class="row">
 			    <input type="submit" value="Associate" name="action">
 			</div>
-		</form>';
+		</form>
+		<script>
+		$(document).ready( function(){
+			if($("#major").val() != "Other")
+			{
+				$("#major_input").hide();
+			}
+		});
+		
+		$("#major").change(function () {
+				  if($("#major").val() == "Other")
+				  {
+				  	$("#major_val").val("'.$display['major'].'");
+		          	$("#major_input").slideDown("fast");
+		          }
+		          else{
+		          	$("#major_val").val($("#major").val());
+		          	$("#major_input").slideUp("fast");
+		          }
+		          });
+		</script>';
 	
 	}
 	else {
@@ -453,14 +686,36 @@ $ticker_content .= '</div>';
 //$slot = new Vegas($page,$users);
 //$slot_content = $slot->build();
 
+$danger_content .= '<a href="">Reinstall</a><br>';
+$danger_content .= '
+
+<form id="truncate_events" action="'.$_SERVER['PHP_SELF'].'" method="GET">
+	<input type="submit" name="action" value="DELETE EVENTS">
+	<div class="clear"></div>
+	<input type="submit" name="action" value="DELETE USERS">
+	<div class="clear"></div>
+	<input type="submit" name="action" value="DELETE BARCODES">
+	<div class="clear"></div>
+	<input type="submit" name="action" value="DELETE PAGES">
+	<div class="clear"></div>
+	<input type="submit" name="action" value="DELETE SCANS">
+	<div class="clear"></div>
+	<input type="submit" name="action" value="REINSTALL">
+	<div class="clear"></div>
+</form>';
+
+
 $user_box->setContent($bottom.$slot_content);
 $barcode_box->setContent($ticker_content);
+$danger_box->setContent($danger_content);
 
 
 $content = '<div id="container_wrapper">'.
 				$user_box->display('full')
 				.'<div class="separator"></div>'.
 				$barcode_box->display('full')
+				.'<div class="separator"></div>'.
+				$danger_box->display('full')
 			.'</div>';
 
 $page->setContent($content);
