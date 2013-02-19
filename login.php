@@ -4,7 +4,6 @@ require_once 'inc/standard.php';
 $page = new Page('login', ALL);
 
 $page->setTitle('Sign In');
-$page->setTab('login', 1);
 
 $ucinetid = $_POST['ucinetid'] or $_GET['ucinetid'];
 $person = new UCIPerson($ucinetid);
