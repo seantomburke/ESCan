@@ -39,9 +39,9 @@ echo 'Database setup<br>';
 echo 'Creating Webmaster<br>';
 
 echo 'Inserting Webmaster<br>';
-$sql = 'INSERT INTO `users` VALUES("'.WEBMASTER_USERNAME.'", "", "", "'.WEBMASTER_EMAIL.'", "", "", 1, 8, 1, "", "", "_setup.php")';
+$sql = 'REPLACE INTO `users` VALUES("'.WEBMASTER_USERNAME.'", "", "", "'.WEBMASTER_EMAIL.'", "", "", 1, 8, 1, "", "", "_setup.php")';
 $db->execute($sql);
-$sql = 'INSERT INTO `logon` VALUES("'.WEBMASTER_USERNAME.'", "'.md5(WEBMASTER_PASSWORD).'", "", "", "")';
+$sql = 'REPLACE INTO `logon` VALUES("'.WEBMASTER_USERNAME.'", "'.md5(WEBMASTER_PASSWORD).'", "", "", "")';
 $db->execute($sql);
 echo 'Insertion complete<br>';
 }
@@ -53,23 +53,4 @@ else
 }
 
 echo 'Creating Credentials<br>';
-
-if ($handle = opendir('.')) {
-    echo "Directory handle: $handle\n";
-    echo "Entries:\n";
-
-    while (false !== ($entry = readdir($handle))) {
-        $ch = curl_init();
-        echo WEBSITE.'/'.$entry.'<br>';
-        //set the url, number of POST vars, POST data
-        curl_setopt($ch,CURLOPT_URL,WEBSITE.'/'.$entry);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch,CURLOPT_POST,count($fields));
-        curl_setopt($ch,CURLOPT_POSTFIELDS,$fields_string);
-        $result = curl_exec($ch);
-        curl_close($ch);
-    }
-
-    closedir($handle);
-}
 ?>
