@@ -1,5 +1,3 @@
-/* @override 
-	http://escan.vacau.com/css/global.css */
 
 /* @group Global */
 
@@ -33,7 +31,7 @@ a, a:visited {
 /* @group Message */
 
 #delay {
-	margin: 0px 100px 0px 100px;	
+	margin: 40px 50px 0px 50px;	
 	text-align: center; 
 	clear: both; 
 	height: auto;
@@ -95,6 +93,52 @@ a, a:visited {
 /* @end */
 
 /* @group Nav */
+div#navigation-section {
+	border: 1px double #DDD;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	position: relative;
+	width: 100%;
+	margin: 10px 0 0 0;
+	background-color: #f5f5f5;
+	background: -moz-linear-gradient(90deg, #d3d3d3 0%, #efefef 100%) #EFEFEF;
+	background: -webkit-gradient(linear, left bottom, left top, from(#d3d3d3), to(#efefef)) #EFEFEF;
+}
+
+div#navigation-section ul {
+	margin: 0;
+	float: left;
+	display: inline;
+}
+
+div#navigation-section ul li {
+	display: inline;
+}
+
+div#navigation-section ul li img {
+	margin-top: 7px;
+}
+
+#navigation-section ul li a.menu-item {
+	float: left;
+	display: block;
+	padding: 13px 11px 14px 11px;
+	border-top: 1px solid transparent;
+	border-left: 1px solid transparent;
+	border-right: 1px solid transparent;
+	font-weight: bold;
+	cursor: pointer;
+	color: #333;
+	text-decoration: none;
+	-webkit-transition: all .15s ease-out;
+	-moz-transition: all .15s ease-out;
+}
+
+#nav { 
+	padding: 0 5% 0 5%;
+	width: 90%;
+}
 
 /* @end */
 
@@ -114,7 +158,11 @@ a, a:visited {
 .left {
 	float: left;
 	}
-
+/*
+div,dl {
+	float: left;
+	width: 100%;
+}*/
 #container {
 	width: 800px;
 	min-height: 300px;
@@ -222,6 +270,7 @@ margin: 5%;
 	text-align: center;
 	display: inline;
 	margin-left: 1px;
+	float: left;
 }
 
 .legend_bar_key {
@@ -296,10 +345,6 @@ blockquote,q {
 	text-align: right;
 }
 
-div,dl {
-	float: left;
-	width: 100%;
-}
 
 div:after {
 	content: ".";
@@ -369,51 +414,13 @@ a.menu-item:hover {
 	border-left: 1px ridge #000;
 }
 
-div#navigation-section {
-	border: 1px double #DDD;
-	-moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
-	border-radius: 10px;
-	position: relative;
-	width: 100%;
-	margin: 10px 0 0 0;
-	background-color: #f5f5f5;
-	background: -moz-linear-gradient(90deg, #d3d3d3 0%, #efefef 100%) #EFEFEF;
-	background: -webkit-gradient(linear, left bottom, left top, from(#d3d3d3), to(#efefef)) #EFEFEF;
-}
-
-div#navigation-section ul {
-	margin: 0;
-	float: left;
-	display: inline;
-}
-
-div#navigation-section ul li {
-	display: inline;
-}
-
-div#navigation-section ul li img {
-	margin-top: 7px;
-}
-
-#navigation-section ul li a.menu-item {
-	float: left;
-	display: block;
-	padding: 13px 11px 14px 11px;
-	border-top: 1px solid transparent;
-	border-left: 1px solid transparent;
-	border-right: 1px solid transparent;
-	font-weight: bold;
-	cursor: pointer;
-	color: #333;
-	text-decoration: none;
-	-webkit-transition: all .15s ease-out;
-	-moz-transition: all .15s ease-out;
-}
-
-#nav { 
-	padding: 0 5% 0 5%;
-	width: 90%;
+#highlight{
+	background-color: #CCCCCC;
+	-webkit-transition: all .25s ease-out;
+	-moz-transition: all .25s ease-out;
+	text-decoration: underline;
+	border-right: 1px ridge #000;
+	border-left: 1px ridge #000;
 }
 
 body,dl,p,td,th,h1,h2,h3,h4,h5,h6,caption,pre,blockquote,input,textarea,small {
@@ -692,7 +699,6 @@ input[type=submit]:hover {
 }
 
 #box #header_container {
-	/*height: 65px; height found in Box class under '$header_height';*/
 	background-image: url("../images/box_header.png");
 	background-repeat: repeat-x;
 	border: 1px solid #BBB;
@@ -722,6 +728,7 @@ input[type=submit]:hover {
 	font-size: 11px;
 	display: inline;
 	color: #777;
+	float: left;
 }
 
 .separator{
@@ -729,6 +736,7 @@ input[type=submit]:hover {
 	margin: 10px 0px;
 	height: 1px;
 	border-top: solid 1px #CCC;
+	float:left;
 }
 
 #box_wrapper {
@@ -776,6 +784,7 @@ input[type=submit]:hover {
 	clear: both;
 	display: inline;
 	margin: 2px 0 0 0;
+	float: left;
 }
 
 .row img {
@@ -785,6 +794,7 @@ input[type=submit]:hover {
 	width: 100%;
 	clear: both;
 	display: inline;
+	float: left;
 }
 
 .day_class {
@@ -800,6 +810,7 @@ input[type=submit]:hover {
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 	border: 1px double #6d6d6d;
+	float: left;
 }
 
 .day_class:hover {
@@ -815,6 +826,7 @@ input[type=submit]:hover {
 	padding: 0px 2%;
 	border-top: solid 1px #CCC;
 	cursor: pointer;
+	float: left;
 }
 
 .item:hover {
@@ -844,6 +856,10 @@ input[type=submit]:hover {
 }
 
 img.wristband {
+	border-top-style: solid;
+}
+
+img.instructions {
 	border-top-style: solid;
 	border-top-width: 10px;
 	border-bottom-width: 10px;
