@@ -3,7 +3,6 @@ require_once 'inc/standard.php';
 
 //$page = new Page($name, $css);
 $page = new Page('event', ALL);
-$page->setTab('events');
 $var = new VarArray();
 //clean each $_POST value of dangerous ps
 //example $newsettings['email'] = 'stburke@uci.edu';
