@@ -29,28 +29,28 @@ class VarArray
 			$temp = array('--' 	=> 	'Select Date');
 			
 		$debug_dates = array (
-		'2012-02-17'	=> 	'2/17 Friday',	
-		'2012-02-18'	=> 	'2/18 Saturday',
-		'2012-02-19' 	=> 	'2/19 Sunday',
-		'2012-02-20'  	=> 	'2/20 Monday',
-		'2012-02-21' 	=> 	'2/21 Tuesday',	
-		'2012-02-22' 	=>	'2/22 Wednesday', 
-		'2012-02-23' 	=>	'2/23 Thursday', 
-		'2012-02-24'	=>	'2/24 Friday', 
-		'2012-02-25'	=>	'2/25 Saturday',
-		'2012-02-26' 	=>	'2/26 Sunday');
+		'2013-02-15'	=> 	'2/15 Friday',	
+		'2013-02-16'	=> 	'2/16 Saturday',
+		'2013-02-17' 	=> 	'2/17 Sunday',
+		'2013-02-18'  	=> 	'2/18 Monday',
+		'2013-02-19' 	=> 	'2/19 Tuesday',	
+		'2013-02-20' 	=>	'2/20 Wednesday', 
+		'2013-02-21' 	=>	'2/21 Thursday', 
+		'2013-02-22'	=>	'2/22 Friday', 
+		'2013-02-23'	=>	'2/23 Saturday',
+		'2013-02-24' 	=>	'2/24 Sunday');
 		
 		$dates = array (
-		'2012-2-17'		=> 	'2/17 Friday',	
-		'2012-2-18'		=> 	'2/18 Saturday',
-		'2012-2-19' 	=> 	'2/19 Sunday',
-		'2012-2-20'  	=> 	'2/20 Monday',
-		'2012-2-21' 	=> 	'2/21 Tuesday',	
-		'2012-2-22' 	=>	'2/22 Wednesday', 
-		'2012-2-23' 	=>	'2/23 Thursday', 
-		'2012-2-24'		=>	'2/24 Friday', 
-		'2012-2-25'		=>	'2/25 Saturday',
-		'2012-2-26' 	=>	'2/26 Sunday');
+		'2013-02-15'	=> 	'2/15 Friday',	
+		'2013-02-16'	=> 	'2/16 Saturday',
+		'2013-02-17' 	=> 	'2/17 Sunday',
+		'2013-02-18'  	=> 	'2/18 Monday',
+		'2013-02-19' 	=> 	'2/19 Tuesday',	
+		'2013-02-20' 	=>	'2/20 Wednesday', 
+		'2013-02-21' 	=>	'2/21 Thursday', 
+		'2013-02-22'	=>	'2/22 Friday', 
+		'2013-02-23'	=>	'2/23 Saturday',
+		'2013-02-24' 	=>	'2/24 Sunday');
 		
 		//for debugging purposes
 		if($debug)
@@ -136,18 +136,17 @@ class VarArray
 			$temp = array('' => 'Select Major');
 			
 		$majors = array(
-		'Aerospace Engineering' => 'Aerospace Engineering',
-		'Biomedical Engineering' => 'Biomedical Engineering', 
-		'Biomedical Engineering: Premedical' => 'Biomedical Engineering: Premedical',
-		'Chemical Engineering' => 'Chemical Engineering',
-		'Civil Engineering' => 'Civil Engineering',
-		'Computer Engineering' => 'Computer Engineering',
-		'Computer Science Engineering' => 'Computer Science Engineering',
-		'Electrical Engineering' => 'Electrical Engineering',
-		'Environmental Engineering' => 'Environmental Engineering',
-		'Material Science Engineering' => 'Material Science Engineering',
-		'Mechanical Engineering' => 'Mechanical Engineering', 
-		'Mechanical Aerospace Engineering' => 'Mechanical Aerospace Engineering',
+		'Engr AE' => 'Engr AE',
+		'Engr BM' => 'Engr BM', 
+		'EngrBMP' => 'EngrBMP',
+		'EngrChm' => 'EngrChm',
+		'Engr CE' => 'Engr CE',
+		'EngrCpE' => 'EngrCpE',
+		'CSE' => 'CSE',
+		'Engr EE' => 'Engr EE',
+		'EngrEnv' => 'EngrEnv',
+		'Enr MSE' => 'Enr MSE',
+		'Engr ME' => 'Engr ME', 
 		'Other' => 'Other');
 		
 		if($initial)
@@ -168,6 +167,7 @@ class VarArray
 		'Sophomore' => 'Sophomore',
 		'Junior' => 'Junior',
 		'Senior' => 'Senior',
+		'5th Year' => '5th Year',
 		'Graduate' => 'Graduate',
 		'Faculty/Staff' => 'Faculty/Staff');
 		
