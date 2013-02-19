@@ -12,6 +12,7 @@ class Barcode{
 	public $code;
 	public $error;
 	public $login;
+	public $REGEX = "/^[E|S|C|A|N][0-9]{5,5}$/";
 	public $BARCODE_LENGTH = 6;		//These need to be changed to validate different types of barcodes, this length is 6
 	public $PREFIX = 'E';			//This is the prefix that will validate the barcode
 
@@ -59,7 +60,7 @@ class Barcode{
 	 * @param string $barcode
 	 * @return boolean
 	 */
-	function validate(){
+	function validate2(){
 		if(strlen($this->code) != $this->BARCODE_LENGTH)
 		{
 			//echo 'Strlen('.strlen($this->code).')';
@@ -78,6 +79,15 @@ class Barcode{
 		    return false;
 		}
 		return true;
+	}
+	
+	function validate(){
+		$value = preg_match($this->REGEX, $this->code);
+		if($value != 1)
+		{
+			$this->error = 'The barcode <strong>'.$this->code.'</strong> is not valid';
+		}
+		return $value;
 	}
 
 	/**
