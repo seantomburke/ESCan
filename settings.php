@@ -41,7 +41,7 @@ if($_GET['action'] == 'update' && $_POST)
 		$errors++;
 		$error_name = 'error';
 	}
-	if($newsettings['major'] == '')
+	if($newsettings['major_val'] == '')
 	{
 		$error_message[$errors] = "Please select your major";
 		$errors++;
@@ -82,7 +82,7 @@ if($_GET['action'] == 'update' && $_POST)
 	if($errors == 1)
 	{
 		$name = $newsettings['name'];
-		$major = $newsettings['major'];
+		$major = $newsettings['major_val'];
 		$level = $newsettings['level'];
 		$password_old = $newsettings['password_old'];
 		$password_new = md5($newsettings['password_new']);
@@ -182,7 +182,7 @@ if($_GET['action'] == 'barcode' && $_POST)
 }
 
 $name = ($newsettings['name']) ? $newsettings['name']:$user['name'];
-$major = ($newsettings['major']) ? $newsettings['major']:$user['major'];
+$major = ($newsettings['major_val']) ? $newsettings['major_val']:$user['major'];
 $level = ($newsettings['level']) ? $newsettings['level']:$user['level'];
 $opt = ($newsettings['opt']) ? $newsettings['opt']:$user['opt'];
 $barcode = ($newsettings['barcode']) ? $newsettings['barcode']:$user['barcode'];
@@ -249,6 +249,11 @@ $user_settings = '
 		    <label class="fieldname" for="major">Major <span class="require1">*</span>
 		    </label>'.$major_menu->display().'
 		</div>
+		<div id="major_input" class="row '.$error_major.'">
+		    <label class="fieldname" for="major">Major <span class="require1">*</span>
+		    </label>
+		    <input id="major_val" class="textarea" placeholder="major" name="major_val" type="text" value="'.$user['major'].'">
+		</div>
 		<div class="row '.$error_level.'">
 		    <label class="fieldname" for="level">
 		        Level
@@ -289,7 +294,27 @@ $user_settings = '
 		<div class="row">
 		    <input type="submit" value="Update Settings">
 		</div>
-	</form>';
+	</form>
+	<script>
+	$(document).ready( function(){
+		if($("#major").val() != "Other")
+		{
+			$("#major_input").hide();
+		}
+	});
+	
+	$("#major").change(function () {
+			  if($("#major").val() == "Other")
+			  {
+			  	$("#major_val").val("'.$user['major'].'");
+	          	$("#major_input").slideDown("fast");
+	          }
+	          else{
+	          	$("#major_val").val($("#major").val());
+	          	$("#major_input").slideUp("fast");
+	          }
+	          });
+	</script>';
 	
 		
 $box_barcode = new Box('Barcode', $barcode_settings);
