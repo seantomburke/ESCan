@@ -67,8 +67,9 @@ if($_GET['barcode'])
 	if($scanner->exists($barcode->code, $scan['eid']))
 	{
 		$errors++;
+		$form = '<form action="register.php" method="GET"><input type="text" name="ucinetid" placeholder="UCInetID"><input type="submit"></form>'; //todo associate barcode if the took one with out registering.
 		$name = ($barcode->getName()) ? 'The user <strong>'.$barcode->getName().'</strong>':'The barcode <strong>#'.$barcode->code.'</strong>';
-		$extra = ($barcode->getName()) ? 'Welcome.':'Please instruct user to signup at <a href="'.$_SERVER['PHP_SELF'].'">'.$_SERVER['PHP_SELF'].'</a>';
+		$extra = ($barcode->getName()) ? 'Welcome.':'Please register this user\'s UCInetID below: '.$form;
 		$error_message[$errors] = $name.' has already been scanned. '.$extra;
 		$error_class_barcode = 'error';
 	}
@@ -76,9 +77,10 @@ if($_GET['barcode'])
 	if($errors == 1)
 	{
 		$scanner->scan($barcode->code, $scan['eid'], $_SESSION['ucinetid']);
+		$form = '<form action="register.php" method="GET"><input type="text" name="ucinetid" placeholder="UCInetID"><input type="submit"></form>'; //todo associate barcode if the took one with out registering.
 		$name = ($barcode->getName()) ? 'The user <strong>'.$barcode->getName().'</strong>':'The barcode <strong>#'.$barcode->code.'</strong>';
-		$extra = ($barcode->getName()) ? 'Welcome.':'Please instruct user to signup at <a href="'.$_SERVER['PHP_SELF'].'">'.$_SERVER['PHP_SELF'].'</a>';
-		$message = $name.' has been scanned successfully. '.$extra;
+		$extra = ($barcode->getName()) ? 'Welcome.':'Please register this user\'s UCInetID below: '.$form;
+		$message = $name.' has been scanned in'.$welcome;
 		$page->setMessage($message, 'success');
 		$js_slide_down = true;
 	}
@@ -253,7 +255,6 @@ $var_array = new VarArray();
 
 
 foreach ($var_array->getMajors() as $major) {
-	
 	$sql = 'SELECT *
 			FROM scans
 			LEFT JOIN users 
@@ -263,8 +264,26 @@ foreach ($var_array->getMajors() as $major) {
 	$page->DB->query($sql);
 	$temp = $page->DB->numRows();
 	//echo '<br>value:'.$temp;
-
-	$majors[$major] = $temp;
+	
+	$where .= 'major NOT LIKE \''.$major.'\' AND ';
+	if($major != "Other")
+	{
+		$majors[$major] = $temp;
+	}
+	else
+	{
+		$where = substr($where, 0, strlen($where)-5);
+		$sql = 'SELECT COUNT(*)
+				FROM scans
+				LEFT JOIN users 
+				ON scans.barcode = users.barcode
+				WHERE scans.eid = "'.$scan['eid'].'"
+				AND '.$where;
+		//echo "where: ".$where;
+		//$majors["other"] = $page->DB->countOf('users', $where_majors_not_like, 1);
+		$majors["Other"] = $page->DB->queryUniqueValue($sql);
+	}
+	
 }
 
 $majors_stat = new Statistic('pie', 'user_majors', 'Registered Users - Major', $majors, 0);
