@@ -170,12 +170,12 @@ class DB
 	 * @param $where The condition before to compute the number or rows.
 	 * @return The number of rows (0 or more).
 	 */
-	function countOf($table, $where = '')
+	function countOf($table, $where = '', $debug = -1)
 	{
 		if($where == '')
 			return $this->countOfAll($table);
 		else
-			return $this->queryUniqueValue("SELECT COUNT(*) FROM `$table` WHERE $where");
+			return $this->queryUniqueValue("SELECT COUNT(*) FROM `$table` WHERE $where", $debug);
 	}
 	/** Get the count of rows in a table.
 	 * @param $table The table where to compute the number of rows.
