@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS `barcodes` (
   `volunteer` varchar(8) COLLATE latin1_general_ci NOT NULL,
   PRIMARY KEY (`barcode`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
 CREATE TABLE IF NOT EXISTS `errors` (
   `eid` bigint(64) NOT NULL AUTO_INCREMENT,
   `message` varchar(500) COLLATE latin1_general_ci NOT NULL,
@@ -18,7 +19,9 @@ CREATE TABLE IF NOT EXISTS `errors` (
   `date` date NOT NULL,
   `time` time NOT NULL,
   PRIMARY KEY (`eid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=12517 ; CREATE TABLE IF NOT EXISTS `events` (
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=12517 ; 
+
+CREATE TABLE IF NOT EXISTS `events` (
   `eid` mediumint(8) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) COLLATE latin1_general_ci NOT NULL,
   `date` date NOT NULL,
@@ -28,14 +31,18 @@ CREATE TABLE IF NOT EXISTS `errors` (
   `description` varchar(1000) COLLATE latin1_general_ci NOT NULL,
   `volunteer` varchar(8) COLLATE latin1_general_ci NOT NULL,
   PRIMARY KEY (`eid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=44 ; CREATE TABLE IF NOT EXISTS `logon` (
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=44 ; 
+
+CREATE TABLE IF NOT EXISTS `logon` (
   `ucinetid` varchar(8) COLLATE latin1_general_ci NOT NULL,
   `password` varchar(50) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   `last_login` datetime NOT NULL,
   `date` date NOT NULL,
   `time` time NOT NULL,
   PRIMARY KEY (`ucinetid`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci; CREATE TABLE IF NOT EXISTS `pages` (
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci; 
+
+CREATE TABLE IF NOT EXISTS `pages` (
   `ID` mediumint(3) NOT NULL AUTO_INCREMENT,
   `name` varchar(30) COLLATE latin1_general_ci NOT NULL,
   `title` varchar(30) COLLATE latin1_general_ci NOT NULL,
@@ -49,8 +56,8 @@ CREATE TABLE IF NOT EXISTS `errors` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=57 ;
 INSERT IGNORE INTO `pages` VALUES(37, 'index', 'Home', '0', '/index.php', 1397, 0, 'index', 'ESCan-Electronic tracking system for E-Week. In order to win prizes, attend events, and compete in competitions, you must register your UCInetID with a wristband.');
 INSERT IGNORE INTO `pages` VALUES(39, 'error', 'Error', '0', '/error.php', 848, 0, 'index', '');
-INSERT IGNORE INTO `pages` VALUES(50, 'scan', 'Scan', '', '/scan.php', 4647, 4, 'Scan', '');
-INSERT IGNORE INTO `pages` VALUES(56, 'webmaster', 'Webmaster', '', '/webmaster.php', 16, 8, 'WebMaster', '');
+INSERT IGNORE INTO `pages` VALUES(50, 'scan', 'Scan', '', '/scan.php', 4647, 4, 'scan', '');
+INSERT IGNORE INTO `pages` VALUES(56, 'webmaster', 'Webmaster', '', '/webmaster.php', 16, 8, 'webmaster', '');
 INSERT IGNORE INTO `pages` VALUES(41, 'login', 'Sign In', '0', '/login.php', 1291, 0, 'login', '');
 INSERT IGNORE INTO `pages` VALUES(43, 'Sign Up', 'Sign Up', '0', '/signup.php', 1287, 0, 'Sign Up', '');
 INSERT IGNORE INTO `pages` VALUES(45, 'logout', 'Logout', '0', '/logout.php', 209, 2, '', '');
@@ -58,12 +65,13 @@ INSERT IGNORE INTO `pages` VALUES(44, 'events', 'Events', '0', '/events.php', 12
 INSERT IGNORE INTO `pages` VALUES(46, 'iforgot', 'Forgot Password', '0', '/iforgot.php', 285, 0, '', '');
 INSERT IGNORE INTO `pages` VALUES(47, 'recover', 'Recover', '0', '/recover.php', 660, 2, '', '');
 INSERT IGNORE INTO `pages` VALUES(48, 'settings', 'Settings', '0', '/settings.php', 1040, 2, '', '');
-INSERT IGNORE INTO `pages` VALUES(53, 'Register', 'Register', '', '/register.php', 4582, 0, 'Register', '');
+INSERT IGNORE INTO `pages` VALUES(53, 'Register', 'Register', '', '/register.php', 4582, 0, 'register', '');
 INSERT IGNORE INTO `pages` VALUES(49, 'admin', 'Admin', '0', '/admin.php', 3528, 6, 'admin', '');
-INSERT IGNORE INTO `pages` VALUES(52, 'statistics', 'Statistics', '', '/statistics.php', 695, 0, 'Statistics', '');
-INSERT IGNORE INTO `pages` VALUES(51, 'graph', 'Statistics', '', '/graph.php', 196, 0, 'Statistics', '');
+INSERT IGNORE INTO `pages` VALUES(52, 'statistics', 'Statistics', '', '/statistics.php', 695, 0, 'statistics', '');
+INSERT IGNORE INTO `pages` VALUES(51, 'graph', 'Statistics', '', '/graph.php', 196, 0, 'statistics', '');
 INSERT IGNORE INTO `pages` VALUES(55, 'instructions', 'Instructions', '', '/instructions.php', 200, 0, 'instructions', '');
 INSERT IGNORE INTO `pages` VALUES(54, 'ucinet', 'Ucinet', '', '/ucinet.php', 39, 8, '', '');
+
 CREATE TABLE IF NOT EXISTS `reset` (
   `ucinetid` varchar(8) COLLATE latin1_general_ci NOT NULL,
   `secret` varchar(32) COLLATE latin1_general_ci NOT NULL,
@@ -90,12 +98,14 @@ CREATE TABLE IF NOT EXISTS `tabs` (
 INSERT IGNORE INTO `tabs` VALUES(1, 'index', 'Home', 0, 0);
 INSERT IGNORE INTO `tabs` VALUES(2, 'events', 'Events', 0, 0);
 INSERT IGNORE INTO `tabs` VALUES(3, 'login', 'Sign In', 0, 1);
-INSERT IGNORE INTO `tabs` VALUES(9, 'Register', 'Register', 0, 0);
+INSERT IGNORE INTO `tabs` VALUES(9, 'register', 'Register', 0, 0);
 INSERT IGNORE INTO `tabs` VALUES(5, 'scan', 'Scan', 3, 0);
-INSERT IGNORE INTO `tabs` VALUES(6, 'Statistics', 'Statistics', 0, 0);
+INSERT IGNORE INTO `tabs` VALUES(6, 'statistics', 'Statistics', 0, 0);
 INSERT IGNORE INTO `tabs` VALUES(7, 'admin', 'Admin', 6, 0);
 INSERT IGNORE INTO `tabs` VALUES(11, 'instructions', 'Instructions', 0, 0);
-INSERT IGNORE INTO `tabs` VALUES(12, 'WebMaster', 'Webmaster', 8, 0);
+INSERT IGNORE INTO `tabs` VALUES(12, 'webMaster', 'Webmaster', 8, 0);
+
+
 CREATE TABLE IF NOT EXISTS `users` (
   `ucinetid` varchar(8) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `barcode` varchar(32) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL COMMENT 'barcode id',
