@@ -121,12 +121,12 @@ if($scan['eid'] != 0)
 				</div>';
 	}
 }
-
+$total_count = $page->DB->countOf('scans', 'eid = "'.$_GET['eid'].'"');
 
 $bottom .= ' 
 		<form id="select_event" action="'.$_SERVER['PHP_SELF'].'" method="GET">
 			<div class="row '.$error_class_event_menu.'">
-				<label for="eid">Event</label>'
+				<label for="eid" class="fieldname">Event</label>'
 				.$event_menu->display().'
 			</div>
 		</form>
@@ -134,8 +134,48 @@ $bottom .= '
 			$("#eid").change(function () {
 			          $("#select_event").submit();
 			          });
-		</script>
-		<div class=" ">
+		</script>';
+		if($scan['eid'] != 0)
+		{
+		
+		$bottom .= ' <div class="row">
+			<label class="fieldname">Date</label>
+			<div class="textarea">
+			'.date('l, M d, Y',strtotime($event->date)).'
+			</div>
+		</div>
+		<div class="row">
+			<label class="fieldname">Time</label>
+			<div class="textarea">
+			'.date('g:i a',strtotime($event->time)).'
+			</div>
+		</div>
+		<div class="row">
+			<label class="fieldname">Host</label>
+			<div class="textarea">
+			'.$event->host.'
+			</div>
+		</div>
+		<div class="row">
+			<label class="fieldname">Prize</label>
+			<div class="textarea">
+			'.$event->prize.'
+			</div>
+		</div>
+		<div class="row">
+			<label class="fieldname">Description</label>
+			<div class="textarea">
+			'.$event->description.'
+			</div>
+		</div>
+		<div class="row">
+			<label class="fieldname">Total Participants</label>
+			<div class="textarea">
+			'.$total_count.'
+			</div>
+		</div>';
+	}
+	$bottom .=	' <div class=" ">
 			<div class="separator"></div>
 			<form action="'.$_SERVER['PHP_SELF'].'" method="GET">
 				<div class="row">
