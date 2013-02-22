@@ -199,11 +199,8 @@ else
 	
 	$bottom_stats = $majors_stat->display();
 	
-	if($scan['eid'] != 0)
-	{
 	$box_stat = new Box('Statistics', $bottom_stats);
 	$stat_display = '<div class="separator"></div>'.$box_stat->display("full");
-	}
 	$content = $box->display().$stat_display;
 	
 	$page->setContent($content);
