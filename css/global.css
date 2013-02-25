@@ -1,3 +1,5 @@
+/* @override http://esc.eng.uci.edu/escan/css/global.css */
+
 
 /* @group Global */
 
@@ -89,7 +91,30 @@ a, a:visited {
 
 
 /* @group Header */
-
+a#forkme_banner {
+position: absolute;
+height: 26px;
+display: block;
+background: -moz-linear-gradient(90deg, #1743a2 13.5%, #ffffff 13.5%, #ffffff 19.3%, #1743a2 20%, #1743a2 79.5%, #ffffff 80.3%, #ffffff 86.5%, #1743a2 87.3%), no-repeat 0 0 transparent;
+background: -webkit-gradient(linear, left bottom, left top, color-stop(0.135, #1743a2), color-stop(0.135, #ffffff), color-stop(0.193, #ffffff), color-stop(0.2, #1743a2), color-stop(0.795, #1743a2), color-stop(0.803, #ffffff), color-stop(0.865, #ffffff), color-stop(0.873, #1743a2)), no-repeat 0 0 transparent;
+z-index: 10;
+color: #ffffff;
+-webkit-transform:rotate(315deg);
+-moz-transform: rotate(120deg);
+-webkit-transition: all 1.25s ease-out;
+-moz-transition: all 1.25s ease-out;
+padding-top: 10px;
+left: -44px;
+width: 150px;
+padding-left: 34px;
+}
+a#forkme_banner:hover{
+background: -moz-linear-gradient(90deg, #1743a2 13.5%, #ffffff 13.5%, #ffffff 19.3%, #7296e4 20%, #7296e4 79.5%, #ffffff 80.3%, #ffffff 86.5%, #1743a2 87.3%), no-repeat 0 0 transparent;
+background: -webkit-gradient(linear, left bottom, left top, color-stop(0.135, #1743a2), color-stop(0.135, #ffffff), color-stop(0.193, #ffffff), color-stop(0.2, #7296e4), color-stop(0.795, #7296e4), color-stop(0.803, #ffffff), color-stop(0.865, #ffffff), color-stop(0.873, #1743a2)), no-repeat 0 0 transparent;
+text-decoration: none;
+-webkit-transition: all 1.25s ease-out;
+-moz-transition: all 1.25s ease-out;
+}
 /* @end */
 
 /* @group Nav */

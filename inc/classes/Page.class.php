@@ -363,6 +363,7 @@ class Page
 		$this->buildMessage();
 		
 		$this->header = ' <body>
+		<a id="forkme_banner" href="https://github.com/hawaiianchimp/ESCan">View on GitHub</a>
 		<div id="wrapper">'
 		.$this->banner.'
 		<div id="header">
