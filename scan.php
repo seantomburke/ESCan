@@ -44,51 +44,6 @@ if(!$event->exists())
 	$error_class_event_menu = 'error';
 }
 
-if($_GET['barcode'])
-{
-	$barcode = new Barcode($scan['barcode']);
-	$scanner = new Scanner();
-	$errors = 1;
-	
-	if(!$event->exists())
-	{
-		$errors++;
-		$error_message[$errors] = 'This event does not exist';
-		$error_class_event_menu = 'error';
-	}
-	
-	if(!$barcode->exists())
-	{
-		$errors++;
-		$error_message[$errors] = 'The barcode <strong>#'.$barcode->code.'</strong> does not exist. Try scanning again.';
-		$error_class_barcode = 'error';
-	}
-	
-	if($scanner->exists($barcode->code, $scan['eid']))
-	{
-		$errors++;
-		$form = '<form action="register.php" method="GET"><input type="text" name="ucinetid" placeholder="UCInetID"><input type="submit"></form>'; //todo associate barcode if the took one with out registering.
-		$name = ($barcode->getName()) ? 'The user <strong>'.$barcode->getName().'</strong>':'The barcode <strong>#'.$barcode->code.'</strong>';
-		$extra = ($barcode->getName()) ? 'Welcome.':'Please register this user\'s UCInetID below: '.$form;
-		$error_message[$errors] = $name.' has already been scanned. '.$extra;
-		$error_class_barcode = 'error';
-	}
-		
-	if($errors == 1)
-	{
-		$scanner->scan($barcode->code, $scan['eid'], $_SESSION['ucinetid']);
-		$form = '<form action="register.php" method="GET"><input type="text" name="ucinetid" placeholder="UCInetID"><input type="submit"></form>'; //todo associate barcode if the took one with out registering.
-		$name = ($barcode->getName()) ? 'The user <strong>'.$barcode->getName().'</strong>':'The barcode <strong>#'.$barcode->code.'</strong>';
-		$extra = ($barcode->getName()) ? 'Welcome.':'Please register this user\'s UCInetID below: '.$form;
-		$message = $name.' has been scanned in'.$welcome;
-		$page->setMessage($message, 'success');
-		$js_slide_down = true;
-	}
-	else
-	{
-		$page->setMessage($error_message, 'failure');
-	}
-}
 $sql = 'SELECT e.name, e.eid
 		FROM events AS e
 		ORDER BY date ASC, time ASC';
@@ -177,14 +132,14 @@ $bottom .= '
 	}
 	$bottom .=	' <div class=" ">
 			<div class="separator"></div>
-			<form action="'.$_SERVER['PHP_SELF'].'" method="GET">
+			<form id="barcode-form" method="GET">
 				<div class="row">
 					<label>Barcode</label>
 					<input type="text" name="barcode" id="barcode" class="textarea">
 					<input type="hidden" name="eid" value="'.$scan['eid'].'">
 				</div>
 				<div class="row">
-					<input type="submit" name="action" value="Scan" class="right">
+					<input type="submit" name="scan" value="Scan" class="right">
 				</div>
 			</form>
 		</div>';
@@ -200,88 +155,53 @@ $sql = 'SELECT scans.*, users.name, users.ucinetid, users.major, users.level
 $page->DB->query($sql);
 $ticker_array = $page->DB->resultToArray();
 $ticker_content .= '<div class="separator"></div>';
-$ticker_content .= '<div class="row center">
-						<h3>Scan Ticker</h3>
-					</div>';
-					
-$ticker_content .= '<div class="list">';
+$ticker_content .= '<div id="ticker" class="ticker"></div>';
 
 /* Start doing the JavaScript 
  *
  */
- 
-//set initial javascript
-if($js_slide_down)
-	$js_hide_row1 = '$("#row1").hide();';
-$page->setJSInitial('$(".dropdown").hide(); '.$js_hide_row1);
 	
 //set javascript after page is ready
 $ticker_content .= '<script>
+
 	$(document).ready(function () {
-		$("#barcode").focus();';
-if($js_slide_down)
- $ticker_content .= '$("#row1").slideDown();';
-
-$ticker_content .= '});</script>';
-	
-if(count($ticker_array) > 0)
-{
-	
-	foreach ($ticker_array as $row)
-	{
-		$i++;
+		$("#barcode").focus();
 		
-		$ticker_content .= '
-			<div class="item" id="row'.$i.'">
-				<div class="row">
-					<label class="barcode">Barcode: </span> #'.$row['barcode'].'</label>
-					<span class="right">'.$row['name'].'</span>
-					<span class="date">'.date('M j,', strtotime($row['date'])).'</span>
-					<span class="time">'.date('g:i:s A', strtotime($row['time'])).'</span>
-				</div>
-			</div>
-			<div class="event_row">
-				<script>
-				    $("#row'.$i.'").click(function () {
-				    	$("#drop'.$i.'").slideToggle("fast");
-				    });
-				</script>
-				<div class="dropdown" id="drop'.$i.'" style="display:none;">
-					<h5><strong>UCInetID:</strong> 	'.$row['ucinetid'].'</h5>
-					<h5><strong>Name:</strong> 		'.$row['name'].'</h5>
-					<h5><strong>Major:</strong> 	'.$row['major'].'</h5>
-					<h5><strong>Level:</strong> 	'.$row['level'].'</h5>
-					<h5><strong>Time:</strong>		'.date('M j, Y,', strtotime($row['date'])).' '.date('g:i:s A', strtotime($row['time'])).'</h5>
-				</div>
-			</div>';
-	}
-	
-	//view all link at the bottom of page
-	if($_GET['view'] == 'all')
+	$(function() 
 	{
-	$ticker_content .= '
-		<div class="row center">
-		<label id="view"><a href="'.$_SERVER['PHP_SELF'].'?view=less#view">View Less Scans</a></label>
-		</div>';
-	}
-	else 
-	{
-	$ticker_content .= '
-		<div class="row center">
-		<label id="view"><a href="'.$_SERVER['PHP_SELF'].'?view=all#view">View All Scans</a></label>
-		</div>';
-	}
-}
-else {
-	$ticker_content .= '
-	<div class="list">
-	<div class="row">
-		<label>No Scans Yet</label>
-	</div>
-	</div>';
-}
-$ticker_content .= '</div>';
-
+        $("#barcode-form").on("submit", function(e) 
+        {
+            e.preventDefault();  //prevent form from submitting
+            var code = $("#barcode").val();
+        	$.ajax({
+              type: "GET",
+              url: "scanner.php",
+              dataType: "json",
+              data: { 
+                eid: '.$scan['eid'].',
+                barcode: code,
+                ucinetid: "'.$_SESSION['ucinetid'].'"},
+              success: function(data) {
+                console.log(data); 
+                setMessage(data.message.text, data.message.status);
+              }
+    	    });
+    	    $.ajax({
+              type: "GET",
+              url: "ticker.php",
+              dataType: "json",
+              data: { 
+                eid: '.$scan['eid'].'},
+              success: function(data) {
+                console.log(data); 
+                appendBarcode(data.scans);
+              }
+    	    });
+    	    $("#barcode").val(" ");
+    	    $("#barcode").focus();
+        });
+    });
+    </script>';
 
 /*
  * 		start Statistics display 

@@ -19,7 +19,7 @@ echo 'Initializing Setup<br>';
 include_once 'inc/classes/DB.class.php';
 include_once 'inc/setup/_config.php';
 
-if(WEBMASTER_USERNAME && WEBMASTER_EMAIL && WEBMASTER_PASSWORD && DBDATABASE && DBUSERNAME && DBSERVER && DBPASSWORD)
+if(WEBMASTER_USERNAME && WEBMASTER_EMAIL && WEBMASTER_PASSWORD && DBDATABASE && DBUSERNAME && DBSERVER)
 {
 
 echo '<br>Connecting to Database<br>';

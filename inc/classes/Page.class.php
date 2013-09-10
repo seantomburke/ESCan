@@ -331,7 +331,8 @@ class Page
 			<script type="text/javascript" src="http://www.google.com/jsapi"></script>
 			<script type="text/javascript">
 				google.load(\'visualization\', \'1\', {packages: [\'corechart\']});
-			</script>'
+			</script>
+			<script type="text/javascript" src="javascript/escan.js"'
 		    .$this->graph
 		    .$this->js_initial
 		    .$css
@@ -363,8 +364,10 @@ class Page
 		$this->buildMessage();
 		
 		$this->header = ' <body>
-		<div id="wrapper">'
+		<div id="wrapper">
+		<div id="banner">'
 		.$this->banner.'
+		</div>
 		<div id="header">
 			<div id="logo">
 				<a href="index.php?r=logo">
