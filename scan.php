@@ -162,44 +162,36 @@ $ticker_content .= '<div id="ticker" class="ticker"></div>';
  */
 	
 //set javascript after page is ready
-$ticker_content .= '<script>
+$ticker_content .= '
+
+<script>
 
 	$(document).ready(function () {
 		$("#barcode").focus();
-		
-	$(function() 
-	{
-        $("#barcode-form").on("submit", function(e) 
-        {
-            e.preventDefault();  //prevent form from submitting
-            var code = $("#barcode").val();
-        	$.ajax({
-              type: "GET",
-              url: "scanner.php",
-              dataType: "json",
-              data: { 
-                eid: '.$scan['eid'].',
-                barcode: code,
-                ucinetid: "'.$_SESSION['ucinetid'].'"},
-              success: function(data) {
-                console.log(data); 
-                setMessage(data.message.text, data.message.status);
-              }
-    	    });
-    	    $.ajax({
-              type: "GET",
-              url: "ticker.php",
-              dataType: "json",
-              data: { 
-                eid: '.$scan['eid'].'},
-              success: function(data) {
-                console.log(data); 
-                appendBarcode(data.scans);
-              }
-    	    });
-    	    $("#barcode").val(" ");
-    	    $("#barcode").focus();
-        });
+		loadTicker('.$scan['eid'].');
+	});
+	
+    $("#barcode-form").on("submit", function(e) {
+        e.preventDefault();  //prevent form from submitting
+        var code = $("#barcode").val();
+    	$.ajax({
+          type: "GET",
+          url: "scanner.php",
+          dataType: "json",
+          data: { 
+            eid: '.$scan['eid'].',
+            barcode: code,
+            ucinetid: "'.$_SESSION['ucinetid'].'"},
+          success: function(data) {
+            if(data.message.status == "success")
+            {
+                appendBarcode(data.scan[0]);
+            }
+            setMessage(data.message.text, data.message.status);
+          }
+	    });
+	    $("#barcode").val(" ");
+	    $("#barcode").focus();
     });
     </script>';
 

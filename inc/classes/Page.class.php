@@ -332,7 +332,7 @@ class Page
 			<script type="text/javascript">
 				google.load(\'visualization\', \'1\', {packages: [\'corechart\']});
 			</script>
-			<script type="text/javascript" src="javascript/escan.js"'
+			<script type="text/javascript" src="javascript/escan.js?t='.time().'"'
 		    .$this->graph
 		    .$this->js_initial
 		    .$css

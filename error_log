@@ -78,3 +78,102 @@
 [09-Sep-2013 19:52:34] PHP Parse error:  syntax error, unexpected T_VARIABLE in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scan.php on line 166
 [09-Sep-2013 19:52:44] PHP Parse error:  syntax error, unexpected T_VARIABLE in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scan.php on line 166
 [09-Sep-2013 19:53:01] PHP Parse error:  syntax error, unexpected T_VARIABLE in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scan.php on line 166
+[11-Sep-2013 14:37:55] PHP Parse error:  syntax error, unexpected T_ECHO in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/inc/classes/Page.class.php on line 335
+[11-Sep-2013 14:37:55] PHP Stack trace:
+[11-Sep-2013 14:37:55] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scan.php:0
+[11-Sep-2013 14:37:55] PHP   2. require_once() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scan.php:2
+[11-Sep-2013 14:37:55] PHP Parse error:  syntax error, unexpected T_ECHO in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/inc/classes/Page.class.php on line 335
+[11-Sep-2013 14:37:55] PHP Stack trace:
+[11-Sep-2013 14:37:55] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scan.php:0
+[11-Sep-2013 14:37:55] PHP   2. require_once() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scan.php:2
+[11-Sep-2013 15:04:18] PHP Warning:  json_encode() [<a href='function.json-encode'>function.json-encode</a>]: type is unsupported, encoded as null in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 52
+[11-Sep-2013 15:04:18] PHP Stack trace:
+[11-Sep-2013 15:04:18] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:0
+[11-Sep-2013 15:04:18] PHP   2. json_encode() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:52
+[11-Sep-2013 15:04:18] PHP Warning:  json_encode() [<a href='function.json-encode'>function.json-encode</a>]: type is unsupported, encoded as null in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 60
+[11-Sep-2013 15:04:18] PHP Stack trace:
+[11-Sep-2013 15:04:18] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:0
+[11-Sep-2013 15:04:18] PHP   2. json_encode() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:60
+[11-Sep-2013 15:08:38] PHP Warning:  json_encode() [<a href='function.json-encode'>function.json-encode</a>]: type is unsupported, encoded as null in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 52
+[11-Sep-2013 15:08:38] PHP Stack trace:
+[11-Sep-2013 15:08:38] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:0
+[11-Sep-2013 15:08:38] PHP   2. json_encode() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:52
+[11-Sep-2013 15:08:38] PHP Warning:  json_encode() [<a href='function.json-encode'>function.json-encode</a>]: type is unsupported, encoded as null in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 60
+[11-Sep-2013 15:08:38] PHP Stack trace:
+[11-Sep-2013 15:08:38] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:0
+[11-Sep-2013 15:08:38] PHP   2. json_encode() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:60
+[11-Sep-2013 15:08:51] PHP Warning:  json_encode() [<a href='function.json-encode'>function.json-encode</a>]: type is unsupported, encoded as null in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 52
+[11-Sep-2013 15:08:51] PHP Stack trace:
+[11-Sep-2013 15:08:51] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:0
+[11-Sep-2013 15:08:51] PHP   2. json_encode() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:52
+[11-Sep-2013 15:08:51] PHP Warning:  json_encode() [<a href='function.json-encode'>function.json-encode</a>]: type is unsupported, encoded as null in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 60
+[11-Sep-2013 15:08:51] PHP Stack trace:
+[11-Sep-2013 15:08:51] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:0
+[11-Sep-2013 15:08:51] PHP   2. json_encode() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:60
+[11-Sep-2013 15:12:30] PHP Warning:  json_encode() [<a href='function.json-encode'>function.json-encode</a>]: type is unsupported, encoded as null in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 52
+[11-Sep-2013 15:12:30] PHP Stack trace:
+[11-Sep-2013 15:12:30] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:0
+[11-Sep-2013 15:12:30] PHP   2. json_encode() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:52
+[11-Sep-2013 15:12:30] PHP Warning:  json_encode() [<a href='function.json-encode'>function.json-encode</a>]: type is unsupported, encoded as null in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 60
+[11-Sep-2013 15:12:30] PHP Stack trace:
+[11-Sep-2013 15:12:30] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:0
+[11-Sep-2013 15:12:30] PHP   2. json_encode() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:60
+[11-Sep-2013 15:12:34] PHP Warning:  json_encode() [<a href='function.json-encode'>function.json-encode</a>]: type is unsupported, encoded as null in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 52
+[11-Sep-2013 15:12:34] PHP Stack trace:
+[11-Sep-2013 15:12:34] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:0
+[11-Sep-2013 15:12:34] PHP   2. json_encode() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:52
+[11-Sep-2013 15:12:34] PHP Warning:  json_encode() [<a href='function.json-encode'>function.json-encode</a>]: type is unsupported, encoded as null in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 60
+[11-Sep-2013 15:12:34] PHP Stack trace:
+[11-Sep-2013 15:12:34] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:0
+[11-Sep-2013 15:12:34] PHP   2. json_encode() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:60
+[11-Sep-2013 15:13:05] PHP Warning:  json_encode() [<a href='function.json-encode'>function.json-encode</a>]: type is unsupported, encoded as null in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 52
+[11-Sep-2013 15:13:05] PHP Stack trace:
+[11-Sep-2013 15:13:05] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:0
+[11-Sep-2013 15:13:05] PHP   2. json_encode() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:52
+[11-Sep-2013 15:13:05] PHP Warning:  json_encode() [<a href='function.json-encode'>function.json-encode</a>]: type is unsupported, encoded as null in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 60
+[11-Sep-2013 15:13:05] PHP Stack trace:
+[11-Sep-2013 15:13:05] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:0
+[11-Sep-2013 15:13:05] PHP   2. json_encode() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:60
+[11-Sep-2013 15:13:50] PHP Warning:  json_encode() [<a href='function.json-encode'>function.json-encode</a>]: type is unsupported, encoded as null in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 52
+[11-Sep-2013 15:13:50] PHP Stack trace:
+[11-Sep-2013 15:13:50] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:0
+[11-Sep-2013 15:13:50] PHP   2. json_encode() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:52
+[11-Sep-2013 15:13:50] PHP Warning:  json_encode() [<a href='function.json-encode'>function.json-encode</a>]: type is unsupported, encoded as null in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 60
+[11-Sep-2013 15:13:50] PHP Stack trace:
+[11-Sep-2013 15:13:50] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:0
+[11-Sep-2013 15:13:50] PHP   2. json_encode() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:60
+[11-Sep-2013 15:15:59] PHP Warning:  json_encode() [<a href='function.json-encode'>function.json-encode</a>]: type is unsupported, encoded as null in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 52
+[11-Sep-2013 15:15:59] PHP Stack trace:
+[11-Sep-2013 15:15:59] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:0
+[11-Sep-2013 15:15:59] PHP   2. json_encode() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:52
+[11-Sep-2013 15:15:59] PHP Warning:  json_encode() [<a href='function.json-encode'>function.json-encode</a>]: type is unsupported, encoded as null in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 60
+[11-Sep-2013 15:15:59] PHP Stack trace:
+[11-Sep-2013 15:15:59] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:0
+[11-Sep-2013 15:15:59] PHP   2. json_encode() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:60
+[11-Sep-2013 15:18:41] PHP Warning:  json_encode() [<a href='function.json-encode'>function.json-encode</a>]: type is unsupported, encoded as null in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 52
+[11-Sep-2013 15:18:42] PHP Stack trace:
+[11-Sep-2013 15:18:42] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:0
+[11-Sep-2013 15:18:42] PHP   2. json_encode() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:52
+[11-Sep-2013 15:18:42] PHP Warning:  json_encode() [<a href='function.json-encode'>function.json-encode</a>]: type is unsupported, encoded as null in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 52
+[11-Sep-2013 15:18:42] PHP Stack trace:
+[11-Sep-2013 15:18:42] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:0
+[11-Sep-2013 15:18:42] PHP   2. json_encode() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:52
+[11-Sep-2013 15:18:42] PHP Warning:  json_encode() [<a href='function.json-encode'>function.json-encode</a>]: type is unsupported, encoded as null in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 60
+[11-Sep-2013 15:18:42] PHP Stack trace:
+[11-Sep-2013 15:18:42] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:0
+[11-Sep-2013 15:18:42] PHP   2. json_encode() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:60
+[11-Sep-2013 15:18:42] PHP Warning:  json_encode() [<a href='function.json-encode'>function.json-encode</a>]: type is unsupported, encoded as null in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 60
+[11-Sep-2013 15:18:42] PHP Stack trace:
+[11-Sep-2013 15:18:42] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:0
+[11-Sep-2013 15:18:42] PHP   2. json_encode() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:60
+[11-Sep-2013 15:20:21] PHP Warning:  json_encode() [<a href='function.json-encode'>function.json-encode</a>]: type is unsupported, encoded as null in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 59
+[11-Sep-2013 15:20:21] PHP Stack trace:
+[11-Sep-2013 15:20:21] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:0
+[11-Sep-2013 15:20:21] PHP   2. json_encode() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:59
+[11-Sep-2013 15:20:21] PHP Warning:  json_encode() [<a href='function.json-encode'>function.json-encode</a>]: type is unsupported, encoded as null in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 59
+[11-Sep-2013 15:20:21] PHP Stack trace:
+[11-Sep-2013 15:20:21] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:0
+[11-Sep-2013 15:20:21] PHP   2. json_encode() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php:59
+[11-Sep-2013 18:29:38] PHP Parse error:  syntax error, unexpected T_CONSTANT_ENCAPSED_STRING in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 56
+[11-Sep-2013 18:29:44] PHP Parse error:  syntax error, unexpected T_CONSTANT_ENCAPSED_STRING in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 56
+[11-Sep-2013 18:29:46] PHP Parse error:  syntax error, unexpected T_CONSTANT_ENCAPSED_STRING in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 56

@@ -7,8 +7,9 @@ foreach ($_GET as $key => $value) {
 	$scan[$key] = trim(strip_tags($value));
 }
 
-if($scan['barcode'])
+if($scan['barcode'] && $scan['eid'])
 {
+    $DB = new DB();
 	$barcode = new Barcode($scan['barcode']);
 	$scanner = new Scanner();
 	$event = new Event($scan['eid']);
@@ -46,14 +47,24 @@ if($scan['barcode'])
 		$extra = ($barcode->getName()) ? 'Welcome.':'Please register this user\'s UCInetID below: '.$form;
 		$output['message']['text'] = $name.' has been scanned in'.$welcome;
 		$output['message']['status'] = 'success';
-		$js_slide_down = true;
-		echo json_encode($output);
-	}
-	else
-	{
-		echo json_encode($output);
+		
+    	$sql = 'SELECT scans.*, users.name, users.ucinetid, users.major, users.level
+    		FROM scans LEFT JOIN users
+    		ON scans.barcode = users.barcode
+    		WHERE scans.eid = "'.$scan['eid'].'"
+    		AND scans.barcode = "'.$scan['barcode'].'"
+    		ORDER BY date DESC, time DESC';
+    		
+    	$DB->query($sql);
+        $output['scan'] = $DB->resultToArray();
 	}
 }
+else{
+    $output['message']['text'] = 'Must provide barcode id and event id';
+	$output['message']['status'] = 'error';
+}
+
+echo json_encode($output);
 
 
 ?>
