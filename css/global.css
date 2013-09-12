@@ -639,7 +639,7 @@ input[type=submit]:hover {
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
-	
+	background-image: url("../images/splash_bg.png");
 	background: -moz-linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(255, 255, 255, 0) 90.4%), url('../images/splash_bg.png') repeat;
 	background: -webkit-gradient(linear, left bottom, left top, from(rgba(0, 0, 0, 0.5)), color-stop(0.904, rgba(255, 255, 255, 0))), url('../images/splash_bg.png') repeat;
 }

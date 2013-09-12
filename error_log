@@ -177,3 +177,8 @@
 [11-Sep-2013 18:29:38] PHP Parse error:  syntax error, unexpected T_CONSTANT_ENCAPSED_STRING in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 56
 [11-Sep-2013 18:29:44] PHP Parse error:  syntax error, unexpected T_CONSTANT_ENCAPSED_STRING in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 56
 [11-Sep-2013 18:29:46] PHP Parse error:  syntax error, unexpected T_CONSTANT_ENCAPSED_STRING in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scanner.php on line 56
+[11-Sep-2013 19:59:22] PHP Parse error:  syntax error, unexpected T_VARIABLE in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scan.php on line 165
+[11-Sep-2013 19:59:42] PHP Parse error:  syntax error, unexpected T_VARIABLE in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scan.php on line 165
+[11-Sep-2013 19:59:42] PHP Parse error:  syntax error, unexpected T_VARIABLE in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scan.php on line 165
+[11-Sep-2013 19:59:42] PHP Parse error:  syntax error, unexpected T_VARIABLE in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scan.php on line 165
+[11-Sep-2013 20:00:19] PHP Parse error:  syntax error, unexpected T_VARIABLE in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scan.php on line 165

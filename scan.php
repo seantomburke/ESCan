@@ -30,12 +30,6 @@ elseif($_COOKIE['eid'])
 	
 $ucinetid = ($_POST['ucinetid'])? $_POST['ucinetid']:$_GET['ucinetid'];
 
-/* make sure the slide animation does not trigger, 
- * may confuse Volunteer who is scanning that a scan went through
- * when there was really an error.
- */
-$js_slide_down = false;
-
 $event = new Event($scan['eid']);
 setcookie('eid', $scan['eid'], time() + (6*60*60)); //expires in 6 hours
 if(!$event->exists())
@@ -162,14 +156,14 @@ $ticker_content .= '<div id="ticker" class="ticker"></div>';
  */
 	
 //set javascript after page is ready
+$page->setJSInitial('
+		$("#barcode").focus();
+		loadTicker('.$scan['eid'].');
+		');
+	
 $ticker_content .= '
 
 <script>
-
-	$(document).ready(function () {
-		$("#barcode").focus();
-		loadTicker('.$scan['eid'].');
-	});
 	
     $("#barcode-form").on("submit", function(e) {
         e.preventDefault();  //prevent form from submitting
@@ -192,6 +186,7 @@ $ticker_content .= '
 	    });
 	    $("#barcode").val(" ");
 	    $("#barcode").focus();
+	    
     });
     </script>';
 

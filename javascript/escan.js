@@ -42,6 +42,7 @@ function loadTicker(eid){
                 	{
                 	    appendBarcode(data.scans[i]);
                 	};
+                	
                 }
                 else {
                 	$("#ticker .list").append(
@@ -49,6 +50,11 @@ function loadTicker(eid){
                 	'	<label>No Scans Yet</label>'+
                 	'</div>');
                 }
+                
+    
+            	$(".row-tick").click(function(){
+            	    $(this).next("div").find("div").slideToggle();
+            	});
               }
     	    });
     
@@ -56,8 +62,7 @@ function loadTicker(eid){
 
 function appendBarcode(scan){
     
-    $("#ticker .list").prepend(
-			'<div class="item row">' +
+    var item = $('<div class="item row-tick">' +
 			'	<div class="row">' +
 			'		<label class="barcode">Barcode: </span> #' + scan.barcode+ '</label>' +
 			'		<span class="right">'+ scan.name +'</span>' +
@@ -66,16 +71,17 @@ function appendBarcode(scan){
 			'	</div> ' +
 			'</div>' +
 			'<div class="event_row">'+
-			'	<div class="dropdown drop" style="display:none;">'+
+			'	<div class="dropdown drop-tick" style="display:none;">'+
 			'		<h5><strong>UCInetID:</strong> 	'+ scan.ucinetid +'</h5>'+
 			'		<h5><strong>Name:</strong> 		'+scan.name+'</h5>'+
 			'		<h5><strong>Major:</strong> 	'+scan.major+'</h5>'+
 			'		<h5><strong>Level:</strong> 	'+scan.level+'</h5>'+
 			'		<h5><strong>Time:</strong>		'+ scan.date+' '+scan.time+'</h5>'+
 			'	</div>' +
-			'</div>'
-			);
-			
-	
+			'</div>');
+    
+    item.prependTo("#ticker .list")
+        .hide()
+        .slideDown();
     
 }
