@@ -192,10 +192,15 @@ class Page
 	
 	public function buildJSInitial()
 	{
-		$this->js_initial = '<script type="text/javascript">
-		$(document).ready(function() {';
-		$this->js_initial .= $this->js;
-		$this->js_initial .= ' });</script>';
+		$this->js_initial = '
+		<script>
+    		$(document).ready(function() {';
+    		$this->js_initial .= '
+            update();
+            setInterval(update, 1000);';
+            $this->js_initial .= $this->js;
+    		$this->js_initial .= ' });
+		</script>';
 	}
 
 	public function addExtraMeta($extra_meta)
@@ -326,17 +331,17 @@ class Page
 			<meta http-equiv="X-UA-Compatible" content="chrome=1" />
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 			<meta name="description" content="'.$this->description.'">
-			<meta name="keywords" content="'.$this->keywords.'">
-			<script src="http://code.jquery.com/jquery-latest.js"></script>
-			<script type="text/javascript" src="http://www.google.com/jsapi"></script>
-			<script type="text/javascript">
-				google.load(\'visualization\', \'1\', {packages: [\'corechart\']});
-			</script>
-			<script type="text/javascript" src="javascript/escan.js?t='.time().'"></script>'
-		    .$this->graph
-		    .$this->js_initial
-		    .$css
-		    .$this->google
+			<meta name="keywords" content="'.$this->keywords.'">'
+		    .$css.'
+		    <script src="http://code.jquery.com/jquery-latest.js"></script>
+	    	<script type="text/javascript" src="javascript/moment.js"></script>
+	    	<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+		    <script type="text/javascript">
+			google.load(\'visualization\', \'1\', {packages: [\'corechart\']});
+		    </script>
+		    <script type="text/javascript" src="javascript/escan.js?t='.time().'"></script>'
+	        .$this->graph
+	    
 		.'</head>';
 	}
 	private function buildMessage()
@@ -376,7 +381,7 @@ class Page
 				</a>
 			</div>
 			'.$this->login->loginFormMini('login','login.php','loginmini', $this->isPhone).'
-			<div id="today"><h2>Today: '.date('M d, h:i A', strtotime(NOW_DATE.' '.NOW_TIME)).'</h2></div>
+			<div id="today"><h2 id="time">Today: '.date('M d, h:i A', strtotime(NOW_DATE.' '.NOW_TIME)).'</h2></div>
 		</div>';
 	}
 
@@ -433,7 +438,20 @@ class Page
 		
 		</div>
 		
-		<script type="text/javascript">
+		'.$this->google
+		.'
+		<script>
+    		function update(){
+    		
+        		$("#time").text(
+        		    moment().format("MMM Do, h:mm a")
+        		    );
+    		}
+		</script>'
+		
+	    .$this->js_initial
+		
+		.'<script type="text/javascript">
 		
 		  var _gaq = _gaq || [];
 		  _gaq.push([\'_setAccount\', \'UA-25773399-3\']);
