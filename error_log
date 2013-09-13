@@ -182,3 +182,23 @@
 [11-Sep-2013 19:59:42] PHP Parse error:  syntax error, unexpected T_VARIABLE in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scan.php on line 165
 [11-Sep-2013 19:59:42] PHP Parse error:  syntax error, unexpected T_VARIABLE in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scan.php on line 165
 [11-Sep-2013 20:00:19] PHP Parse error:  syntax error, unexpected T_VARIABLE in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/scan.php on line 165
+[13-Sep-2013 12:01:11] PHP Parse error:  syntax error, unexpected T_VARIABLE in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/inc/classes/Page.class.php on line 201
+[13-Sep-2013 12:01:11] PHP Stack trace:
+[13-Sep-2013 12:01:11] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/index.php:0
+[13-Sep-2013 12:01:11] PHP   2. require_once() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/index.php:2
+[13-Sep-2013 12:01:18] PHP Parse error:  syntax error, unexpected T_VARIABLE in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/inc/classes/Page.class.php on line 201
+[13-Sep-2013 12:01:18] PHP Stack trace:
+[13-Sep-2013 12:01:18] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/index.php:0
+[13-Sep-2013 12:01:18] PHP   2. require_once() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/index.php:2
+[13-Sep-2013 12:55:36] PHP Fatal error:  Call to a member function execute() on a non-object in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/admin.php on line 303
+[13-Sep-2013 12:55:36] PHP Stack trace:
+[13-Sep-2013 12:55:36] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/admin.php:0
+[13-Sep-2013 12:56:52] PHP Fatal error:  Call to a member function execute() on a non-object in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/admin.php on line 303
+[13-Sep-2013 12:56:52] PHP Stack trace:
+[13-Sep-2013 12:56:52] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/admin.php:0
+[13-Sep-2013 12:56:54] PHP Fatal error:  Call to a member function execute() on a non-object in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/admin.php on line 303
+[13-Sep-2013 12:56:54] PHP Stack trace:
+[13-Sep-2013 12:56:54] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/admin.php:0
+[13-Sep-2013 12:56:56] PHP Fatal error:  Call to a member function execute() on a non-object in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/admin.php on line 303
+[13-Sep-2013 12:56:56] PHP Stack trace:
+[13-Sep-2013 12:56:56] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/admin.php:0
