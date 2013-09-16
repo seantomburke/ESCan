@@ -689,7 +689,6 @@ $ticker_content .= '</div>';
 //$slot = new Vegas($page,$users);
 //$slot_content = $slot->build();
 
-$danger_content .= '<a href="">Reinstall</a><br>';
 $danger_content .= '
 
 <form id="truncate_events" action="'.$_SERVER['PHP_SELF'].'" method="GET">
