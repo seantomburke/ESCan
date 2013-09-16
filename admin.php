@@ -459,11 +459,16 @@ if($user['ucinetid'])
 			        Level
 			    </label>
 			    '.$level_menu->display().'
-			</div>
+			</div>';
+			    
+			$opt_checked = ($display['opt'] == '') ? '':'CHECKED';
+			    
+			$bottom .= '
 			<div class="row  '.$class['opt'].'">
 			    <label class="fieldname" for="opt">
 			        Receive Emails?
-		    	</label>
+		    	</label><input name="opt" type="checkbox" class="right" '.$opt_checked.'>
+		    </div>
 		    <div class="separator"></div>
 		    <div class="row '.$error_password_new.'">
 		        <label class="fieldname" for="password_new">
@@ -480,12 +485,6 @@ if($user['ucinetid'])
 		        <input class="textarea" name="password_con" type="password">
 		    </div>
 		    <div class="separator"></div>
-		    ';
-			    
-			$opt_checked = ($display['opt'] == '') ? '':'CHECKED';
-			    
-			$bottom .= '<input name="opt" type="checkbox" class="textarea" '.$opt_checked.'>
-			</div>
 			<div class="row">
 			    <input type="submit" value="Update" name="action">
 			</div>
