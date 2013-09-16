@@ -243,6 +243,10 @@ if($_GET['action'] == "DELETE EVENTS")
 
 }
 
+/*
+ * Why did I implement this feature in the first place??
+ *
+ 
 if($_GET['action'] == "DELETE PAGES")
 {
 	$errors = 1;
@@ -271,7 +275,7 @@ if($_GET['action'] == "DELETE PAGES")
 	{
 		$page->setMessage($error_message, 'error');
 	}
-}
+}*/
 
 if($_GET['action'] == "DELETE USERS")
 {
@@ -291,17 +295,17 @@ if($_GET['action'] == "DELETE USERS")
 	if($errors == 1)
 	{
 		$sql = 'DELETE FROM users WHERE "access" NOT IN ("'.WEBMASTER.'")';
-		$page->DB->execute($sql);
+		$page->DB->execute($sql , 1);
 		$sql = 'DELETE FROM logon WHERE "ucinetid" NOT IN (SELECT users.ucinetid FROM users)'; 
-		$page->DB->execute($sql);
+		$page->DB->execute($sql, 1);
 		$sql = 'TRUNCATE TABLE reset';
-		$page->DB->execute($sql);
+		$page->DB->execute($sql, 1);
 		
 		
-		//$sql = 'REPLACE INTO `users` VALUES("'.WEBMASTER_USERNAME.'", "", "", "'.WEBMASTER_EMAIL.'", "", "", 1, 8, 1, "", "", "_setup.php")';
-		//$page->DB->execute($sql);
-		//$sql = 'REPLACE INTO `logon` VALUES("'.WEBMASTER_USERNAME.'", "'.md5(WEBMASTER_PASSWORD).'", "", "", "")';
-		//$page->DB->execute($sql);
+		$sql = 'REPLACE INTO `users` VALUES("'.WEBMASTER_USERNAME.'", "", "", "'.WEBMASTER_EMAIL.'", "", "", 1, 8, 1, "", "", "_setup.php")';
+		$page->DB->execute($sql, 1);
+		$sql = 'REPLACE INTO `logon` VALUES("'.WEBMASTER_USERNAME.'", "'.md5(WEBMASTER_PASSWORD).'", "", "", "")';
+		$page->DB->execute($sql, 1);
 			
 		$page->setMessage('All users have been deleted', 'failure');
 	}
@@ -694,8 +698,6 @@ $danger_content .= '
 	<input type="submit" name="action" value="DELETE USERS">
 	<div class="clear"></div>
 	<input type="submit" name="action" value="DELETE BARCODES">
-	<div class="clear"></div>
-	<input type="submit" name="action" value="DELETE PAGES">
 	<div class="clear"></div>
 	<input type="submit" name="action" value="DELETE SCANS">
 	<div class="clear"></div>
