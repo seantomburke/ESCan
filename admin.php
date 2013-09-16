@@ -294,20 +294,16 @@ if($_GET['action'] == "DELETE USERS")
 	
 	if($errors == 1)
 	{
-		$sql = 'DELETE FROM users WHERE "access" NOT IN ("'.WEBMASTER.'")';
+	    //delete all but webmasters
+	    
+		$sql = 'DELETE FROM users WHERE access != '.WEBMASTER.';';
 		$page->DB->execute($sql , 1);
-		$sql = 'DELETE FROM logon WHERE "ucinetid" NOT IN (SELECT users.ucinetid FROM users)'; 
+		$sql = 'DELETE FROM logon WHERE ucinetid NOT IN (SELECT users.ucinetid FROM users)'; 
 		$page->DB->execute($sql, 1);
 		$sql = 'TRUNCATE TABLE reset';
 		$page->DB->execute($sql, 1);
-		
-		
-		$sql = 'REPLACE INTO `users` VALUES("'.WEBMASTER_USERNAME.'", "", "", "'.WEBMASTER_EMAIL.'", "", "", 1, 8, 1, "", "", "_setup.php")';
-		$page->DB->execute($sql, 1);
-		$sql = 'REPLACE INTO `logon` VALUES("'.WEBMASTER_USERNAME.'", "'.md5(WEBMASTER_PASSWORD).'", "", "", "")';
-		$page->DB->execute($sql, 1);
 			
-		$page->setMessage('All users have been deleted', 'failure');
+		$page->setMessage('All users (except Webmasters) have been deleted', 'failure');
 	}
 	else
 	{
