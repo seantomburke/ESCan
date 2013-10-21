@@ -1,3 +1,11 @@
+<a href="http://esc.eng.uci.edu/escan">
+<h1>ESCan UCI</h1>
+</a>
+
+<a href="http://esc.eng.uci.edu/escan">
+ESCan UCI
+</a>
+
 Read Me
 
 ESCan version 1.1
@@ -22,8 +30,8 @@ Steps for installation
 
 9. Have volunteers scan wristbands into the Barcode Administration section under the Admin tab.
 
--Sean Burke
-http://www.seantburke.com
+Sean Burke<br>
+http://www.seantburke.com<br>
 Last Updated February 19, 2013
 
 
