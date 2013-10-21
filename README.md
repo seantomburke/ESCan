@@ -1,6 +1,6 @@
-<a href="http://esc.eng.uci.edu/escan">
-<h1>ESCan UCI</h1>
-</a>
+
+<h1><a href="http://esc.eng.uci.edu/escan">ESCan UCI</a></h1>
+
 
 <a href="http://esc.eng.uci.edu/escan">
 ESCan UCI
