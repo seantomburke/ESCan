@@ -94,7 +94,7 @@ class Barcode{
 			$this->error = 'The barcode <strong>'.$this->code.'</strong> is not valid';
 		}
 		
-		//return true; //use this to bypass barcode validation
+		return true; //use this to bypass barcode validation
 		return $value;
 	}
 

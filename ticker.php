@@ -14,7 +14,7 @@ if($scan['eid'])
 		FROM scans LEFT JOIN users
 		ON scans.barcode = users.barcode
 		WHERE scans.eid = "'.$scan['eid'].'"
-		ORDER BY date DESC, time DESC' ;
+		ORDER BY date ASC, time ASC' ;
 	$DB->query($sql);
     $output['scans'] = $DB->resultToArray();
 }

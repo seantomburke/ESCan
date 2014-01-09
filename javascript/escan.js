@@ -20,6 +20,44 @@ function setMessage(message, alert){
     
 }
 
+function loadBarcodes(){
+    $("#ticker").html('<div class="row center">' +
+		'   <h3>Scan Ticker</h3> ' +
+		'			</div>' +
+		'<div class="list">' +
+		'</div>');
+    
+    $.ajax({
+              type: "GET",
+              url: "barcodes.php",
+              dataType: "json",
+              success: function(data) {
+                console.log(data); 
+                	
+                if(data.scans.length > 0)
+                {
+                	for(var i=0;i<data.scans.length; i++)
+                	{
+                	    appendBarcode(data.scans[i]);
+                	};
+                	
+                }
+                else {
+                	$("#ticker .list").append(
+                	'<div class="item">'+
+                	'	<label>No Scans Yet</label>'+
+                	'</div>');
+                }
+                
+    
+            	$(".row-tick").click(function(){
+            	    $(this).next("div").find("div").slideToggle();
+            	});
+              }
+    	    });
+    
+}
+
 function loadTicker(eid){
     $("#ticker").html('<div class="row center">' +
 		'   <h3>Scan Ticker</h3> ' +

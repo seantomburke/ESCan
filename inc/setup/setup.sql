@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `errors` (
   `date` date NOT NULL,
   `time` time NOT NULL,
   PRIMARY KEY (`eid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=12517 ; 
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ; 
 
 CREATE TABLE IF NOT EXISTS `events` (
   `eid` mediumint(8) NOT NULL AUTO_INCREMENT,
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `events` (
   `description` varchar(1000) COLLATE latin1_general_ci NOT NULL,
   `volunteer` varchar(8) COLLATE latin1_general_ci NOT NULL,
   PRIMARY KEY (`eid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=44 ; 
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ; 
 
 CREATE TABLE IF NOT EXISTS `logon` (
   `ucinetid` varchar(8) COLLATE latin1_general_ci NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
   `tab` varchar(20) COLLATE latin1_general_ci NOT NULL,
   `description` mediumtext COLLATE latin1_general_ci NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=57 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=16 ;
 INSERT IGNORE INTO `pages` VALUES(1, 'index', 'Home', '0', '/index.php', 0, 0, 'index', 'ESCan-Electronic tracking system for E-Week. In order to win prizes, attend events, and compete in competitions, you must register your UCInetID with a wristband.');
 INSERT IGNORE INTO `pages` VALUES(2, 'error', 'Error', '0', '/error.php', 0, 0, 'index', '');
 INSERT IGNORE INTO `pages` VALUES(3, 'scan', 'Scan', '', '/scan.php', 0, 4, 'Scan', '');
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `scans` (
   `date` date NOT NULL,
   `time` time NOT NULL,
   PRIMARY KEY (`sid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1852 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
 CREATE TABLE IF NOT EXISTS `tabs` (
   `tid` mediumint(9) NOT NULL AUTO_INCREMENT,
   `page` varchar(20) COLLATE latin1_general_ci NOT NULL,

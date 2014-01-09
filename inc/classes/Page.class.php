@@ -377,7 +377,7 @@ class Page
 			<div id="logo">
 				<a href="index.php?r=logo">
 				<img src="'.$this->logo_src.'" alt="'.PRODUCT.'">
-				<div id="logoname"><h2>'.PRODUCT.'</h2></div>
+				<div id="logoname"><h2>'.PRODUCT.' 2014</h2></div>
 				</a>
 			</div>
 			'.$this->login->loginFormMini('login','login.php','loginmini', $this->isPhone).'

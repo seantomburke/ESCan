@@ -534,151 +534,70 @@ if($user['ucinetid'])
  *
  */
 
-if($_GET['action'] == 'Register')
-{
-	$barcode = new Barcode($_GET['barcode']);
-	$errors = 1;
-	if($barcode->code == '')
-	{
-		$errors++;
-		$error_message[$errors] = 'Please enter a barcode';
-		$error_barcode = 'failure';
-	}
-	elseif($barcode->exists())
-	{
-		$errors++;
-		$error_message[$errors] = 'The barcode #'.$barcode->code.' already exists in the system';
-		$error_barcode = 'failure';
-	}
-	
-	if($errors == 1)
-	{
-		if($barcode->register())
-		{
-			$page->setMessage('Registered: #'.$barcode->code, 'success');
-			$js_slide_down = true;
-		}
-		else{
-			$page->setMessage($barcode->error, 'failure');
-		}
-	}
-	else
-	{
-		$page->setMessage($error_message, 'failure');
-	}
-	$barcode_focus = true; //set the focus of the barcode field to true
-	
-}
-
-$ticker_content .= '
-		<div class=" ">
+$ticker_content .=	' <div class=" ">
 			<div class="separator"></div>
-			<form action="'.$_SERVER['PHP_SELF'].'" method="GET">
+			<form id="barcode-form" method="GET">
 				<div class="row">
 					<label>Barcode</label>
-					<input type="tel" name="barcode" id="barcode">
-					<input type="submit" name="action" value="Register" class="right">
+					<input type="text" name="barcode" id="barcode" class="textarea">
+					<input type="hidden" name="eid" value="'.$scan['eid'].'">
+				</div>
+				<div class="row">
+					<input type="submit" name="scan" value="Scan" class="right">
 				</div>
 			</form>
 		</div>';
-
 $limit = ($_GET['view'] == 'all') ? '':'LIMIT 5';
 
-$sql = 'SELECT barcodes.*, users.name, users.ucinetid, users.major, users.level
-		FROM barcodes LEFT JOIN users
-		ON barcodes.ucinetid = users.ucinetid
+$sql = 'SELECT scans.*, users.name, users.ucinetid, users.major, users.level
+		FROM scans LEFT JOIN users
+		ON scans.barcode = users.barcode
+		WHERE scans.eid = "'.$scan['eid'].'"
 		ORDER BY date DESC, time DESC
 		'.$limit;
 		
 $page->DB->query($sql);
 $ticker_array = $page->DB->resultToArray();
 $ticker_content .= '<div class="separator"></div>';
-$ticker_content .= '<div class="row center">
-						<h3>Barcode Ticker</h3>
-					</div>';
-					
-$ticker_content .= '<div class="list">';
+$ticker_content .= '<div id="ticker" class="ticker"></div>';
 
 /* Start doing the JavaScript 
  *
  */
- 
-//set initial javascript
-if($js_slide_down)
-	$js_hide_row1 = '$("#row1").hide();';
-$page->setJSInitial('$(".dropdown").hide(); '.$js_hide_row1);
 	
 //set javascript after page is ready
-$ticker_content .= '<script>
-	$(document).ready(function () {';
-if($barcode_focus)
-	$ticker_content .= '$("#barcode").focus();';
-if($js_slide_down)
-	$ticker_content .= '$("#row1").slideDown();';
+$page->setJSInitial('
+		$("#barcode").focus();
+		loadBarcodes();
+		');
+	
+$ticker_content .= '
 
-$ticker_content .= '});</script>';
+<script>
 	
-if(count($ticker_array) > 0)
-{
-	
-	foreach ($ticker_array as $row)
-	{
-		$i++;
-		
-		$ticker_content .= '
-			<div class="item" id="row'.$i.'">
-				<div class="row">
-					<label class="barcode">Barcode: </span> #'.$row['barcode'].'</label>
-					<span class="right">'.$row['name'].'</span>
-					<span class="date">'.date('M j,', strtotime($row['date'])).'</span>
-					<span class="time">'.date('g:i:s A', strtotime($row['time'])).'</span>
-				</div>
-			</div>
-			<div class="event_row">
-				<script>
-				    $("#row'.$i.'").click(function () {
-				    	$("#drop'.$i.'").slideToggle("fast");
-				    });
-				</script>
-				<div class="dropdown" id="drop'.$i.'" style="display:none;">
-					<h5><strong>UCInetID:</strong> 	'.$row['ucinetid'].'</h5>
-					<h5><strong>Name:</strong> 		'.$row['name'].'</h5>
-					<h5><strong>Major:</strong> 		'.$row['major'].'</h5>
-					<h5><strong>Level:</strong> 		'.$row['level'].'</h5>
-					<h5><strong>Time:</strong> 		'.date('F j, Y g:i:s A', strtotime($row['date'].' '.$row['time'])).'</h5>
-				</div>
-			</div>';
-	}
-	
-	//view all link at the bottom of page
-	if($_GET['view'] == 'all')
-	{
-	$ticker_content .= '
-		<div class="row center">
-			<label id="view">
-				<a href="'.$_SERVER['PHP_SELF'].'?view=less#view">View Less Barcodes</a>
-			</label>
-		</div>';
-	}
-	else 
-	{
-	$ticker_content .= '
-		<div class="row center">
-			<label id="view">
-				<a href="'.$_SERVER['PHP_SELF'].'?view=all#view">View All Barcodes</a>
-			</label>
-		</div>';
-	}
-}
-else {
-	$ticker_content .= '
-	<div class="list">
-	<div class="row">
-		<label>No Barcodes Yet</label>
-	</div>
-	</div>';
-}
-$ticker_content .= '</div>';
+    $("#barcode-form").on("submit", function(e) {
+        e.preventDefault();  //prevent form from submitting
+        var code = $("#barcode").val();
+    	$.ajax({
+          type: "GET",
+          url: "barcode_register.php",
+          dataType: "json",
+          data: { 
+            barcode: code,
+            ucinetid: "'.$_SESSION['ucinetid'].'"},
+          success: function(data) {
+            if(data.message.status == "success")
+            {
+                appendBarcode(data.scan[0]);
+            }
+            setMessage(data.message.text, data.message.status);
+          }
+	    });
+	    $("#barcode").val(" ");
+	    $("#barcode").focus();
+	    
+    });
+    </script>';
 
 
 //$slot = new Vegas($page,$users);
