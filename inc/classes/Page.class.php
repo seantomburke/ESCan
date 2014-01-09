@@ -223,7 +223,7 @@ class Page
 	
 	public function startGraph()
 	{
-		$this->graph = '<script type="text/javascript" src="http://omnipotent.net/jquery.sparkline/2.1.1/jquery.sparkline.min.js"></script>';
+		$this->graph = '<script type="text/javascript" src="http:////omnipotent.net/jquery.sparkline/2.1.1/jquery.sparkline.min.js"></script>';
 	}
 	
 	public function setGoogleAnalytics()
@@ -333,9 +333,9 @@ class Page
 			<meta name="description" content="'.$this->description.'">
 			<meta name="keywords" content="'.$this->keywords.'">'
 		    .$css.'
-		    <script src="http://code.jquery.com/jquery-latest.js"></script>
+		    <script src="//code.jquery.com/jquery-latest.js"></script>
 	    	<script type="text/javascript" src="javascript/moment.js"></script>
-	    	<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+	    	<script type="text/javascript" src="//www.google.com/jsapi"></script>
 		    <script type="text/javascript">
 			    google.load(\'visualization\', \'1\', {packages: [\'corechart\']});
 		    </script>

@@ -44,7 +44,8 @@ $db->execute($sql);
 $sql = 'REPLACE INTO `logon` VALUES("'.WEBMASTER_USERNAME.'", "'.md5(WEBMASTER_PASSWORD).'", "", "", "")';
 $db->execute($sql);
 echo 'Insertion complete<br>';
-echo 'Done';
+echo 'Done<Br>';
+echo '<a href="index.php">Click here to start ESCan</a>';
 }
 else
 {

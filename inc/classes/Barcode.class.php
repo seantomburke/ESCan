@@ -12,9 +12,9 @@ class Barcode{
 	public $code;
 	public $error;
 	public $login;
-	public $REGEX = "/^[E|S|C|A|N][0-9]{5,5}$/";
-	public $BARCODE_LENGTH = 6;		//These need to be changed to validate different types of barcodes, this length is 6
-	public $PREFIX = 'E';			//This is the prefix that will validate the barcode
+	public $REGEX = "/^[E|S|C|A|N][0-9]{5,5}$/"; //used in new validate method
+	public $BARCODE_LENGTH = 6;		//OLD These need to be changed to validate different types of barcodes, this length is 6
+	public $PREFIX = 'E';			//OLD This is the prefix that will validate the barcode
 
 	function __construct($code){
 		$this->code = $code;
@@ -57,6 +57,7 @@ class Barcode{
 	
 	/**
 	 * determine whether a barcode exists or not
+	 * OLD METHOD, NEW METHOD IS validate()
 	 * @param string $barcode
 	 * @return boolean
 	 */
@@ -80,13 +81,20 @@ class Barcode{
 		}
 		return true;
 	}
-	
+	/**
+	 * determine whether a barcode exists or not
+	 * NEW METHOD! USES REGEX PATTERN
+	 * @param string $barcode
+	 * @return boolean
+	 */
 	function validate(){
 		$value = preg_match($this->REGEX, $this->code);
 		if($value != 1)
 		{
 			$this->error = 'The barcode <strong>'.$this->code.'</strong> is not valid';
 		}
+		
+		//return true; //use this to bypass barcode validation
 		return $value;
 	}
 

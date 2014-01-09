@@ -333,3 +333,22 @@
 [08-Jan-2014 23:43:58] PHP   1. {main}() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:0
 [08-Jan-2014 23:43:58] PHP   2. DB->DB() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:27
 [08-Jan-2014 23:43:58] PHP   3. mysql_connect() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php:41
+[09-Jan-2014 02:58:55] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[08-Jan-2014 23:59:07] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Unknown MySQL server host '$IP' (2) in /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/inc/classes/DB.class.php on line 41
+[08-Jan-2014 23:59:07] PHP Stack trace:
+[08-Jan-2014 23:59:07] PHP   1. {main}() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/index.php:0
+[08-Jan-2014 23:59:07] PHP   2. Page->__construct() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/index.php:11
+[08-Jan-2014 23:59:07] PHP   3. DB->DB() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/inc/classes/Page.class.php:67
+[08-Jan-2014 23:59:07] PHP   4. mysql_connect() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/inc/classes/DB.class.php:41
+[08-Jan-2014 23:59:08] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Unknown MySQL server host '$IP' (2) in /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/inc/classes/DB.class.php on line 41
+[08-Jan-2014 23:59:08] PHP Stack trace:
+[08-Jan-2014 23:59:08] PHP   1. {main}() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/index.php:0
+[08-Jan-2014 23:59:08] PHP   2. Page->__construct() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/index.php:11
+[08-Jan-2014 23:59:08] PHP   3. DB->DB() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/inc/classes/Page.class.php:67
+[08-Jan-2014 23:59:08] PHP   4. mysql_connect() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/inc/classes/DB.class.php:41
+[08-Jan-2014 23:59:09] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Unknown MySQL server host '$IP' (2) in /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/inc/classes/DB.class.php on line 41
+[08-Jan-2014 23:59:09] PHP Stack trace:
+[08-Jan-2014 23:59:09] PHP   1. {main}() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/index.php:0
+[08-Jan-2014 23:59:09] PHP   2. Page->__construct() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/index.php:11
+[08-Jan-2014 23:59:09] PHP   3. DB->DB() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/inc/classes/Page.class.php:67
+[08-Jan-2014 23:59:09] PHP   4. mysql_connect() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/inc/classes/DB.class.php:41
