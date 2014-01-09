@@ -35,6 +35,12 @@ if($scan['barcode'])
     				WHERE barcode = "'.$barcode->code.'"';
     		$DB->query($sql);
             $output['scan'] = $DB->resultToArray();
+            
+            //remove the 'undefined' in the ticker
+            $output['scan'][0]['name'] = ' ';
+            $output['scan'][0]['major'] = ' ';
+            $output['scan'][0]['level'] = ' ';
+            $output['scan'][0]['ucinetid'] = ' ';
     	}
     	else 
     	{

@@ -351,7 +351,7 @@ if($_GET['action'] == "DELETE BARCODES")
 		<form action="'.$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'" method="GET">
 			Are you sure you want to delete all barcodes?
 			<input type="submit" value="DELETE" name="delete_continue">
-			<input type="hidden" value="DELETE SCANS" name="action">
+			<input type="hidden" value="DELETE BARCODES" name="action">
 		</form>';
 	}
 	
@@ -360,8 +360,9 @@ if($_GET['action'] == "DELETE BARCODES")
 		
 		$sql = 'TRUNCATE TABLE barcodes'; 
 		$page->DB->execute($sql);
-			
-		$page->setMessage('All scans have been deleted', 'failure');
+		$sql = 'UPDATE users SET barcode=""';
+		$page->DB->execute($sql);
+		$page->setMessage('All barcodes have been deleted', 'failure');
 	}
 	else
 	{

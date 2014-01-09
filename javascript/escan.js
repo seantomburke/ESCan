@@ -49,10 +49,6 @@ function loadBarcodes(){
                 	'</div>');
                 }
                 
-    
-            	$(".row-tick").click(function(){
-            	    $(this).next("div").find("div").slideToggle();
-            	});
               }
     	    });
     
@@ -89,10 +85,6 @@ function loadTicker(eid){
                 	'</div>');
                 }
                 
-    
-            	$(".row-tick").click(function(){
-            	    $(this).next("div").find("div").slideToggle();
-            	});
               }
     	    });
     
@@ -100,6 +92,16 @@ function loadTicker(eid){
 
 function appendBarcode(scan){
     
+    //remove the 'null' in the ticker
+    if(scan.name == null)
+        scan.name = '';
+    if(scan.ucinetid == null)
+        scan.ucinetid = '';
+    if(scan.major == null)
+        scan.major = '';
+    if(scan.level == null)
+        scan.level = '';
+        
     var item = $('<div class="item row-tick">' +
 			'	<div class="row">' +
 			'		<label class="barcode">Barcode: </span> #' + scan.barcode+ '</label>' +
@@ -121,5 +123,10 @@ function appendBarcode(scan){
     item.prependTo("#ticker .list")
         .hide()
         .slideDown();
+    
+    //allows the click toggle switch for each ticker item
+    item.click(function(){
+            	    $(this).next("div").find("div").slideToggle();
+            	});
     
 }
