@@ -103,7 +103,7 @@ class Page
 		$this->description = $page['description'];
 		$this->content = $page['content'];
 		$this->title = ucfirst($page['name']);
-		$this->logo_src = WEBSITE.'/images/logo200.png';
+		$this->logo_src = WEBSITE.'images/logo200.png';
 		
 		$this->nav = new Nav($_SESSION['access'], $page['tab']);
 	}
@@ -337,7 +337,7 @@ class Page
 	    	<script type="text/javascript" src="javascript/moment.js"></script>
 	    	<script type="text/javascript" src="http://www.google.com/jsapi"></script>
 		    <script type="text/javascript">
-			google.load(\'visualization\', \'1\', {packages: [\'corechart\']});
+			    google.load(\'visualization\', \'1\', {packages: [\'corechart\']});
 		    </script>
 		    <script type="text/javascript" src="javascript/escan.js?t='.time().'"></script>'
 	        .$this->graph

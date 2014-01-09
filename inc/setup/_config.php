@@ -16,10 +16,10 @@ define(WEBSITE, 'http://'.$_SERVER['SERVER_NAME'].$scriptpath);
 
 function define_db()
 {
-define(DBDATABASE, 'c9');  			            //MySQL Database Name
-define(DBSERVER, '127.11.251.1'); 				//MySQL Server usually localhost
-define(DBUSERNAME, 'hawaiianchimp');			//MySQL Username
-define(DBPASSWORD, ''); 			            //MySQL Password
+define(DBDATABASE, 'c9');  			            //MySQL Database Name. try 'escan'
+define(DBSERVER, '127.0.0.1'); 				    //MySQL Server. Try 'localhost' or '127.0.0.1'
+define(DBUSERNAME, 'hawaiianchimp');			//MySQL Username. Try 'escan'
+define(DBPASSWORD, ''); 			            //MySQL Password. Lookup in ESC transition files
 }
 
 function define_webmaster()

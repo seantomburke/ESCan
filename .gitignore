@@ -1,3 +1,6 @@
 .DS_Store
 
 *.espressostorage
+.c9revisions
+
+.c9save

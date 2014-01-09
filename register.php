@@ -160,7 +160,7 @@ if($_POST['submit_signup'] == 'Register')
 		//associate barcode
 		$barcode->associate($user['ucinetid']);
 		//mail;
-		$link = WEBSITE.'/recover.php?ucinetid='.$user['ucinetid'].'&secret='.$secret;
+		$link = WEBSITE.'recover.php?ucinetid='.$user['ucinetid'].'&secret='.$secret;
 		$to = $user['email'];
 		$subject = 'Setup your Password';
 		$body = ' <p>Hi '.$user['name'].',</p>

@@ -202,3 +202,134 @@
 [13-Sep-2013 12:56:56] PHP Fatal error:  Call to a member function execute() on a non-object in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/admin.php on line 303
 [13-Sep-2013 12:56:56] PHP Stack trace:
 [13-Sep-2013 12:56:56] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/admin.php:0
+[16-Sep-2013 14:44:05] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/inc/classes/DB.class.php on line 41
+[16-Sep-2013 14:44:05] PHP Stack trace:
+[16-Sep-2013 14:44:05] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/admin.php:0
+[16-Sep-2013 14:44:05] PHP   2. Page->__construct() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/admin.php:4
+[16-Sep-2013 14:44:05] PHP   3. DB->DB() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/inc/classes/Page.class.php:67
+[16-Sep-2013 14:44:05] PHP   4. mysql_connect() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/inc/classes/DB.class.php:41
+[16-Sep-2013 14:46:55] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/inc/classes/DB.class.php on line 41
+[16-Sep-2013 14:46:55] PHP Stack trace:
+[16-Sep-2013 14:46:55] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/admin.php:0
+[16-Sep-2013 14:46:55] PHP   2. Page->__construct() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/admin.php:4
+[16-Sep-2013 14:46:55] PHP   3. DB->DB() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/inc/classes/Page.class.php:67
+[16-Sep-2013 14:46:55] PHP   4. mysql_connect() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/inc/classes/DB.class.php:41
+[16-Sep-2013 14:46:59] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/inc/classes/DB.class.php on line 41
+[16-Sep-2013 14:46:59] PHP Stack trace:
+[16-Sep-2013 14:46:59] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/index.php:0
+[16-Sep-2013 14:46:59] PHP   2. Page->__construct() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/index.php:11
+[16-Sep-2013 14:46:59] PHP   3. DB->DB() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/inc/classes/Page.class.php:67
+[16-Sep-2013 14:46:59] PHP   4. mysql_connect() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/inc/classes/DB.class.php:41
+[16-Sep-2013 14:47:34] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/inc/classes/DB.class.php on line 41
+[16-Sep-2013 14:47:34] PHP Stack trace:
+[16-Sep-2013 14:47:34] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/admin.php:0
+[16-Sep-2013 14:47:34] PHP   2. Page->__construct() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/admin.php:4
+[16-Sep-2013 14:47:34] PHP   3. DB->DB() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/inc/classes/Page.class.php:67
+[16-Sep-2013 14:47:34] PHP   4. mysql_connect() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/inc/classes/DB.class.php:41
+[16-Sep-2013 14:48:02] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/inc/classes/DB.class.php on line 41
+[16-Sep-2013 14:48:02] PHP Stack trace:
+[16-Sep-2013 14:48:02] PHP   1. {main}() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/admin.php:0
+[16-Sep-2013 14:48:02] PHP   2. Page->__construct() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/admin.php:4
+[16-Sep-2013 14:48:02] PHP   3. DB->DB() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/inc/classes/Page.class.php:67
+[16-Sep-2013 14:48:02] PHP   4. mysql_connect() /var/lib/stickshift/522e311d500446bbae000083/app-root/data/608456/inc/classes/DB.class.php:41
+[09-Jan-2014 02:29:08] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[08-Jan-2014 23:29:15] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 113 in /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php on line 41
+[08-Jan-2014 23:29:15] PHP Stack trace:
+[08-Jan-2014 23:29:15] PHP   1. {main}() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:0
+[08-Jan-2014 23:29:15] PHP   2. DB->DB() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:27
+[08-Jan-2014 23:29:15] PHP   3. mysql_connect() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php:41
+[08-Jan-2014 23:29:24] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 113 in /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php on line 41
+[08-Jan-2014 23:29:24] PHP Stack trace:
+[08-Jan-2014 23:29:24] PHP   1. {main}() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:0
+[08-Jan-2014 23:29:24] PHP   2. DB->DB() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:27
+[08-Jan-2014 23:29:24] PHP   3. mysql_connect() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php:41
+[08-Jan-2014 23:29:25] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 113 in /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php on line 41
+[08-Jan-2014 23:29:25] PHP Stack trace:
+[08-Jan-2014 23:29:25] PHP   1. {main}() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:0
+[08-Jan-2014 23:29:25] PHP   2. DB->DB() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:27
+[08-Jan-2014 23:29:25] PHP   3. mysql_connect() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php:41
+[08-Jan-2014 23:29:30] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 113 in /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php on line 41
+[08-Jan-2014 23:29:30] PHP Stack trace:
+[08-Jan-2014 23:29:30] PHP   1. {main}() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:0
+[08-Jan-2014 23:29:30] PHP   2. DB->DB() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:27
+[08-Jan-2014 23:29:30] PHP   3. mysql_connect() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php:41
+[08-Jan-2014 23:29:31] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 113 in /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php on line 41
+[08-Jan-2014 23:29:31] PHP Stack trace:
+[08-Jan-2014 23:29:31] PHP   1. {main}() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:0
+[08-Jan-2014 23:29:31] PHP   2. DB->DB() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:27
+[08-Jan-2014 23:29:31] PHP   3. mysql_connect() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php:41
+[08-Jan-2014 23:31:32] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php on line 41
+[08-Jan-2014 23:31:32] PHP Stack trace:
+[08-Jan-2014 23:31:32] PHP   1. {main}() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:0
+[08-Jan-2014 23:31:32] PHP   2. DB->DB() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:27
+[08-Jan-2014 23:31:32] PHP   3. mysql_connect() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php:41
+[08-Jan-2014 23:31:34] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php on line 41
+[08-Jan-2014 23:31:34] PHP Stack trace:
+[08-Jan-2014 23:31:34] PHP   1. {main}() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:0
+[08-Jan-2014 23:31:34] PHP   2. DB->DB() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:27
+[08-Jan-2014 23:31:34] PHP   3. mysql_connect() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php:41
+[08-Jan-2014 23:31:58] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php on line 41
+[08-Jan-2014 23:31:58] PHP Stack trace:
+[08-Jan-2014 23:31:58] PHP   1. {main}() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:0
+[08-Jan-2014 23:31:58] PHP   2. DB->DB() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:27
+[08-Jan-2014 23:31:58] PHP   3. mysql_connect() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php:41
+[08-Jan-2014 23:31:59] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php on line 41
+[08-Jan-2014 23:31:59] PHP Stack trace:
+[08-Jan-2014 23:31:59] PHP   1. {main}() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:0
+[08-Jan-2014 23:31:59] PHP   2. DB->DB() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:27
+[08-Jan-2014 23:31:59] PHP   3. mysql_connect() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php:41
+[08-Jan-2014 23:32:02] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php on line 41
+[08-Jan-2014 23:32:02] PHP Stack trace:
+[08-Jan-2014 23:32:02] PHP   1. {main}() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/index.php:0
+[08-Jan-2014 23:32:02] PHP   2. Page->__construct() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/index.php:11
+[08-Jan-2014 23:32:02] PHP   3. DB->DB() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/Page.class.php:67
+[08-Jan-2014 23:32:02] PHP   4. mysql_connect() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php:41
+[08-Jan-2014 23:32:04] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php on line 41
+[08-Jan-2014 23:32:04] PHP Stack trace:
+[08-Jan-2014 23:32:04] PHP   1. {main}() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/index.php:0
+[08-Jan-2014 23:32:04] PHP   2. Page->__construct() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/index.php:11
+[08-Jan-2014 23:32:04] PHP   3. DB->DB() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/Page.class.php:67
+[08-Jan-2014 23:32:04] PHP   4. mysql_connect() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php:41
+[08-Jan-2014 23:32:07] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php on line 41
+[08-Jan-2014 23:32:07] PHP Stack trace:
+[08-Jan-2014 23:32:07] PHP   1. {main}() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:0
+[08-Jan-2014 23:32:07] PHP   2. DB->DB() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:27
+[08-Jan-2014 23:32:07] PHP   3. mysql_connect() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php:41
+[08-Jan-2014 23:33:01] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php on line 41
+[08-Jan-2014 23:33:01] PHP Stack trace:
+[08-Jan-2014 23:33:01] PHP   1. {main}() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:0
+[08-Jan-2014 23:33:01] PHP   2. DB->DB() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:27
+[08-Jan-2014 23:33:01] PHP   3. mysql_connect() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php:41
+[08-Jan-2014 23:33:09] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php on line 41
+[08-Jan-2014 23:33:09] PHP Stack trace:
+[08-Jan-2014 23:33:09] PHP   1. {main}() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/index.php:0
+[08-Jan-2014 23:33:09] PHP   2. Page->__construct() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/index.php:11
+[08-Jan-2014 23:33:09] PHP   3. DB->DB() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/Page.class.php:67
+[08-Jan-2014 23:33:09] PHP   4. mysql_connect() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php:41
+[08-Jan-2014 23:33:10] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php on line 41
+[08-Jan-2014 23:33:10] PHP Stack trace:
+[08-Jan-2014 23:33:10] PHP   1. {main}() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/index.php:0
+[08-Jan-2014 23:33:10] PHP   2. Page->__construct() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/index.php:11
+[08-Jan-2014 23:33:10] PHP   3. DB->DB() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/Page.class.php:67
+[08-Jan-2014 23:33:10] PHP   4. mysql_connect() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php:41
+[08-Jan-2014 23:33:10] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php on line 41
+[08-Jan-2014 23:33:10] PHP Stack trace:
+[08-Jan-2014 23:33:10] PHP   1. {main}() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/index.php:0
+[08-Jan-2014 23:33:10] PHP   2. Page->__construct() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/index.php:11
+[08-Jan-2014 23:33:10] PHP   3. DB->DB() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/Page.class.php:67
+[08-Jan-2014 23:33:10] PHP   4. mysql_connect() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php:41
+[08-Jan-2014 23:34:55] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Unknown MySQL server host '$IP' (2) in /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php on line 41
+[08-Jan-2014 23:34:55] PHP Stack trace:
+[08-Jan-2014 23:34:55] PHP   1. {main}() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:0
+[08-Jan-2014 23:34:55] PHP   2. DB->DB() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:27
+[08-Jan-2014 23:34:55] PHP   3. mysql_connect() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php:41
+[08-Jan-2014 23:35:51] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php on line 41
+[08-Jan-2014 23:35:51] PHP Stack trace:
+[08-Jan-2014 23:35:51] PHP   1. {main}() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:0
+[08-Jan-2014 23:35:51] PHP   2. DB->DB() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:27
+[08-Jan-2014 23:35:51] PHP   3. mysql_connect() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php:41
+[08-Jan-2014 23:43:58] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php on line 41
+[08-Jan-2014 23:43:58] PHP Stack trace:
+[08-Jan-2014 23:43:58] PHP   1. {main}() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:0
+[08-Jan-2014 23:43:58] PHP   2. DB->DB() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/install.php:27
+[08-Jan-2014 23:43:58] PHP   3. mysql_connect() /var/lib/stickshift/52cc9f79e0b8cd67d80001f6/app-root/data/608456/inc/classes/DB.class.php:41

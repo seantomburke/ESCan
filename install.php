@@ -44,6 +44,7 @@ $db->execute($sql);
 $sql = 'REPLACE INTO `logon` VALUES("'.WEBMASTER_USERNAME.'", "'.md5(WEBMASTER_PASSWORD).'", "", "", "")';
 $db->execute($sql);
 echo 'Insertion complete<br>';
+echo 'Done';
 }
 else
 {
@@ -51,6 +52,4 @@ else
 	$message .= "<br>WEBMASTER_USERNAME: ".WEBMASTER_USERNAME."<br>WEBMASTER_EMAIL: ".WEBMASTER_EMAIL."<br>WEBMASTER_PASSWORD: ".WEBMASTER_PASSWORD ."<br>DBDATABASE: ". DBDATABASE ."<br>DBUSERNAME: ". DBUSERNAME ."<br>DBSERVER: ". DBSERVER ."<br>DBPASSWORD: ".DBPASSWORD."<br>";
 	die($message);
 }
-
-echo 'Creating Credentials<br>';
 ?>

@@ -45,7 +45,7 @@ if($_POST['action'] == 'resetlogin')
 		$message = 'An email was sent to <a href="https://webmail.uci.edu/rcm/?_user='.$ucinetid.'">'.$user['email'].'</a> with instructions on how to reset your password. Visit <a href="https://webmail.uci.edu/rcm/?_user='.$ucinetid.'">WebMail</a>';
 		$page->setMessage($message, 'success');
 		//mail;
-		$link = WEBSITE.'/recover.php?ucinetid='.$ucinetid.'&secret='.$secret;
+		$link = WEBSITE.'recover.php?ucinetid='.$ucinetid.'&secret='.$secret;
 		$to = $user['email'];
 		$subject = 'Forgot your password?';
 		$body = ' <p>Hi '.$user['name'].', </p>
