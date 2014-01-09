@@ -1,4 +1,3 @@
-
 <h1><a href="http://esc.eng.uci.edu/escan">ESCan UCI</a></h1>
 
 
@@ -9,6 +8,8 @@ ESCan UCI
 Read Me
 
 ESCan version 1.1
+
+Inspired by <a href="https://github.com/echo0101/eScan">Cal Poly's eScan system</a>
 
 Steps for installation
 
