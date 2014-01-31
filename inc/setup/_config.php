@@ -17,7 +17,7 @@ define(WEBSITE, 'http://'.$_SERVER['SERVER_NAME'].$scriptpath);
 function define_db()
 {
 define(DBDATABASE, 'c9');  			            //MySQL Database Name. try 'escan'
-define(DBSERVER, '127.8.37.129'); 				    //MySQL Server. Try 'localhost' or '127.0.0.1'
+define(DBSERVER, '127.6.194.129'); 				    //MySQL Server. Try 'localhost' or '127.0.0.1'
 define(DBUSERNAME, 'hawaiianchimp');			//MySQL Username. Try 'escan'
 define(DBPASSWORD, ''); 			            //MySQL Password. Lookup in ESC transition files
 }

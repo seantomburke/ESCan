@@ -18,3 +18,73 @@
 [09-Jan-2014 01:23:30] PHP Stack trace:
 [09-Jan-2014 01:23:30] PHP   1. {main}() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/barcode_register.php:0
 [09-Jan-2014 01:23:30] PHP   2. json_encode() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/barcode_register.php:56
+[17-Jan-2014 13:43:46] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[17-Jan-2014 10:43:46] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/inc/classes/DB.class.php on line 41
+[17-Jan-2014 10:43:46] PHP Stack trace:
+[17-Jan-2014 10:43:46] PHP   1. {main}() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/index.php:0
+[17-Jan-2014 10:43:46] PHP   2. Page->__construct() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/index.php:11
+[17-Jan-2014 10:43:46] PHP   3. DB->DB() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/inc/classes/Page.class.php:67
+[17-Jan-2014 10:43:46] PHP   4. mysql_connect() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/inc/classes/DB.class.php:41
+[17-Jan-2014 10:43:46] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/inc/classes/DB.class.php on line 41
+[17-Jan-2014 10:43:46] PHP Stack trace:
+[17-Jan-2014 10:43:46] PHP   1. {main}() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/admin.php:0
+[17-Jan-2014 10:43:46] PHP   2. Page->__construct() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/admin.php:4
+[17-Jan-2014 10:43:46] PHP   3. DB->DB() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/inc/classes/Page.class.php:67
+[17-Jan-2014 10:43:46] PHP   4. mysql_connect() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/inc/classes/DB.class.php:41
+[17-Jan-2014 16:19:52] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[17-Jan-2014 13:48:11] PHP Warning:  Cannot modify header information - headers already sent by (output started at /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/index.php:6) in /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/index.php on line 7
+[17-Jan-2014 13:48:11] PHP Stack trace:
+[17-Jan-2014 13:48:11] PHP   1. {main}() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/index.php:0
+[17-Jan-2014 13:48:11] PHP   2. header() /var/lib/stickshift/52ccb0ce5973caeb0800004b/app-root/data/730921/index.php:7
+[30-Jan-2014 23:17:50] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[30-Jan-2014 20:17:56] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 113 in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php on line 41
+[30-Jan-2014 20:17:56] PHP Stack trace:
+[30-Jan-2014 20:17:56] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/register.php:0
+[30-Jan-2014 20:17:56] PHP   2. Page->__construct() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/register.php:5
+[30-Jan-2014 20:17:56] PHP   3. DB->DB() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/Page.class.php:67
+[30-Jan-2014 20:17:56] PHP   4. mysql_connect() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php:41
+[30-Jan-2014 20:18:04] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 113 in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php on line 41
+[30-Jan-2014 20:18:04] PHP Stack trace:
+[30-Jan-2014 20:18:04] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:0
+[30-Jan-2014 20:18:04] PHP   2. DB->DB() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:27
+[30-Jan-2014 20:18:04] PHP   3. mysql_connect() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php:41
+[30-Jan-2014 20:18:14] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 113 in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php on line 41
+[30-Jan-2014 20:18:14] PHP Stack trace:
+[30-Jan-2014 20:18:14] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:0
+[30-Jan-2014 20:18:14] PHP   2. DB->DB() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:27
+[30-Jan-2014 20:18:14] PHP   3. mysql_connect() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php:41
+[30-Jan-2014 20:18:16] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 113 in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php on line 41
+[30-Jan-2014 20:18:16] PHP Stack trace:
+[30-Jan-2014 20:18:16] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:0
+[30-Jan-2014 20:18:16] PHP   2. DB->DB() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:27
+[30-Jan-2014 20:18:16] PHP   3. mysql_connect() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php:41
+[30-Jan-2014 23:21:46] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[30-Jan-2014 23:25:55] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[30-Jan-2014 23:28:56] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[30-Jan-2014 23:28:58] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[30-Jan-2014 23:29:00] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[30-Jan-2014 23:29:02] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[30-Jan-2014 23:30:23] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[30-Jan-2014 23:36:37] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[30-Jan-2014 23:43:47] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[30-Jan-2014 23:45:14] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[30-Jan-2014 20:45:14] PHP Parse error:  syntax error, unexpected T_VARIABLE in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/Barcode.class.php on line 125
+[30-Jan-2014 20:45:14] PHP Stack trace:
+[30-Jan-2014 20:45:14] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/register.php:0
+[30-Jan-2014 20:45:14] PHP   2. include_once() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/register.php:3
+[30-Jan-2014 23:45:35] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[30-Jan-2014 20:45:35] PHP Parse error:  syntax error, unexpected T_VARIABLE in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/Barcode.class.php on line 125
+[30-Jan-2014 20:45:35] PHP Stack trace:
+[30-Jan-2014 20:45:35] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/register.php:0
+[30-Jan-2014 20:45:35] PHP   2. include_once() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/register.php:3
+[30-Jan-2014 23:46:52] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[30-Jan-2014 20:46:52] PHP Parse error:  syntax error, unexpected T_VARIABLE in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/Barcode.class.php on line 123
+[30-Jan-2014 20:46:52] PHP Stack trace:
+[30-Jan-2014 20:46:52] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/register.php:0
+[30-Jan-2014 20:46:52] PHP   2. include_once() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/register.php:3
+[30-Jan-2014 20:47:16] PHP Parse error:  syntax error, unexpected T_VARIABLE in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/Barcode.class.php on line 123
+[30-Jan-2014 20:47:16] PHP Stack trace:
+[30-Jan-2014 20:47:16] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/index.php:0
+[30-Jan-2014 20:47:16] PHP   2. require_once() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/index.php:2
+[30-Jan-2014 23:47:57] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[30-Jan-2014 23:49:58] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0

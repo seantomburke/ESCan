@@ -4,7 +4,22 @@ include_once 'inc/standard.php';
 
 $page = new Page('register', ALL);
 
-$js = '$("#search").focus();';
+$js = 'function () {
+                var barcode = $("#barcode");
+                if(barcode)
+                {
+				    $("#barcode").focus();
+                }
+                else
+                {                
+                    $("#search").focus();
+				}
+				
+				if($("#major").val() != "Other")
+				{
+					$("#major_input").hide();
+				}
+			}';
 			
 $page->setJSInitial($js);
 
@@ -251,12 +266,6 @@ elseif($_GET['ucinetid'])
 		$major_menu = new DropMenu('major', $var_array->getMajors('setIntial'), $person->major, 'textarea');
 		$level_menu = new DropMenu('level', $var_array->getLevels('setIntial'), $person->level, 'textarea');
 		
-		$signup .= '<script>
-			$(document).ready(function () {
-				$("#barcode").focus();
-				});
-					</script>';
-		
 		$signup .= '
 		<div class="separator"></div>
 		<form action="'.$_SERVER['PHP_SELF'].'?submit_search=Search&ucinetid='.$person->ucinetid.'" method="POST">
@@ -329,7 +338,7 @@ elseif($_GET['ucinetid'])
 					<label class="fieldname" for="barcode">
 					Barcode
 					</label>
-					<input id="barcode" type="text" class="textarea" name="barcode"> 
+					<input id="barcode" type="text" class="textarea" name="barcode" autofocus> 
 				</div>
 				<div class="clear"></div>
 				<div class="separator"></div>
@@ -346,12 +355,6 @@ elseif($_GET['ucinetid'])
 				<div class="clear"></div>
 			</form>
 			<script>
-			$(document).ready( function(){
-				if($("#major").val() != "Other")
-				{
-					$("#major_input").hide();
-				}
-			});
 			
 			$("#major").change(function () {
 					  if($("#major").val() == "Other")

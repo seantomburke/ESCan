@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `barcodes` (
-  `barcode` varchar(32) COLLATE latin1_general_ci NOT NULL COMMENT 'Barcode ID',
+  `barcode` varchar(100) COLLATE latin1_general_ci NOT NULL COMMENT 'Barcode ID',
   `ucinetid` varchar(8) COLLATE latin1_general_ci NOT NULL COMMENT 'UCInetID associated to Barcode',
   `date` date NOT NULL,
   `time` time NOT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `reset` (
 CREATE TABLE IF NOT EXISTS `scans` (
   `sid` bigint(32) NOT NULL AUTO_INCREMENT COMMENT 'Scan ID',
   `eid` varchar(8) COLLATE latin1_general_ci NOT NULL COMMENT 'Event ID',
-  `barcode` varchar(32) COLLATE latin1_general_ci NOT NULL COMMENT 'Barcode ID',
+  `barcode` varchar(100) COLLATE latin1_general_ci NOT NULL COMMENT 'Barcode ID',
   `volunteer` varchar(8) COLLATE latin1_general_ci NOT NULL,
   `date` date NOT NULL,
   `time` time NOT NULL,
@@ -103,7 +103,7 @@ INSERT IGNORE INTO `tabs` VALUES(11, 'instructions', 'Instructions', 0, 0);
 INSERT IGNORE INTO `tabs` VALUES(12, 'webmaster', 'Webmaster', 8, 0);
 CREATE TABLE IF NOT EXISTS `users` (
   `ucinetid` varchar(8) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
-  `barcode` varchar(32) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL COMMENT 'barcode id',
+  `barcode` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL COMMENT 'barcode id',
   `name` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL COMMENT 'first name',
   `email` varchar(150) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL COMMENT 'email',
   `major` varchar(75) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL COMMENT 'Major',

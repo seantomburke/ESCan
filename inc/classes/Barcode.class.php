@@ -113,8 +113,14 @@ class Barcode{
 		}
 		else
 		{
-			$this->error = 'The barcode <strong>'.$this->code.'</strong> was not properly pre-registered. Please put this wristband aside, and distribute a new one.';
-			return false;
+			//$this->error = 'The barcode <strong>'.$this->code.'</strong> was not properly pre-registered. Please put this wristband aside, and distribute a new one.';
+    		$sql = 'INSERT INTO barcodes
+    				SET barcode = "'.$this->code.'",
+    				date = "'.NOW_DATE.'",
+    				time = "'.NOW_TIME.'",
+    				volunteer = "ONDEMAND"';
+		    $this->db->query($sql);	
+			return true;
 		}
 	}
 
@@ -197,11 +203,6 @@ class Barcode{
 			{
 				if($this->login->exists($ucinetid))
 				{
-					$sql = 'UPDATE barcodes
-						SET ucinetid = ""
-						WHERE ucinetid = "'.$ucinetid.'"';
-					$this->db->query($sql);
-					
 					$sql = 'UPDATE barcodes
 						SET ucinetid = "'.$ucinetid.'"
 						WHERE barcode = "'.$this->code.'"';

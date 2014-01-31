@@ -1,6 +1,11 @@
 <?php
 require_once 'inc/standard.php';
 
+if($_GET['b'])
+{
+    header("Location:".'instructions.php');
+}
+
 //$page = new Page($name, $css);
 /*
 if(!DBUSERNAME)
