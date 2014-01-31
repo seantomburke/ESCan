@@ -541,7 +541,6 @@ $ticker_content .=	' <div class=" ">
 				<div class="row">
 					<label>Barcode</label>
 					<input type="text" name="barcode" id="barcode" class="textarea">
-					<input type="hidden" name="eid" value="'.$scan['eid'].'">
 				</div>
 				<div class="row">
 					<input type="submit" name="scan" value="Scan" class="right">
@@ -549,13 +548,15 @@ $ticker_content .=	' <div class=" ">
 			</form>
 		</div>';
 $limit = ($_GET['view'] == 'all') ? '':'LIMIT 5';
-
-$sql = 'SELECT scans.*, users.name, users.ucinetid, users.major, users.level
-		FROM scans LEFT JOIN users
-		ON scans.barcode = users.barcode
-		WHERE scans.eid = "'.$scan['eid'].'"
-		ORDER BY date DESC, time DESC
-		'.$limit;
+		
+$sql = 'SELECT barcodes.barcode, scans.*, users.name, users.ucinetid, users.major, users.level
+    		FROM users 
+    		LEFT JOIN barcodes
+    		    LEFT JOIN scans
+    		    ON scans.barcode = barcodes.barcode
+    		ON barcodes.ucinetid = users.ucinetid
+    		ORDER BY scans.date DESC, scans.time DESC
+    		'.$limit;
 		
 $page->DB->query($sql);
 $ticker_array = $page->DB->resultToArray();

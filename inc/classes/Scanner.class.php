@@ -35,32 +35,69 @@ class Scanner{
 		return false;
 		}
 	}
+	
+	/**
+	 * determine whether a scan for an event exists or not
+	 * @param string $barcode //scan id
+	 * @param int $eid //event id
+	 * @return boolean
+	 */
+	function alreadyExists($ucinetid, $eid){
+	    
+	   if(empty($ucinetid))
+	   {
+	       return false;
+	   }
+		$sql = 'SELECT * FROM scans
+	            LEFT JOIN barcodes
+	            ON scans.barcode = barcodes.barcode
+				WHERE ucinetid = "'.$ucinetid.'" 
+				AND eid = "'.$eid.'"';
+
+		$this->db->query($sql);
+		if(!$this->db->isEmpty())
+		{
+    		$this->error = 'The scan for this event already exists';
+    		return true;
+		}
+		else
+		{
+    		return false;
+		}
+	}
 
 	/**
 	 * Register a scan into the MySQL Table: scans
 	 * @param string $barcode
 	 * @return boolean
 	 */
-	function scan($barcode, $eid, $ucinetid){
-	
+	function scan($code, $eid, $volunteer){
+	    
+	    $barcode = new Barcode($code);
 		$event = new Event($eid);
 		
-		if(!$this->exists($barcode, $eid))
+		if($this->alreadyExists($barcode->getUCInetID(), $eid))
 		{
+			$this->error = 'The user '.$barcode->getUCInetID().' has already been scanned to the event '.$event->name;
+			return false;
+		}
+		elseif($this->exists($barcode->code, $eid))
+		{
+		    $this->error = 'The barcode #'.$barcode->code.' has already been scanned to the event '.$event->name;
+			return false;
+		}
+		else
+		{
+			
 			$sql = 'INSERT INTO scans
-					SET barcode = "'.$barcode.'",
+					SET barcode = "'.$barcode->code.'",
 					eid = "'.$eid.'",
-					volunteer = "'.$ucinetid.'",
+					volunteer = "'.$volunteer.'",
 					date = "'.NOW_DATE.'",
 					time = "'.NOW_TIME.'"';
 					
 			$this->db->execute($sql);
 			return true;
-		}
-		else
-		{
-			$this->error = 'The barcode #'.$barcode.' has already been scanned to the event '.$event->name;
-			return false;
 		}
 
 	}

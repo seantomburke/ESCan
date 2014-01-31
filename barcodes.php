@@ -9,9 +9,11 @@ foreach ($_GET as $key => $value) {
 }
 
 $sql = 'SELECT barcodes.*, users.name, users.ucinetid, users.major, users.level
-	FROM barcodes LEFT JOIN users
-	ON barcodes.barcode = users.barcode
-	ORDER BY date ASC, time ASC';
+    		FROM barcodes 
+    		LEFT JOIN users ON barcodes.ucinetid = users.ucinetid
+    		ORDER BY barcodes.date DESC, barcodes.time DESC
+    		'.$limit;
+    		
 $DB->query($sql);
 $output['scans'] = $DB->resultToArray();
 

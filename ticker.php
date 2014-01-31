@@ -10,11 +10,15 @@ foreach ($_GET as $key => $value) {
 
 if($scan['eid'])
 {
-    $sql = 'SELECT scans.*, users.name, users.ucinetid, users.major, users.level
-		FROM scans LEFT JOIN users
-		ON scans.barcode = users.barcode
-		WHERE scans.eid = "'.$scan['eid'].'"
-		ORDER BY date ASC, time ASC' ;
+    $sql = 'SELECT barcodes.barcode, scans.*, users.name, users.ucinetid, users.major, users.level
+    		FROM scans 
+    		LEFT JOIN barcodes
+    		    LEFT JOIN users
+    		    ON barcodes.ucinetid = users.ucinetid
+    		ON barcodes.barcode = scans.barcode
+    		WHERE scans.eid = "'.$scan['eid'].'"
+    		ORDER BY scans.date DESC, scans.time DESC
+    		'.$limit;
 	$DB->query($sql);
     $output['scans'] = $DB->resultToArray();
 }

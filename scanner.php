@@ -34,7 +34,17 @@ if($scan['barcode'] && $scan['eid'])
 		$errors++;
 		$form = '<form action="register.php" method="GET"><input type="text" name="ucinetid" placeholder="UCInetID"><input type="submit"></form>'; //todo associate barcode if the took one with out registering.
 		$name = ($barcode->getName()) ? 'The user <strong>'.$barcode->getName().'</strong>':'The barcode <strong>#'.$barcode->code.'</strong>';
-		$extra = ($barcode->getName()) ? 'Welcome.':'Please register this user\'s UCInetID below: '.$form;
+		$extra = ($barcode->getName()) ? 'Nice Try.':'Please register this user\'s UCInetID below: '.$form;
+		$output['message']['text'] = $name.' has already been scanned. '.$extra;
+		$output['message']['status'] = 'error';
+	}
+	
+	if($scanner->alreadyExists($barcode->getUCInetID(), $scan['eid']))
+	{
+		$errors++;
+		$form = '<form action="register.php" method="GET"><input type="text" name="ucinetid" placeholder="UCInetID"><input type="submit"></form>'; //todo associate barcode if the took one with out registering.
+		$name = ($barcode->getUCInetID()) ? 'The user <strong>'.$barcode->getUCInetID().'</strong>':'The barcode <strong>#'.$barcode->code.'</strong>';
+		$extra = ($barcode->getUCInetID()) ? 'Nice Try.':'Please register this user\'s UCInetID below: '.$form;
 		$output['message']['text'] = $name.' has already been scanned. '.$extra;
 		$output['message']['status'] = 'error';
 	}
@@ -54,6 +64,16 @@ if($scan['barcode'] && $scan['eid'])
     		WHERE scans.eid = "'.$scan['eid'].'"
     		AND scans.barcode = "'.$scan['barcode'].'"
     		ORDER BY date DESC, time DESC';
+    		
+    	$sql = 'SELECT barcodes.barcode, scans.*, users.name, users.ucinetid, users.major, users.level
+    		FROM scans 
+    		LEFT JOIN barcodes
+    		    LEFT JOIN users
+    		    ON barcodes.ucinetid = users.ucinetid
+    		ON barcodes.barcode = scans.barcode
+    		WHERE scans.eid = "'.$scan['eid'].'"
+    		AND scans.barcode = "'.$scan['barcode'].'"
+    		ORDER BY scans.date DESC, scans.time DESC';
     		
     	$DB->query($sql);
         $output['scan'] = $DB->resultToArray();

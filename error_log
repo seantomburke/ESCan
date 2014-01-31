@@ -88,3 +88,59 @@
 [30-Jan-2014 20:47:16] PHP   2. require_once() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/index.php:2
 [30-Jan-2014 23:47:57] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
 [30-Jan-2014 23:49:58] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[30-Jan-2014 23:58:23] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[31-Jan-2014 00:01:26] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[31-Jan-2014 00:05:29] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[30-Jan-2014 22:02:23] PHP Parse error:  syntax error, unexpected ')' in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/Scanner.class.php on line 77
+[30-Jan-2014 22:02:23] PHP Stack trace:
+[30-Jan-2014 22:02:23] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/admin.php:0
+[30-Jan-2014 22:02:23] PHP   2. require_once() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/admin.php:3
+[30-Jan-2014 22:02:23] PHP Parse error:  syntax error, unexpected ')' in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/Scanner.class.php on line 77
+[30-Jan-2014 22:02:23] PHP Stack trace:
+[30-Jan-2014 22:02:23] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/admin.php:0
+[30-Jan-2014 22:02:23] PHP   2. require_once() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/admin.php:3
+[30-Jan-2014 22:02:23] PHP Parse error:  syntax error, unexpected ')' in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/Scanner.class.php on line 77
+[30-Jan-2014 22:02:23] PHP Stack trace:
+[30-Jan-2014 22:02:23] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/admin.php:0
+[30-Jan-2014 22:02:23] PHP   2. require_once() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/admin.php:3
+[30-Jan-2014 22:06:56] PHP Parse error:  syntax error, unexpected T_CONSTANT_ENCAPSED_STRING in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/Scanner.class.php on line 79
+[30-Jan-2014 22:06:56] PHP Stack trace:
+[30-Jan-2014 22:06:56] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/register.php:0
+[30-Jan-2014 22:06:56] PHP   2. include_once() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/register.php:3
+[30-Jan-2014 22:31:33] PHP Catchable fatal error:  Object of class Barcode could not be converted to string in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/Scanner.class.php on line 86
+[30-Jan-2014 22:31:33] PHP Stack trace:
+[30-Jan-2014 22:31:33] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/scanner.php:0
+[30-Jan-2014 22:31:33] PHP   2. Scanner->scan() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/scanner.php:54
+[30-Jan-2014 22:31:40] PHP Catchable fatal error:  Object of class Barcode could not be converted to string in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/Scanner.class.php on line 86
+[30-Jan-2014 22:31:40] PHP Stack trace:
+[30-Jan-2014 22:31:40] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/scanner.php:0
+[30-Jan-2014 22:31:40] PHP   2. Scanner->scan() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/scanner.php:54
+[30-Jan-2014 22:31:45] PHP Catchable fatal error:  Object of class Barcode could not be converted to string in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/Scanner.class.php on line 86
+[30-Jan-2014 22:31:45] PHP Stack trace:
+[30-Jan-2014 22:31:45] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/scanner.php:0
+[30-Jan-2014 22:31:45] PHP   2. Scanner->scan() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/scanner.php:54
+[30-Jan-2014 22:32:08] PHP Catchable fatal error:  Object of class Barcode could not be converted to string in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/Scanner.class.php on line 86
+[30-Jan-2014 22:32:08] PHP Stack trace:
+[30-Jan-2014 22:32:08] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/scanner.php:0
+[30-Jan-2014 22:32:08] PHP   2. Scanner->scan() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/scanner.php:54
+[30-Jan-2014 22:32:09] PHP Catchable fatal error:  Object of class Barcode could not be converted to string in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/Scanner.class.php on line 86
+[30-Jan-2014 22:32:09] PHP Stack trace:
+[30-Jan-2014 22:32:09] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/scanner.php:0
+[30-Jan-2014 22:32:09] PHP   2. Scanner->scan() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/scanner.php:54
+[30-Jan-2014 22:32:24] PHP Catchable fatal error:  Object of class Barcode could not be converted to string in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/Scanner.class.php on line 86
+[30-Jan-2014 22:32:24] PHP Stack trace:
+[30-Jan-2014 22:32:24] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/scanner.php:0
+[30-Jan-2014 22:32:24] PHP   2. Scanner->scan() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/scanner.php:54
+[30-Jan-2014 22:33:11] PHP Catchable fatal error:  Object of class Barcode could not be converted to string in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/Scanner.class.php on line 86
+[30-Jan-2014 22:33:11] PHP Stack trace:
+[30-Jan-2014 22:33:11] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/scanner.php:0
+[30-Jan-2014 22:33:11] PHP   2. Scanner->scan() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/scanner.php:54
+[30-Jan-2014 22:33:15] PHP Catchable fatal error:  Object of class Barcode could not be converted to string in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/Scanner.class.php on line 86
+[30-Jan-2014 22:33:15] PHP Stack trace:
+[30-Jan-2014 22:33:15] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/scanner.php:0
+[30-Jan-2014 22:33:15] PHP   2. Scanner->scan() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/scanner.php:54
+[30-Jan-2014 22:34:28] PHP Catchable fatal error:  Object of class Barcode could not be converted to string in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/Scanner.class.php on line 86
+[30-Jan-2014 22:34:28] PHP Stack trace:
+[30-Jan-2014 22:34:28] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/scanner.php:0
+[30-Jan-2014 22:34:28] PHP   2. Scanner->scan() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/scanner.php:54
+[31-Jan-2014 02:09:48] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0

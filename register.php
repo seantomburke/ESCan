@@ -128,12 +128,22 @@ if($_POST['submit_signup'] == 'Register')
 					if($_SESSION['access'] > PARTICIPANT)
 						{$message = 'You have successfully associated barcode <strong>#'.$barcode->code.'</strong> to <strong>'.$user['ucinetid'].'</strong>';}
 					else
-						{$message = 'You have successfully associated barcode <strong>#'.$barcode->code.'</strong> to your UCInetID: <strong>'.$user['ucinetid'].'</strong>';}
+						{$message = 'You have successfully associated barcode <strong>#'.$barcode->code.'</strong> to the UCInetID: <strong>'.$user['ucinetid'].'</strong>';}
 						$page->setMessage($message, 'success');
 				}
 				else
 				{
-					$page->setMessage($barcode->error, 'failure');
+				    if(!$barcode->exists())
+				    {
+				        $barcode->register();
+				        $barcode->associate($user['ucinetid']);
+				        $message = 'You have registered the barcode <strong>#'.$barcode->code.'</strong> and have successfully associated it to the UCInetID: <strong>'.$user['ucinetid'].'</strong>';
+				        $page->setMessage($message, 'success');
+				    }
+				    else
+				    {
+					    $page->setMessage($barcode->error, 'success');
+				    }
 				}
 			}
 			else
