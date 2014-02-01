@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 echo 'Initializing Setup<br>';
 
 /** Instructions for setup
@@ -16,8 +16,8 @@ echo 'Initializing Setup<br>';
  *
  **/
 
-include_once 'inc/classes/DB.class.php';
 include_once 'inc/setup/_config.php';
+include_once 'inc/standard.php';
 
 if(WEBMASTER_USERNAME && WEBMASTER_EMAIL && WEBMASTER_PASSWORD && DBDATABASE && DBUSERNAME && DBSERVER)
 {
@@ -25,6 +25,17 @@ if(WEBMASTER_USERNAME && WEBMASTER_EMAIL && WEBMASTER_PASSWORD && DBDATABASE && 
 echo '<br>Connecting to Database<br>';
 
 $db = new DB();
+
+$sql = "SELECT * FROM users WHERE access = '". WEBMASTER ."'";
+$db->query($sql);
+$web_admin = $db->resultToSingleArray();
+
+if(!$db->isEmpty())
+{
+    $sniper = new Sniper();
+    $sniper->storeMessage("Illegall access of install.php", $_SESSION['ucinetid'], "hacker");
+    die('This is an unauthorized page. This incident will be reported. Please contact the Web Admin at <a href="'.$web_admin['email'].'">'.$web_admin['email'].'</a> if you feel you received this message in error');
+}
 
 $sql = explode(';', file_get_contents('inc/setup/setup.sql'));
 echo 'Getting setup.sql<br>';
