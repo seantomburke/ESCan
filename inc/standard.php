@@ -29,14 +29,9 @@ require_once 'inc/classes/Nav.class.php';
 require_once 'inc/classes/Statistic.class.php';
 require_once 'inc/classes/Vegas.class.php';
 
-
-
-
 /*incs*/
 
 require_once 'inc/constants.inc.php';
 
-/*constants*/
-define_all(); //defines the constants, located at constants.inc.php
 
 ?>

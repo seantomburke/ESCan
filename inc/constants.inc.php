@@ -14,12 +14,6 @@
  */
  date_default_timezone_set('America/Los_Angeles');
  
- function define_all()
- {
- 	define_access();
- 	define_time();
- }
- 
  function define_time()
  {
  	define(OFFSET, 0);
@@ -60,5 +54,9 @@
  	}
  	return $output;
  }
+ 
+ 
+define_access();
+define_time();
  
  ?>
