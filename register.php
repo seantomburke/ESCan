@@ -4,22 +4,20 @@ include_once 'inc/standard.php';
 
 $page = new Page('register', ALL);
 
-$js = 'function () {
-                var barcode = $("#barcode");
-                if(barcode)
-                {
-				    $("#barcode").focus();
-                }
-                else
-                {                
-                    $("#search").focus();
-				}
-				
-				if($("#major").val() != "Other")
-				{
-					$("#major_input").hide();
-				}
-			}';
+$js = ' if($("#major").val() != "Other")
+    	{
+    		$("#major_input").hide();
+    	}
+    	
+        var barcode = $("#barcode");
+        if(barcode)
+        {
+    	    $("#barcode").focus();
+        }
+        else
+        {                
+            $("#search").focus();
+    	}';
 			
 $page->setJSInitial($js);
 
@@ -60,7 +58,7 @@ $search = '	<form action="'.$_SERVER['PHP_SELF'].'" method="GET">
 			        UCInetID 
 			        <span class="require1">*</span>
 			    </label>
-			    <input id="search" class="textarea" placeholder="UCInetID" autocapitalize="off" type="search" name="ucinetid" value="'.$user['ucinetid'].'">
+			    <input id="search" class="textarea" placeholder="UCInetID" autocapitalize="off" type="search" name="ucinetid" value="'.$user['ucinetid'].'" autofocus>
 			</div>
 			<div class="clear"></div>
 			<div class="row">
