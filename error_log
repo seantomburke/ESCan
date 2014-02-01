@@ -144,3 +144,11 @@
 [30-Jan-2014 22:34:28] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/scanner.php:0
 [30-Jan-2014 22:34:28] PHP   2. Scanner->scan() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/scanner.php:54
 [31-Jan-2014 02:09:48] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[01-Feb-2014 05:02:27] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[01-Feb-2014 05:11:23] PHP Parse error:  syntax error, unexpected T_CONSTANT_ENCAPSED_STRING in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php on line 36
+[01-Feb-2014 02:12:00] PHP Fatal error:  Call to a member function resultToSingleArray() on a non-object in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php on line 32
+[01-Feb-2014 02:12:00] PHP Stack trace:
+[01-Feb-2014 02:12:00] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:0
+[01-Feb-2014 02:22:49] PHP Fatal error:  Class 'Sniper' not found in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php on line 36
+[01-Feb-2014 02:22:49] PHP Stack trace:
+[01-Feb-2014 02:22:49] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:0
