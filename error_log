@@ -152,3 +152,8 @@
 [01-Feb-2014 02:22:49] PHP Fatal error:  Class 'Sniper' not found in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php on line 36
 [01-Feb-2014 02:22:49] PHP Stack trace:
 [01-Feb-2014 02:22:49] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:0
+[01-Feb-2014 06:16:09] PHP Parse error:  syntax error, unexpected T_VARIABLE in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/statistics.php on line 26
+[01-Feb-2014 06:20:32] PHP Parse error:  syntax error, unexpected T_VARIABLE in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/statistics.php on line 32
+[01-Feb-2014 06:20:48] PHP Parse error:  syntax error, unexpected T_VARIABLE in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/statistics.php on line 114
+[01-Feb-2014 20:20:31] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[01-Feb-2014 20:24:57] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
