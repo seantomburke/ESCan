@@ -297,11 +297,11 @@ if($_GET['action'] == "DELETE USERS")
 	    //delete all but webmasters
 	    
 		$sql = 'DELETE FROM users WHERE access != '.WEBMASTER.';';
-		$page->DB->execute($sql , 1);
+		$page->DB->execute($sql);
 		$sql = 'DELETE FROM logon WHERE ucinetid NOT IN (SELECT users.ucinetid FROM users)'; 
-		$page->DB->execute($sql, 1);
+		$page->DB->execute($sql);
 		$sql = 'TRUNCATE TABLE reset';
-		$page->DB->execute($sql, 1);
+		$page->DB->execute($sql);
 			
 		$page->setMessage('All users (except Webmasters) have been deleted', 'failure');
 	}
