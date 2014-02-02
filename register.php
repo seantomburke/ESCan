@@ -133,8 +133,7 @@ if($_POST['submit_signup'] == 'Register')
 				{
 				    if(!$barcode->exists())
 				    {
-				        $barcode->register();
-				        $barcode->associate($user['ucinetid']);
+				        $barcode->registerAndAssociate($user['ucinetid']);
 				        $message = 'You have registered the barcode <strong>#'.$barcode->code.'</strong> and have successfully associated it to the UCInetID: <strong>'.$user['ucinetid'].'</strong>';
 				        $page->setMessage($message, 'success');
 				    }
@@ -181,7 +180,14 @@ if($_POST['submit_signup'] == 'Register')
 		$result = $page->DB->query($sql);
 		
 		//associate barcode
-		$barcode->associate($user['ucinetid']);
+		if($barcode->exists())
+		{
+    		$barcode->associate($user['ucinetid']);
+		}
+		else
+		{
+		    $barcode->registerAndAssociate($user['ucinetid']);
+		}
 		//mail;
 		$link = WEBSITE.'recover.php?ucinetid='.$user['ucinetid'].'&secret='.$secret;
 		$to = $user['email'];

@@ -110,11 +110,19 @@ class Barcode{
 			return false;
 		}
 	}
+	
+	function registerAndAssociate($user)
+	{
+	    if($this->register())
+	    {
+	        $this->associate($user);
+	    }
+	}
 
 	/**
 	 * Register a barcode into the MySQL Table: barcodes
 	 * @param string $barcode
-	 * @return boolean
+	 * @return booleanSE
 	 */
 	
 	function register()
