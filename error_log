@@ -157,3 +157,63 @@
 [01-Feb-2014 06:20:48] PHP Parse error:  syntax error, unexpected T_VARIABLE in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/statistics.php on line 114
 [01-Feb-2014 20:20:31] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
 [01-Feb-2014 20:24:57] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[02-Feb-2014 16:53:22] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[07-Feb-2014 01:40:59] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[06-Feb-2014 22:41:02] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php on line 41
+[06-Feb-2014 22:41:02] PHP Stack trace:
+[06-Feb-2014 22:41:02] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:0
+[06-Feb-2014 22:41:02] PHP   2. DB->DB() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:27
+[06-Feb-2014 22:41:02] PHP   3. mysql_connect() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php:41
+[06-Feb-2014 22:41:04] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php on line 41
+[06-Feb-2014 22:41:04] PHP Stack trace:
+[06-Feb-2014 22:41:04] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:0
+[06-Feb-2014 22:41:04] PHP   2. DB->DB() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:27
+[06-Feb-2014 22:41:04] PHP   3. mysql_connect() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php:41
+[06-Feb-2014 22:41:27] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php on line 41
+[06-Feb-2014 22:41:27] PHP Stack trace:
+[06-Feb-2014 22:41:27] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:0
+[06-Feb-2014 22:41:27] PHP   2. DB->DB() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:27
+[06-Feb-2014 22:41:27] PHP   3. mysql_connect() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php:41
+[06-Feb-2014 22:41:27] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php on line 41
+[06-Feb-2014 22:41:27] PHP Stack trace:
+[06-Feb-2014 22:41:27] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:0
+[06-Feb-2014 22:41:27] PHP   2. DB->DB() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:27
+[06-Feb-2014 22:41:27] PHP   3. mysql_connect() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php:41
+[06-Feb-2014 22:41:28] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php on line 41
+[06-Feb-2014 22:41:28] PHP Stack trace:
+[06-Feb-2014 22:41:28] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:0
+[06-Feb-2014 22:41:28] PHP   2. DB->DB() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:27
+[06-Feb-2014 22:41:28] PHP   3. mysql_connect() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php:41
+[06-Feb-2014 22:41:44] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php on line 41
+[06-Feb-2014 22:41:44] PHP Stack trace:
+[06-Feb-2014 22:41:44] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:0
+[06-Feb-2014 22:41:44] PHP   2. DB->DB() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:27
+[06-Feb-2014 22:41:44] PHP   3. mysql_connect() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php:41
+[07-Feb-2014 01:43:13] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[06-Feb-2014 22:43:13] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php on line 41
+[06-Feb-2014 22:43:13] PHP Stack trace:
+[06-Feb-2014 22:43:13] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:0
+[06-Feb-2014 22:43:13] PHP   2. DB->DB() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:27
+[06-Feb-2014 22:43:13] PHP   3. mysql_connect() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php:41
+[06-Feb-2014 22:43:13] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Lost connection to MySQL server at 'reading initial communication packet', system error: 111 in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php on line 41
+[06-Feb-2014 22:43:13] PHP Stack trace:
+[06-Feb-2014 22:43:13] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/admin.php:0
+[06-Feb-2014 22:43:13] PHP   2. Page->__construct() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/admin.php:4
+[06-Feb-2014 22:43:13] PHP   3. DB->DB() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/Page.class.php:67
+[06-Feb-2014 22:43:13] PHP   4. mysql_connect() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/inc/classes/DB.class.php:41
+[06-Feb-2014 22:43:37] PHP Warning:  Invalid argument supplied for foreach() in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php on line 37
+[06-Feb-2014 22:43:37] PHP Stack trace:
+[06-Feb-2014 22:43:37] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:0
+[06-Feb-2014 22:43:42] PHP Warning:  Invalid argument supplied for foreach() in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php on line 37
+[06-Feb-2014 22:43:42] PHP Stack trace:
+[06-Feb-2014 22:43:42] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:0
+[06-Feb-2014 22:44:42] PHP Warning:  Invalid argument supplied for foreach() in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php on line 37
+[06-Feb-2014 22:44:42] PHP Stack trace:
+[06-Feb-2014 22:44:42] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/install.php:0
+[07-Feb-2014 01:50:23] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[06-Feb-2014 22:54:12] PHP Warning:  Invalid argument supplied for foreach() in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/statistics.php on line 38
+[06-Feb-2014 22:54:12] PHP Stack trace:
+[06-Feb-2014 22:54:12] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/statistics.php:0
+[06-Feb-2014 22:55:42] PHP Fatal error:  Call to undefined function isarray() in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/statistics.php on line 37
+[06-Feb-2014 22:55:42] PHP Stack trace:
+[06-Feb-2014 22:55:42] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/statistics.php:0

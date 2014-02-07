@@ -213,7 +213,7 @@ if($_GET['action'] == 'update' && $_POST)
 
 }
 
-if($_GET['action'] == "DELETE EVENTS")
+if($_GET['action'] == "DELETE EVENTS" || $_GET['action'] == "REINSTALL")
 {
 	$errors = 1;
 	
@@ -277,7 +277,7 @@ if($_GET['action'] == "DELETE PAGES")
 	}
 }*/
 
-if($_GET['action'] == "DELETE USERS")
+if($_GET['action'] == "DELETE USERS"  || $_GET['action'] == "REINSTALL")
 {
 	$errors = 1;
 	
@@ -311,7 +311,7 @@ if($_GET['action'] == "DELETE USERS")
 	}
 }
 
-if($_GET['action'] == "DELETE SCANS")
+if($_GET['action'] == "DELETE SCANS"  || $_GET['action'] == "REINSTALL")
 {
 	$errors = 1;
 	
@@ -340,7 +340,8 @@ if($_GET['action'] == "DELETE SCANS")
 	}
 }
 
-if($_GET['action'] == "DELETE BARCODES")
+
+if($_GET['action'] == "DELETE BARCODES"  || $_GET['action'] == "REINSTALL")
 {
 	$errors = 1;
 	
@@ -369,6 +370,33 @@ if($_GET['action'] == "DELETE BARCODES")
 		$page->setMessage($error_message, 'error');
 	}
 }
+
+if($_GET['action'] == "REINSTALL")
+{
+    $errors = 1;
+	
+	if($_GET['delete_continue'] != "DELETE")
+	{
+		$errors++;
+		$error_message[0] = '
+		<form action="'.$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'].'" method="GET">
+			Are you sure you want to reinstall ESCan? This will delete EVERYTHING!
+			<input type="submit" value="DELETE" name="delete_continue">
+			<input type="hidden" value="REINSTALL" name="action">
+		</form>';
+	}
+	
+	if($errors == 1)
+	{
+		$page->setMessage('ESCan has been reinstalled', 'failure');
+	}
+	else
+	{
+		$page->setMessage($error_message, 'error');
+	}
+	
+}
+
 
 
 	
