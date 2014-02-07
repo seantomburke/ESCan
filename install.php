@@ -28,13 +28,28 @@ $db = new DB();
 
 $sql = "SELECT * FROM users WHERE access = '". WEBMASTER ."'";
 $db->query($sql);
-$web_admin = $db->resultToSingleArray();
+$web_admins = $db->resultToArray();
 
 if(!$db->isEmpty())
 {
+    $authorized = false;
+    $emails = '';
+    foreach($web_admins as $webadmin)
+    {
+        $emails .= '<a href="mailto:'.$webadmin['email'].'">'.$webadmin['email'].'</a>, ';
+        if($_SESSION['ucinetid'] == $webadmin['ucinetid'])
+        {
+            $authorized = true;
+        }
+    }
+    if(!$authorized)
+    {
     $sniper = new Sniper();
     $sniper->storeMessage("Illegall access of install.php", $_SESSION['ucinetid'], "hacker");
-    die('This is an unauthorized page. This incident will be reported. Please contact the Web Admin at <a href="'.$web_admin['email'].'">'.$web_admin['email'].'</a> if you feel you received this message in error');
+    die('ESCan has already been installed. If you are the webadmin and would like to reinstall ESCan go to the 
+    <a href="admin.php">Admin Page</a>. This incident will be reported. Please contact the Web Admin at 
+    '.$emails.' or <a href="mailto:esc.uci@gmail.com">esc.uci@gmail.com</a> if you feel you received this message in error');
+    }
 }
 
 $sql = explode(';', file_get_contents('inc/setup/setup.sql'));
