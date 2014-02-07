@@ -34,15 +34,17 @@ $top_participants = '<div class="row">
             						<span class="left">User</span>
             						<span class="right">Number of Events</span>
             					</div>';
-
-foreach($page->DB->resultToArray() as $key => $value)
+if(is_array($page->DB->resultToArray() ))
 {
-        $top_participants .=  '<div class="row">
-        						<font color="#003333">
-        						<span class="left">'.$value[0].'</span>
-        						<span class="right">'.$value[1].'</span>
-        						</font><br>
-        					    </div>';
+    foreach($page->DB->resultToArray() as $key => $value)
+    {
+            $top_participants .=  '<div class="row">
+            						<font color="#003333">
+            						<span class="left">'.$value[0].'</span>
+            						<span class="right">'.$value[1].'</span>
+            						</font><br>
+            					    </div>';
+    }
 }
 
 $top_participants .= "      </div>
