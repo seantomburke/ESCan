@@ -26,7 +26,7 @@ if($_GET['action'] == 'add')
 		
 		if(strlen($event['name']) < 2)
 		{
-			$error_message[$errors] = 'Event name is to long';
+			$error_message[$errors] = 'Event name is too long';
 			$errors++;
 			$error_name = 'error';
 		}
