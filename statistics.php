@@ -34,9 +34,10 @@ $top_participants = '<div class="row">
             						<span class="left">User</span>
             						<span class="right">Number of Events</span>
             					</div>';
-if(is_array($page->DB->resultToArray() ))
+$result = $page->DB->resultToArray();
+if(!empty($result))
 {
-    foreach($page->DB->resultToArray() as $key => $value)
+    foreach($result as $key => $value)
     {
             $top_participants .=  '<div class="row">
             						<font color="#003333">

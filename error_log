@@ -223,3 +223,16 @@
 [17-Feb-2014 01:34:48] PHP Parse error:  syntax error, unexpected ';' in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/admin.php on line 601
 [17-Feb-2014 01:34:51] PHP Parse error:  syntax error, unexpected ';' in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/admin.php on line 601
 [17-Feb-2014 01:35:08] PHP Parse error:  syntax error, unexpected ';' in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/scan.php on line 164
+[17-Feb-2014 02:21:11] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[16-Feb-2014 23:21:19] PHP Warning:  Invalid argument supplied for foreach() in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/statistics.php on line 39
+[16-Feb-2014 23:21:19] PHP Stack trace:
+[16-Feb-2014 23:21:19] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/statistics.php:0
+[16-Feb-2014 23:21:23] PHP Warning:  Invalid argument supplied for foreach() in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/statistics.php on line 39
+[16-Feb-2014 23:21:23] PHP Stack trace:
+[16-Feb-2014 23:21:23] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/statistics.php:0
+[16-Feb-2014 23:21:26] PHP Warning:  Invalid argument supplied for foreach() in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/statistics.php on line 39
+[16-Feb-2014 23:21:26] PHP Stack trace:
+[16-Feb-2014 23:21:26] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/statistics.php:0
+[17-Feb-2014 02:23:14] PHP Fatal error:  Can't use method return value in write context in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/statistics.php on line 37
+[17-Feb-2014 02:23:15] PHP Fatal error:  Can't use method return value in write context in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/statistics.php on line 37
+[17-Feb-2014 02:24:11] PHP Fatal error:  Can't use method return value in write context in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/statistics.php on line 37
