@@ -8,6 +8,8 @@ foreach ($_GET as $key => $value) {
 	$scan[$key] = trim(strip_tags($value));
 }
 
+$limit = ($_GET['view'] == 'all') ? '':'LIMIT 5';
+
 if($scan['eid'])
 {
     $sql = 'SELECT barcodes.barcode, scans.*, users.name, users.ucinetid, users.major, users.level

@@ -218,3 +218,8 @@
 [06-Feb-2014 22:55:42] PHP Stack trace:
 [06-Feb-2014 22:55:42] PHP   1. {main}() /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/statistics.php:0
 [10-Feb-2014 04:55:28] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[17-Feb-2014 01:19:43] PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib64/php/modules/soap.so' - /usr/lib64/php/modules/soap.so: undefined symbol: php_libxml_disable_entity_loader in Unknown on line 0
+[17-Feb-2014 01:34:33] PHP Parse error:  syntax error, unexpected ';' in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/admin.php on line 601
+[17-Feb-2014 01:34:48] PHP Parse error:  syntax error, unexpected ';' in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/admin.php on line 601
+[17-Feb-2014 01:34:51] PHP Parse error:  syntax error, unexpected ';' in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/admin.php on line 601
+[17-Feb-2014 01:35:08] PHP Parse error:  syntax error, unexpected ';' in /var/lib/stickshift/52e920f45973cab77b0003aa/app-root/data/730921/scan.php on line 164

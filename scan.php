@@ -161,7 +161,7 @@ $ticker_content .= '<div id="ticker" class="ticker"></div>';
 //set javascript after page is ready
 $page->setJSInitial('
 		$("#barcode").focus();
-		loadTicker('.$scan['eid'].');
+		loadTicker('.$scan['eid'].')
 		');
 	
 $ticker_content .= '

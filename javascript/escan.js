@@ -36,7 +36,8 @@ function loadBarcodes(){
                 	
                 if(data.scans.length > 0)
                 {
-                	for(var i=0;i<data.scans.length; i++)
+                    //reverse order
+                	for(var i=data.scans.length-1;i>=0; i--)
                 	{
                 	    appendBarcode(data.scans[i]);
                 	};
@@ -72,7 +73,8 @@ function loadTicker(eid){
                 	
                 if(data.scans.length > 0)
                 {
-                	for(var i=0;i<data.scans.length; i++)
+                	//reverse order
+                	for(var i=data.scans.length-1;i>=0; i--)
                 	{
                 	    appendBarcode(data.scans[i]);
                 	};
