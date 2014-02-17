@@ -8,6 +8,8 @@ foreach ($_GET as $key => $value) {
 	$scan[$key] = trim(strip_tags($value));
 }
 
+$limit = ($_GET['view'] == 'all') ? '':'LIMIT 5';
+
 $sql = 'SELECT barcodes.*, users.name, users.ucinetid, users.major, users.level
     		FROM barcodes 
     		LEFT JOIN users ON barcodes.ucinetid = users.ucinetid

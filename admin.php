@@ -598,7 +598,7 @@ $ticker_content .= '<div id="ticker" class="ticker"></div>';
 //set javascript after page is ready
 $page->setJSInitial('
 		$("#barcode").focus();
-		loadBarcodes();
+		loadBarcodes()
 		');
 	
 $ticker_content .= '
