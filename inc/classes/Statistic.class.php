@@ -68,7 +68,7 @@ function buildPie()
 		//echo $key.' => '.$value;
 		$stat_legend .= '
 					<div class="row">
-						<font color="#'.$stat_colors[$i].'">
+						<font color="'.$stat_colors[$i].'">
 						<span class="left">'.$key.'</span>
 						<span class="right">'.$value.'</span>
 						</font><br>

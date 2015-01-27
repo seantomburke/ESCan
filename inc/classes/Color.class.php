@@ -17,23 +17,23 @@ class Color
 	function __construct()
 	{
 		$this->colors = array(
-		'maroon' => '800000',
-		'red' => 'FF0000',
-		'orange' => 'FF8000',
-		'yellow' => 'FFFF00',
-		'lime' => '80FF00',
-		'green' => '00FF00',
-		'cyan' => '00FFFF',
-		'bluegreen' => '0080FF',
-		'blue' => '0000FF',
-		'fusia' => '8000FF',
-		'magenta' => 'FF00FF',
-		'crimson' => 'FF0080',
-		'black' => '000000',
-		'white' => 'FFFFFF',
-		'bludo' => '4827AC',
-		'purdo' => 'A48FC2',
-		'greedo' => '94f92B');
+		'maroon' => '#800000',
+		'red' => '#FF0000',
+		'orange' => '#FF8000',
+		'yellow' => '#FFFF00',
+		'lime' => '#80FF00',
+		'green' => '#00FF00',
+		'cyan' => '#00FFFF',
+		'bluegreen' => '#0080FF',
+		'blue' => '#0000FF',
+		'fusia' => '#8000FF',
+		'magenta' => '#FF00FF',
+		'crimson' => '#FF0080',
+		'black' => '#000000',
+		'white' => '#FFFFFF',
+		'bludo' => '#4827AC',
+		'purdo' => '#A48FC2',
+		'greedo' => '#94f92B');
 	}
 
 	function getColorArray($count, $shift = 0)
