@@ -1,5 +1,7 @@
 <h1><a href="http://esc.eng.uci.edu/escan">ESCan UCI</a></h1>
 
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/hawaiianchimp/escan)
+
 
 <a href="http://esc.eng.uci.edu/escan">
 ESCan UCI
@@ -33,6 +35,6 @@ Steps for installation
 
 Sean Burke<br>
 http://www.seantburke.com<br>
-Last Updated January 9, 2014
+Last Updated January 27, 2015
 
 
