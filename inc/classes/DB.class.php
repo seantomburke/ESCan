@@ -39,7 +39,7 @@ class DB
 		$this->lastResult = NULL;
 		include_once 'inc/setup/_config.php';
 		mysqli_connect(DBSERVER,  DBUSERNAME, DBPASSWORD) or die('You must first provide your MySQL Credentials in the _config.php Please read the README.md file before proceeding');
-		mysqli_select_db(DBDATABASE) or die('You need to run the setup.php in /inc/setup/setup.php');
+		mysqli_select_db(DBDATABASE) or die('Database could not be found. You need to run install.php');
 		new MYSQLI();
 	}
 

@@ -17,7 +17,7 @@ function define_db()
 {
 
     $url = parse_url(getenv("CLEARDB_DATABASE_URL")); //if heroku cleardb credentials are defined
-    echo $url;
+    var_dump($url);
 
     if($url){
         define(DBDATABASE, substr($url["path"], 1));        //cleardb database
