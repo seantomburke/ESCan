@@ -17,16 +17,16 @@ define(WEBSITE, 'http://'.$_SERVER['SERVER_NAME'].$scriptpath);
 function define_db()
 {
     
-//$url = parse_url(getenv("CLEARDB_DATABASE_URL")); //if heroku cleardb credentials are defined
-//echo $url;
-//    
-//if($url){
-//    define(DBDATABASE, substr($url["path"], 1));        //cleardb database
-//    define(DBSERVER, $url["host"]); 				    //cleardb host server
-//    define(DBUSERNAME, $url["user"]);			//cleardb username
-//    define(DBPASSWORD, $url["pass"]);           //cleardb password
-//}
-//else{
+$url = parse_url(getenv("CLEARDB_DATABASE_URL")); //if heroku cleardb credentials are defined
+echo $url;
+    
+if($url){
+    define(DBDATABASE, substr($url["path"], 1));        //cleardb database
+    define(DBSERVER, $url["host"]); 				    //cleardb host server
+    define(DBUSERNAME, $url["user"]);			//cleardb username
+    define(DBPASSWORD, $url["pass"]);           //cleardb password
+}
+else{
     define(DBDATABASE, 'escan');  			            //MySQL Database Name. try 'escan'
     define(DBSERVER, '127.0.0.1'); 				    //MySQL Server. Try 'localhost' or '127.0.0.1'
     define(DBUSERNAME, 'escan');			//MySQL Username. Try 'escan'
