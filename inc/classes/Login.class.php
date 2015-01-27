@@ -128,10 +128,10 @@ class Login {
 		$args  = func_get_args();
 		$query = array_shift($args);
 		$query = str_replace("?", "%s", $query);
-		$args  = array_map('mysql_real_escape_string', $args);
+		$args  = array_map('mysqli_real_escape_string', $args);
 		array_unshift($args,$query);
 		$query = call_user_func_array('sprintf',$args);
-		$result = $this->db->query($query) or die(mysql_error());
+		$result = $this->db->query($query) or die(mysqli_error());
 		if($result){
 			return $result;
 		}else{
