@@ -1,0 +1,27 @@
+{
+  "name": "ESCan",
+  "description": "ESCan is a tool used for participation tracking at UCI's E-Week",
+  "keywords": [
+    "uci",
+    "php",
+    "escan"
+  ],
+  "website": "http://esc.eng.uci.edu/escan",
+  "repository": "https://github.com/hawaiianchimp/escan",
+  "logo": "http://esc.eng.uci.edu/escan/images/logo.png",
+  "success_url": "/install.php",
+  "env": {
+    "BUILDPACK_URL": "https://github.com/stomita/heroku-buildpack-phantomjs",
+    "SECRET_TOKEN": {
+      "description": "A secret key for verifying the integrity of signed cookies.",
+      "generator": "secret"
+    },
+    "WEB_CONCURRENCY": {
+      "description": "The number of processes to run.",
+      "value": "5"
+    }
+  },
+  "addons": [
+    "cleardb"
+  ]
+}

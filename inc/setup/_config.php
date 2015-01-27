@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ERROR | E_WARNING | E_PARSE);
 date_default_timezone_set('America/Los_Angeles');
 
 function define_basic()
@@ -18,6 +19,7 @@ function define_db()
     
 $url = parse_url(getenv("CLEARDB_DATABASE_URL")); //if heroku cleardb credentials are defined
 echo $url;
+    
 if($url){
     define(DBDATABASE, substr($url["path"], 1));        //cleardb database
     define(DBSERVER, $url["host"]); 				    //cleardb host server
