@@ -26,7 +26,7 @@ echo '<br>Connecting to Database<br>';
 
 $db = new DB();
 
-$sql = "SELECT * FROM users WHERE access = '". WEBMASTER ."'";
+$sql = "SELECT * FROM users WHERE access = ". WEBMASTER .";";
 $db->query($sql);
 $web_admins = $db->resultToArray();
 
