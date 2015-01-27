@@ -31,6 +31,11 @@ function define_db()
         define(DBUSERNAME, 'escan');			//MySQL Username. Try 'escan'
         define(DBPASSWORD, ''); 			            //MySQL Password. Lookup in ESC transition files
     }
+    echo "<br>DBDATABASE: ".DBDATABASE;
+    echo "<br>DBSERVER: ".DBSERVER;
+    echo "<br>DBUSERNAME: ".DBUSERNAME;
+    echo "<br>DBPASSWORD: ".DBPASSWORD;
+    
 }
 
 function define_webmaster()
