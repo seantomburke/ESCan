@@ -14,17 +14,16 @@ if (! defined('PHPMYADMIN')) {
  * the list base class
  */
 require_once './libraries/List.class.php';
+require_once './libraries/check_user_privileges.lib.php';
 
 /**
  * handles database lists
  *
  * <code>
- * $PMA_List_Database = new PMA_List_Database($userlink, $controllink);
+ * $PMA_List_Database = new PMA_List_Database($userlink);
  * </code>
  *
  * @todo this object should be attached to the PMA_Server object
- * @todo ? make use of INFORMATION_SCHEMA
- * @todo ? support --skip-showdatabases and user has only global rights
  *
  * @package PhpMyAdmin
  * @since   phpMyAdmin 2.9.10
@@ -44,28 +43,14 @@ class PMA_List_Database extends PMA_List
     protected $db_link_user = null;
 
     /**
-     * @var mixed   controluser database link resource|object
-     * @access protected
-     */
-    protected $db_link_control = null;
-
-    /**
-     * @var boolean whether we can retrieve the list of databases
-     * @access protected
-     */
-    protected $can_retrieve_databases = true;
-
-    /**
      * Constructor
      *
-     * @param mixed $db_link_user    user database link resource|object
-     * @param mixed $db_link_control control database link resource|object
+     * @param mixed $db_link_user user database link resource|object
      */
-    public function __construct($db_link_user = null, $db_link_control = null)
+    public function __construct($db_link_user = null)
     {
         $this->db_link = $db_link_user;
         $this->db_link_user = $db_link_user;
-        $this->db_link_control = $db_link_control;
 
         parent::__construct();
         $this->build();
@@ -98,39 +83,32 @@ class PMA_List_Database extends PMA_List
      */
     protected function retrieve($like_db_name = null)
     {
-        if (! $this->can_retrieve_databases) {
-            return array();
+        $database_list = array();
+        $command = "";
+        if (! $GLOBALS['cfg']['Server']['DisableIS']) {
+            $command .= "SELECT `SCHEMA_NAME` FROM `INFORMATION_SCHEMA`.`SCHEMATA`";
+            if (null !== $like_db_name) {
+                $command .= " WHERE `SCHEMA_NAME` LIKE '" . $like_db_name . "'";
+            }
+        } else {
+            if ($GLOBALS['dbs_to_test'] === false || null !== $like_db_name) {
+                $command .= "SHOW DATABASES";
+                if (null !== $like_db_name) {
+                    $command .= " LIKE '" . $like_db_name . "'";
+                }
+            } else {
+                foreach ($GLOBALS['dbs_to_test'] as $db) {
+                    $database_list = array_merge(
+                        $database_list, $this->retrieve($db)
+                    );
+                }
+            }
         }
 
-        $command = "SELECT `SCHEMA_NAME` FROM `INFORMATION_SCHEMA`.`SCHEMATA`"
-            . " WHERE TRUE";
-
-        if (null !== $like_db_name) {
-            $command .= " AND `SCHEMA_NAME` LIKE '" . $like_db_name . "'";
-        }
-
-        $database_list = $GLOBALS['dbi']->fetchResult(
-            $command, null, null, $this->db_link
-        );
-        $GLOBALS['dbi']->getError();
-
-        if ($GLOBALS['errno'] !== 0) {
-            // failed to get database list, try the control user
-            // (hopefully there is one and he has the necessary rights)
-            $this->db_link = $this->db_link_control;
+        if ($command) {
             $database_list = $GLOBALS['dbi']->fetchResult(
                 $command, null, null, $this->db_link
             );
-
-            $GLOBALS['dbi']->getError();
-
-            if ($GLOBALS['errno'] !== 0) {
-                // failed! we will display a warning that phpMyAdmin could not
-                // safely retrieve database list, the admin has to setup a
-                // control user
-                $GLOBALS['error_showdatabases'] = true;
-                $this->can_retrieve_databases = false;
-            }
         }
 
         if ($GLOBALS['cfg']['NaturalOrder']) {
@@ -167,7 +145,7 @@ class PMA_List_Database extends PMA_List
     protected function checkOnlyDatabase()
     {
         if (is_string($GLOBALS['cfg']['Server']['only_db'])
-            && strlen($GLOBALS['cfg']['Server']['only_db'])
+            && /*overload*/mb_strlen($GLOBALS['cfg']['Server']['only_db'])
         ) {
             $GLOBALS['cfg']['Server']['only_db'] = array(
                 $GLOBALS['cfg']['Server']['only_db']
@@ -190,10 +168,7 @@ class PMA_List_Database extends PMA_List
                 continue;
             }
 
-            if ($this->can_retrieve_databases) {
-                $items = array_merge($items, $this->retrieve($each_only_db));
-                continue;
-            }
+            $items = array_merge($items, $this->retrieve($each_only_db));
         }
 
         $this->exchangeArray($items);
@@ -208,7 +183,7 @@ class PMA_List_Database extends PMA_List
      */
     public function getDefault()
     {
-        if (strlen($GLOBALS['db'])) {
+        if (/*overload*/mb_strlen($GLOBALS['db'])) {
             return $GLOBALS['db'];
         }
 

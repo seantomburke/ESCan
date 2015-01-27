@@ -287,13 +287,14 @@ AJAX.registerOnload('tbl_zoom_plot_jqplot.js', function () {
         var xChange = false;
         var yChange = false;
         var key;
+        var tempGetVal = function () {
+            return $(this).val();
+        };
         for (key in selectedRow) {
             var oldVal = selectedRow[key];
             var newVal = ($('#edit_fields_null_id_' + it).prop('checked')) ? null : $('#edit_fieldID_' + it).val();
             if (newVal instanceof Array) { // when the column is of type SET
-                newVal =  $('#edit_fieldID_' + it).map(function () {
-                    return $(this).val();
-                }).get().join(",");
+                newVal =  $('#edit_fieldID_' + it).map(tempGetVal).get().join(",");
             }
             if (oldVal != newVal) {
                 selectedRow[key] = newVal;
@@ -309,6 +310,8 @@ AJAX.registerOnload('tbl_zoom_plot_jqplot.js', function () {
             var $input = $('#edit_fieldID_' + it);
             if ($input.hasClass('bit')) {
                 sqlTypes[key] = 'bit';
+            } else {
+                sqlTypes[key] = null;
             }
             it++;
         } //End data update
@@ -326,6 +329,7 @@ AJAX.registerOnload('tbl_zoom_plot_jqplot.js', function () {
                     series[0][searchedDataKey][0] =
                         getTimeStamp(selectedRow[xLabel], $('#types_0').val());
                 } else {
+                    series[0][searchedDataKey][0] = '';
                     // TODO: text values
                 }
                 currentChart.series[0].data = series[0];
@@ -342,6 +346,7 @@ AJAX.registerOnload('tbl_zoom_plot_jqplot.js', function () {
                     series[0][searchedDataKey][1] =
                         getTimeStamp(selectedRow[yLabel], $('#types_1').val());
                 } else {
+                    series[0][searchedDataKey][1] = '';
                     // TODO: text values
                 }
                 currentChart.series[0].data = series[0];
@@ -394,7 +399,7 @@ AJAX.registerOnload('tbl_zoom_plot_jqplot.js', function () {
                     'sql_query' : sql_query,
                     'inline_edit' : false
                 }, function (data) {
-                    if (data.success === true) {
+                    if (typeof data !== 'undefined' && data.success === true) {
                         $('#sqlqueryresults').html(data.sql_query);
                         $("#sqlqueryresults").trigger('appendAnchor');
                     } else {

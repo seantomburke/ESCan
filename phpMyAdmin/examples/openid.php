@@ -64,7 +64,7 @@ function Show_page($contents)
 }
 
 /* Need to have cookie visible from parent directory */
-session_set_cookie_params(0, '/', '', 0);
+session_set_cookie_params(0, '/', '', false);
 /* Create signon session */
 $session_name = 'SignonSession';
 session_name($session_name);
@@ -79,7 +79,7 @@ $base .= '://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'];
 
 $realm = $base . '/';
 $returnTo = $base . dirname($_SERVER['PHP_SELF']);
-if ($returnTo[strlen($returnTo) - 1] != '/') {
+if ($returnTo[/*overload*/mb_strlen($returnTo) - 1] != '/') {
     $returnTo .= '/';
 }
 $returnTo .= 'openid.php';

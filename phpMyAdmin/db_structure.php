@@ -16,6 +16,12 @@ require_once 'libraries/common.inc.php';
  */
 require_once 'libraries/structure.lib.php';
 
+// Add/Remove favorite tables using Ajax request.
+if ($GLOBALS['is_ajax_request'] && ! empty($_REQUEST['favorite_table'])) {
+    PMA_addRemoveFavoriteTables($db);
+    exit;
+}
+
 $response = PMA_Response::getInstance();
 $header   = $response->getHeader();
 $scripts  = $header->getScripts();
@@ -28,7 +34,7 @@ if ((!empty($_POST['submit_mult']) && isset($_POST['selected_tbl']))
     || isset($_POST['mult_btn'])
 ) {
     $action = 'db_structure.php';
-    $err_url = 'db_structure.php?'. PMA_URL_getCommon($db);
+    $err_url = 'db_structure.php' . PMA_URL_getCommon(array('db' => $db));
 
     // see bug #2794840; in this case, code path is:
     // db_structure.php -> libraries/mult_submits.inc.php -> sql.php
@@ -41,6 +47,7 @@ if ((!empty($_POST['submit_mult']) && isset($_POST['selected_tbl']))
         $_POST['message'] = PMA_Message::success();
     }
 }
+
 require 'libraries/db_common.inc.php';
 $url_query .= '&amp;goto=db_structure.php';
 
@@ -48,10 +55,19 @@ $url_query .= '&amp;goto=db_structure.php';
 $sub_part = '_structure';
 require 'libraries/db_info.inc.php';
 
+// If there is an Ajax request for real row count of a table.
+if ($GLOBALS['is_ajax_request']
+    && isset($_REQUEST['real_row_count'])
+    && $_REQUEST['real_row_count'] == true
+) {
+    PMA_handleRealRowCountRequest();
+    exit;
+}
+
 if (!PMA_DRIZZLE) {
     include_once 'libraries/replication.inc.php';
 } else {
-    $server_slave_status = false;
+    $GLOBALS['replication_info']['slave']['status'] = false;
 }
 
 require_once 'libraries/bookmark.lib.php';
@@ -65,16 +81,9 @@ $titles = PMA_Util::buildActionTitles();
 
 if ($num_tables == 0) {
     $response->addHTML(
-        '<p>' . __('No tables found in database.') . '</p>' . "\n"
+        PMA_message::notice(__('No tables found in database.'))
     );
-    if (empty($db_is_information_schema)) {
-        ob_start();
-        include 'libraries/display_create_table.lib.php';
-        $content = ob_get_contents();
-        ob_end_clean();
-        $response->addHTML($content);
-        unset($content);
-    } // end if (Create Table dialog)
+    PMA_possiblyShowCreateTableDialog($db, $db_is_system_schema, $response);
     exit;
 }
 
@@ -114,7 +123,9 @@ $response->addHTML(
 $response->addHTML(PMA_URL_getHiddenInputs($db));
 
 $response->addHTML(
-    PMA_tableHeader($db_is_information_schema, $server_slave_status)
+    PMA_tableHeader(
+        $db_is_system_schema, $GLOBALS['replication_info']['slave']['status']
+    )
 );
 
 $i = $sum_entries = 0;
@@ -131,13 +142,14 @@ $overhead_size  = (double) 0;
 
 $hidden_fields = array();
 $odd_row       = true;
-$sum_row_count_pre = '';
-
+// Instance of PMA_RecentFavoriteTable class.
+$fav_instance = PMA_RecentFavoriteTable::getInstance('favorite');
 foreach ($tables as $keyname => $current_table) {
     // Get valid statistics whatever is the table type
 
     $drop_query = '';
     $drop_message = '';
+    $already_favorite = false;
     $overhead = '';
 
     $table_is_view = false;
@@ -149,7 +161,7 @@ foreach ($tables as $keyname => $current_table) {
     list($current_table, $formatted_size, $unit, $formatted_overhead,
         $overhead_unit, $overhead_size, $table_is_view, $sum_size)
             = PMA_getStuffForEngineTypeTable(
-                $current_table, $db_is_information_schema,
+                $current_table, $db_is_system_schema,
                 $is_show_stats, $table_is_view, $sum_size, $overhead_size
             );
 
@@ -167,7 +179,7 @@ foreach ($tables as $keyname => $current_table) {
 
     if ($is_show_stats) {
         if ($formatted_overhead != '') {
-            $overhead = '<a href="tbl_structure.php?'
+            $overhead = '<a href="tbl_structure.php'
                 . $tbl_url_query . '#showusage">'
                 . '<span>' . $formatted_overhead . '</span>'
                 . '<span class="unit">' . $overhead_unit . '</span>'
@@ -226,10 +238,10 @@ foreach ($tables as $keyname => $current_table) {
     list($browse_table, $search_table, $browse_table_label, $empty_table,
         $tracking_icon) = PMA_getHtmlForActionLinks(
             $current_table, $table_is_view, $tbl_url_query,
-            $titles, $truename, $db_is_information_schema, $url_query
+            $titles, $truename, $db_is_system_schema, $url_query
         );
 
-    if (! $db_is_information_schema) {
+    if (! $db_is_system_schema) {
         list($drop_query, $drop_message)
             = PMA_getTableDropQueryAndMessage($table_is_view, $current_table);
     }
@@ -245,17 +257,38 @@ foreach ($tables as $keyname => $current_table) {
             '</tr></tbody></table>'
         );
 
-        $response->addHTML(PMA_tableHeader(false, $server_slave_status));
+        $response->addHTML(
+            PMA_tableHeader(false, $GLOBALS['replication_info']['slave']['status'])
+        );
     }
 
     list($do, $ignored) = PMA_getServerSlaveStatus(
-        $server_slave_status, $truename
+        $GLOBALS['replication_info']['slave']['status'], $truename
     );
+    // Handle favorite table list. ----START----
+    $already_favorite = PMA_checkFavoriteTable($db, $current_table['TABLE_NAME']);
 
-    list($html_output, $odd_row) = PMA_getHtmlForStructureTableRow(
+    if (isset($_REQUEST['remove_favorite'])) {
+        if ($already_favorite) {
+            // If already in favorite list, remove it.
+            $favorite_table = $_REQUEST['favorite_table'];
+            $fav_instance->remove($db, $favorite_table);
+        }
+    }
+
+    if (isset($_REQUEST['add_favorite'])) {
+        if (!$already_favorite) {
+            // Otherwise add to favorite list.
+            $favorite_table = $_REQUEST['favorite_table'];
+            $fav_instance->add($db, $favorite_table);
+        }
+    } // Handle favorite table list. ----ENDS----
+
+    list($html_output, $odd_row, $approx_rows) = PMA_getHtmlForStructureTableRow(
         $i, $odd_row, $table_is_view, $current_table,
-        $browse_table_label, $tracking_icon, $server_slave_status,
-        $browse_table, $tbl_url_query, $search_table, $db_is_information_schema,
+        $browse_table_label, $tracking_icon,
+        $GLOBALS['replication_info']['slave']['status'],
+        $browse_table, $tbl_url_query, $search_table, $db_is_system_schema,
         $titles, $empty_table, $drop_query, $drop_message, $collation,
         $formatted_size, $unit, $overhead,
         (isset ($create_time) ? $create_time : ''),
@@ -271,9 +304,10 @@ foreach ($tables as $keyname => $current_table) {
 $response->addHTML('</tbody>');
 $response->addHTML(
     PMA_getHtmlBodyForTableSummary(
-        $num_tables, $server_slave_status, $db_is_information_schema, $sum_entries,
-        $db_collation, $is_show_stats, $sum_size, $overhead_size, $create_time_all,
-        $update_time_all, $check_time_all, $sum_row_count_pre
+        $num_tables, $GLOBALS['replication_info']['slave']['status'],
+        $db_is_system_schema, $sum_entries, $db_collation, $is_show_stats, $sum_size,
+        $overhead_size, $create_time_all, $update_time_all, $check_time_all,
+        isset($approx_rows) ? $approx_rows : false
     )
 );
 $response->addHTML('</table>');
@@ -281,7 +315,7 @@ $response->addHTML('</table>');
 $response->addHTML(
     PMA_getHtmlForCheckAllTables(
         $pmaThemeImage, $text_dir, $overhead_check,
-        $db_is_information_schema, $hidden_fields
+        $db_is_system_schema, $hidden_fields
     )
 );
 $response->addHTML('</form>'); //end of form
@@ -306,12 +340,6 @@ $response->addHTML(
     . PMA_getHtmlForDataDictionaryLink($url_query)
 );
 
-if (empty($db_is_information_schema)) {
-    ob_start();
-    include 'libraries/display_create_table.lib.php';
-    $content = ob_get_contents();
-    ob_end_clean();
-    $response->addHTML($content);
-} // end if (Create Table dialog)
+PMA_possiblyShowCreateTableDialog($db, $db_is_system_schema, $response);
 
 ?>

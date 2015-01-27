@@ -27,6 +27,17 @@ class AuthenticationConfig extends AuthenticationPlugin
      */
     public function auth()
     {
+        $response = PMA_Response::getInstance();
+        if ($response->isAjax()) {
+            $response->isSuccess(false);
+            // reload_flag removes the token parameter from the URL and reloads
+            $response->addJSON('reload_flag', '1');
+            if (defined('TESTSUITE')) {
+                return true;
+            } else {
+                exit;
+            }
+        }
         return true;
     }
 
@@ -37,6 +48,9 @@ class AuthenticationConfig extends AuthenticationPlugin
      */
     public function authCheck()
     {
+        if ($GLOBALS['token_provided'] && $GLOBALS['token_mismatch']) {
+            return false;
+        }
         return true;
     }
 
@@ -47,6 +61,14 @@ class AuthenticationConfig extends AuthenticationPlugin
      */
     public function authSetUser()
     {
+        // try to workaround PHP 5 session garbage collection which
+        // looks at the session file's last modified time
+        if (isset($_REQUEST['access_time'])) {
+            $_SESSION['last_access_time'] = time()- $_REQUEST['access_time'];
+        } else {
+            $_SESSION['last_access_time'] = time();
+        }
+
         return true;
     }
 
@@ -78,8 +100,8 @@ class AuthenticationConfig extends AuthenticationPlugin
         $response->getFooter()->setMinimal();
         $header = $response->getHeader();
         $header->setBodyId('loginform');
-        $header->setTitle(__('Access denied'));
-        $header->disableMenu();
+        $header->setTitle(__('Access denied!'));
+        $header->disableMenuAndConsole();
         echo '<br /><br />
     <center>
         <h1>';
@@ -93,7 +115,7 @@ class AuthenticationConfig extends AuthenticationPlugin
         if (isset($GLOBALS['allowDeny_forbidden'])
             && $GLOBALS['allowDeny_forbidden']
         ) {
-            trigger_error(__('Access denied'), E_USER_NOTICE);
+            trigger_error(__('Access denied!'), E_USER_NOTICE);
         } else {
             // Check whether user has configured something
             if ($GLOBALS['PMA_Config']->source_mtime == 0) {
@@ -157,18 +179,5 @@ class AuthenticationConfig extends AuthenticationPlugin
             exit;
         }
         return true;
-    }
-
-    /**
-     * This method is called when any PluginManager to which the observer
-     * is attached calls PluginManager::notify()
-     *
-     * @param SplSubject $subject The PluginManager notifying the observer
-     *                            of an update.
-     *
-     * @return void
-     */
-    public function update (SplSubject $subject)
-    {
     }
 }

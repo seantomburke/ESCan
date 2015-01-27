@@ -17,8 +17,13 @@
  * Until this is fixed, we need to load the default session to load the data,
  * export the upload progress information from there,
  * and re-import after switching to our session.
+ *
+ * However, since https://github.com/phpmyadmin/phpmyadmin/commit/063a2d99
+ * we have deactivated this feature, so the corresponding code is now
+ * commented out.
  */
 
+/*
 if (version_compare(PHP_VERSION, '5.4.0', '>=')
     && ini_get('session.upload_progress.enabled')
 ) {
@@ -29,7 +34,8 @@ if (version_compare(PHP_VERSION, '5.4.0', '>=')
     session_start();
     foreach ($_SESSION as $key => $value) {
         // only copy session-prefixed data
-        if (substr($key, 0, strlen(UPLOAD_PREFIX)) == UPLOAD_PREFIX) {
+        if (mb_substr($key, 0, mb_strlen(UPLOAD_PREFIX))
+            == UPLOAD_PREFIX) {
             $sessionupload[$key] = $value;
         }
     }
@@ -40,12 +46,14 @@ if (version_compare(PHP_VERSION, '5.4.0', '>=')
     session_name('phpMyAdmin');
     session_id($_COOKIE['phpMyAdmin']);
 }
+ */
 
 define('PMA_MINIMUM_COMMON', 1);
 
 require_once 'libraries/common.inc.php';
 require_once 'libraries/display_import_ajax.lib.php';
 
+/*
 if (defined('SESSIONUPLOAD')) {
     // write sessionupload back into the loaded PMA session
 
@@ -56,13 +64,15 @@ if (defined('SESSIONUPLOAD')) {
 
     // remove session upload data that are not set anymore
     foreach ($_SESSION as $key => $value) {
-        if (substr($key, 0, strlen(UPLOAD_PREFIX)) == UPLOAD_PREFIX
+        if (mb_substr($key, 0, mb_strlen(UPLOAD_PREFIX))
+            == UPLOAD_PREFIX
             && ! isset($sessionupload[$key])
         ) {
             unset($_SESSION[$key]);
         }
     }
 }
+ */
 
 // AJAX requests can't be cached!
 PMA_noCacheHeader();
@@ -85,7 +95,7 @@ if (isset($_GET["message"]) && $_GET["message"]) {
     echo '<fieldset class="tblFooters">' . "\n";
     echo '    [ <a href="' . $_SESSION['Import_message']['go_back_url']
         . '">' . __('Back') . '</a> ]' . "\n";
-    echo '</fieldset>'."\n";
+    echo '</fieldset>' . "\n";
 
 } else {
     PMA_importAjaxStatus($_GET["id"]);

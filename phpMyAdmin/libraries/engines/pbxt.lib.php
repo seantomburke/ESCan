@@ -14,14 +14,14 @@ if (! defined('PHPMYADMIN')) {
  *
  * @package PhpMyAdmin-Engines
  */
-class PMA_StorageEngine_pbxt extends PMA_StorageEngine
+class PMA_StorageEngine_Pbxt extends PMA_StorageEngine
 {
     /**
      * Returns array with variable names dedicated to PBXT storage engine
      *
      * @return array   variable names
      */
-    function getVariables()
+    public function getVariables()
     {
         return array(
             'pbxt_index_cache_size' => array(
@@ -95,7 +95,7 @@ class PMA_StorageEngine_pbxt extends PMA_StorageEngine
      *
      * @return string the formatted value and its unit
      */
-    function resolveTypeSize($formatted_size)
+    public function resolveTypeSize($formatted_size)
     {
         if (preg_match('/^[0-9]+[a-zA-Z]+$/', $formatted_size)) {
             $value = PMA_Util::extractValueFromFormattedSize($formatted_size);
@@ -111,7 +111,7 @@ class PMA_StorageEngine_pbxt extends PMA_StorageEngine
      *
      * @return array Information about pages
      */
-    function getInfoPages()
+    public function getInfoPages()
     {
         $pages = array();
         $pages['Documentation'] = __('Documentation');
@@ -120,29 +120,11 @@ class PMA_StorageEngine_pbxt extends PMA_StorageEngine
 
     //--------------------
     /**
-     * Get content of a page
-     *
-     * @param string $id Id of searched page
-     *
-     * @return string
-     */
-    function getPage($id)
-    {
-        if (! array_key_exists($id, $this->getInfoPages())) {
-            return false;
-        }
-
-        $id = 'getPage' . $id;
-
-        return $this->$id();
-    }
-
-    /**
      * Get content of documentation page
      *
      * @return string
      */
-    function getPageDocumentation()
+    public function getPageDocumentation()
     {
         $output = '<p>' . sprintf(
             __(

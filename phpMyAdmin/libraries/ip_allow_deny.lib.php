@@ -20,28 +20,32 @@ if (! defined('PHPMYADMIN')) {
 function PMA_getIp()
 {
     /* Get the address of user */
-    if (!empty($_SERVER['REMOTE_ADDR'])) {
-        $direct_ip = $_SERVER['REMOTE_ADDR'];
-    } else {
+    if (empty($_SERVER['REMOTE_ADDR'])) {
         /* We do not know remote IP */
         return false;
     }
 
+    $direct_ip = $_SERVER['REMOTE_ADDR'];
+
     /* Do we trust this IP as a proxy? If yes we will use it's header. */
-    if (isset($GLOBALS['cfg']['TrustedProxies'][$direct_ip])) {
-        $trusted_header_value
-            = PMA_getenv($GLOBALS['cfg']['TrustedProxies'][$direct_ip]);
-        $matches = array();
-        // the $ checks that the header contains only one IP address,
-        // ?: makes sure the () don't capture
-        $is_ip = preg_match(
-            '|^(?:[0-9]{1,3}\.){3,3}[0-9]{1,3}$|',
-            $trusted_header_value, $matches
-        );
-        if ($is_ip && (count($matches) == 1)) {
-            // True IP behind a proxy
-            return $matches[0];
-        }
+    if (!isset($GLOBALS['cfg']['TrustedProxies'][$direct_ip])) {
+        /* Return true IP */
+        return $direct_ip;
+    }
+
+    $trusted_header_value
+        = PMA_getenv($GLOBALS['cfg']['TrustedProxies'][$direct_ip]);
+    $matches = array();
+    // the $ checks that the header contains only one IP address,
+    // ?: makes sure the () don't capture
+    $is_ip = preg_match(
+        '|^(?:[0-9]{1,3}\.){3,3}[0-9]{1,3}$|',
+        $trusted_header_value, $matches
+    );
+
+    if ($is_ip && (count($matches) == 1)) {
+        // True IP behind a proxy
+        return $matches[0];
     }
 
     /* Return true IP */
@@ -61,9 +65,9 @@ function PMA_getIp()
  */
 function PMA_ipMaskTest($testRange, $ipToTest)
 {
-    $result = true;
-
-    if (strpos($testRange, ':') > -1 || strpos($ipToTest, ':') > -1) {
+    if (/*overload*/mb_strpos($testRange, ':') > -1
+        || /*overload*/mb_strpos($ipToTest, ':') > -1
+    ) {
         // assume IPv6
         $result = PMA_ipv6MaskTest($testRange, $ipToTest);
     } else {
@@ -120,27 +124,27 @@ function PMA_ipv4MaskTest($testRange, $ipToTest)
 
         if (($maskl & $rangel) == ($maskl & $ipl)) {
             return true;
-        } else {
-            return false;
         }
-    } else {
-        // range based
-        $maskocts = explode('.', $testRange);
-        $ipocts   = explode('.', $ipToTest);
 
-        // perform a range match
-        for ($i = 0; $i < 4; $i++) {
-            if (preg_match('|\[([0-9]+)\-([0-9]+)\]|', $maskocts[$i], $regs)) {
-                if (($ipocts[$i] > $regs[2]) || ($ipocts[$i] < $regs[1])) {
-                    $result = false;
-                } // end if
-            } else {
-                if ($maskocts[$i] <> $ipocts[$i]) {
-                    $result = false;
-                } // end if
-            } // end if/else
-        } //end for
-    } //end if/else
+        return false;
+    }
+
+    // range based
+    $maskocts = explode('.', $testRange);
+    $ipocts   = explode('.', $ipToTest);
+
+    // perform a range match
+    for ($i = 0; $i < 4; $i++) {
+        if (preg_match('|\[([0-9]+)\-([0-9]+)\]|', $maskocts[$i], $regs)) {
+            if (($ipocts[$i] > $regs[2]) || ($ipocts[$i] < $regs[1])) {
+                $result = false;
+            } // end if
+        } else {
+            if ($maskocts[$i] <> $ipocts[$i]) {
+                $result = false;
+            } // end if
+        } // end if/else
+    } //end for
 
     return $result;
 } // end of the "PMA_ipv4MaskTest()" function
@@ -175,11 +179,11 @@ function PMA_ipv6MaskTest($test_range, $ip_to_test)
     $result = true;
 
     // convert to lowercase for easier comparison
-    $test_range = strtolower($test_range);
-    $ip_to_test = strtolower($ip_to_test);
+    $test_range = /*overload*/mb_strtolower($test_range);
+    $ip_to_test = /*overload*/mb_strtolower($ip_to_test);
 
-    $is_cidr = strpos($test_range, '/') > -1;
-    $is_range = strpos($test_range, '[') > -1;
+    $is_cidr = /*overload*/mb_strpos($test_range, '/') > -1;
+    $is_range = /*overload*/mb_strpos($test_range, '[') > -1;
     $is_single = ! $is_cidr && ! $is_range;
 
     $ip_hex = bin2hex(inet_pton($ip_to_test));
@@ -187,7 +191,10 @@ function PMA_ipv6MaskTest($test_range, $ip_to_test)
     if ($is_single) {
         $range_hex = bin2hex(inet_pton($test_range));
         $result = $ip_hex === $range_hex;
-    } elseif ($is_range) {
+        return $result;
+    }
+
+    if ($is_range) {
         // what range do we operate on?
         $range_match = array();
         $match = preg_match(
@@ -206,16 +213,16 @@ function PMA_ipv6MaskTest($test_range, $ip_to_test)
             // check if the IP to test is within the range
             $result = ($ip_hex >= $first_hex && $ip_hex <= $last_hex);
         }
-    } elseif ($is_cidr) {
+        return $result;
+    }
+
+    if ($is_cidr) {
         // Split in address and prefix length
         list($first_ip, $subnet) = explode('/', $test_range);
 
         // Parse the address into a binary string
         $first_bin = inet_pton($first_ip);
         $first_hex = bin2hex($first_bin);
-
-        // Overwriting first address string to make sure notation is optimal
-        $first_ip = inet_ntop($first_bin);
 
         $flexbits = 128 - $subnet;
 
@@ -225,7 +232,7 @@ function PMA_ipv6MaskTest($test_range, $ip_to_test)
         $pos = 31;
         while ($flexbits > 0) {
             // Get the character at this position
-            $orig = substr($last_hex, $pos, 1);
+            $orig = /*overload*/mb_substr($last_hex, $pos, 1);
 
             // Convert it to an integer
             $origval = hexdec($orig);

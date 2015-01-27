@@ -19,31 +19,31 @@ if (! defined('PHPMYADMIN')) {
  */
 function PMA_getDirContent($dir, $expression = '')
 {
-    if (file_exists($dir) && $handle = @opendir($dir)) {
-        $result = array();
-        if (substr($dir, -1) != '/') {
-            $dir .= '/';
-        }
-        while ($file = @readdir($handle)) {
-            if (is_file($dir . $file)
-                && ($expression == '' || preg_match($expression, $file))
-            ) {
-                $result[] = $file;
-            }
-        }
-        @closedir($handle);
-        asort($result);
-        return $result;
-    } else {
+    if (!file_exists($dir) || !($handle = @opendir($dir))) {
         return false;
     }
+
+    $result = array();
+    if (substr($dir, -1) != '/') {
+        $dir .= '/';
+    }
+    while ($file = @readdir($handle)) {
+        if (is_file($dir . $file)
+            && ($expression == '' || preg_match($expression, $file))
+        ) {
+            $result[] = $file;
+        }
+    }
+    @closedir($handle);
+    asort($result);
+    return $result;
 }
 
 /**
  * Returns options of filtered file names
  *
  * @param string $dir        directory to list
- * @param string $extensions regullar expression to match files
+ * @param string $extensions regular expression to match files
  * @param string $active     currently active choice
  *
  * @return array   sorted file list on success, false on failure
@@ -56,7 +56,7 @@ function PMA_getFileSelectOptions($dir, $extensions = '', $active = '')
     }
     $result = '';
     foreach ($list as $val) {
-        $result .= '<option value="'. htmlspecialchars($val) . '"';
+        $result .= '<option value="' . htmlspecialchars($val) . '"';
         if ($val == $active) {
             $result .= ' selected="selected"';
         }

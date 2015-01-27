@@ -59,6 +59,79 @@ $(function () {
     });
 
     /**
+     * Register event handler for click on the collapse all
+     * navigation icon at the top of the navigation tree
+     */
+    $(document).on('click', '#pma_navigation_collapse', function (event) {
+        event.preventDefault();
+        $('#pma_navigation_tree a.expander').each(function() {
+            var $icon = $(this).find('img');
+            if ($icon.is('.ic_b_minus')) {
+                $(this).click();
+            }
+        });
+    });
+
+    /**
+     * Register event handler to toggle
+     * the 'link with main panel' icon on mouseenter.
+     */
+    $(document).on('mouseenter', '#pma_navigation_sync', function (event) {
+        event.preventDefault();
+        var synced = $('#pma_navigation_tree').hasClass('synced');
+        var $img = $('#pma_navigation_sync').children('img');
+        if (synced) {
+            $img.removeClass('ic_s_link').addClass('ic_s_unlink');
+        } else {
+            $img.removeClass('ic_s_unlink').addClass('ic_s_link');
+        }
+    });
+
+    /**
+     * Register event handler to toggle
+     * the 'link with main panel' icon on mouseout.
+     */
+    $(document).on('mouseout', '#pma_navigation_sync', function (event) {
+        event.preventDefault();
+        var synced = $('#pma_navigation_tree').hasClass('synced');
+        var $img = $('#pma_navigation_sync').children('img');
+        if (synced) {
+            $img.removeClass('ic_s_unlink').addClass('ic_s_link');
+        } else {
+            $img.removeClass('ic_s_link').addClass('ic_s_unlink');
+        }
+    });
+
+    /**
+     * Register event handler to toggle
+     * the linking with main panel behavior
+     */
+    $(document).on('click', '#pma_navigation_sync', function (event) {
+        event.preventDefault();
+        var synced = $('#pma_navigation_tree').hasClass('synced');
+        var $img = $('#pma_navigation_sync').children('img');
+        if (synced) {
+            $img
+                .removeClass('ic_s_unlink')
+                .addClass('ic_s_link')
+                .attr('alt', PMA_messages.linkWithMain)
+                .attr('title', PMA_messages.linkWithMain);
+            $('#pma_navigation_tree')
+                .removeClass('synced')
+                .find('li.selected')
+                .removeClass('selected');
+        } else {
+            $img
+                .removeClass('ic_s_link')
+                .addClass('ic_s_unlink')
+                .attr('alt', PMA_messages.unlinkWithMain)
+                .attr('title', PMA_messages.unlinkWithMain);
+            $('#pma_navigation_tree').addClass('synced');
+            PMA_showCurrentNavigation();
+        }
+    });
+
+    /**
      * Bind all "fast filter" events
      */
     $('#pma_navigation_tree li.fast_filter span')
@@ -94,19 +167,6 @@ $(function () {
         }
     );
 
-    /**
-     * Jump to recent table
-     */
-    $('#recentTable').live('change', function () {
-        if (this.value !== '') {
-            var arr = jQuery.parseJSON(this.value);
-            var $form = $(this).closest('form');
-            $form.find('input[name=db]').val(arr.db);
-            $form.find('input[name=table]').val(arr.table);
-            $form.submit();
-        }
-    });
-
     /** Create a Routine, Trigger or Event */
     $('li.new_procedure a.ajax, li.new_function a.ajax').live('click', function (event) {
         event.preventDefault();
@@ -124,12 +184,13 @@ $(function () {
         dialog.editorDialog(1, $(this));
     });
 
-    /** Edit Routines, Triggers and Events */
+    /** Execute Routines */
     $('li.procedure > a.ajax, li.function > a.ajax').live('click', function (event) {
         event.preventDefault();
         var dialog = new RTE.object('routine');
-        dialog.editorDialog(0, $(this));
+        dialog.executeDialog($(this));
     });
+    /** Edit Triggers and Events */
     $('li.trigger > a.ajax').live('click', function (event) {
         event.preventDefault();
         var dialog = new RTE.object('trigger');
@@ -141,10 +202,15 @@ $(function () {
         dialog.editorDialog(0, $(this));
     });
 
-    /** Export Routines, Triggers and Events */
-    $('li.procedure div:eq(1) a.ajax img,' +
-        ' li.function div:eq(1) a.ajax img,' +
-        ' li.trigger div:eq(1) a.ajax img,' +
+    /** Edit Routines */
+    $('li.procedure div a.ajax img,' +
+        ' li.function div a.ajax img').live('click', function (event) {
+        event.preventDefault();
+        var dialog = new RTE.object('routine');
+        dialog.editorDialog(0, $(this).parent());
+    });
+    /** Export Triggers and Events */
+    $('li.trigger div:eq(1) a.ajax img,' +
         ' li.event div:eq(1) a.ajax img'
         ).live('click', function (event) {
         event.preventDefault();
@@ -153,7 +219,7 @@ $(function () {
     });
 
     /** New index */
-    $('li.new_index a.ajax').live('click', function (event) {
+    $('#pma_navigation_tree li.new_index a.ajax').live('click', function (event) {
         event.preventDefault();
         var url = $(this).attr('href').substr(
             $(this).attr('href').indexOf('?') + 1
@@ -184,7 +250,7 @@ $(function () {
         $.ajax({
             url: $(this).attr('href') + '&ajax_request=true',
             success: function (data) {
-                if (data.success === true) {
+                if (typeof data !== 'undefined' && data.success === true) {
                     PMA_reloadNavigation();
                 } else {
                     PMA_ajaxShowMessage(data.error);
@@ -198,13 +264,13 @@ $(function () {
         event.preventDefault();
         var $msg = PMA_ajaxShowMessage();
         $.get($(this).attr('href') + '&ajax_request=1', function (data) {
-            if (data.success === true) {
+            if (typeof data !== 'undefined' && data.success === true) {
                 PMA_ajaxRemoveMessage($msg);
                 var buttonOptions = {};
                 buttonOptions[PMA_messages.strClose] = function () {
                     $(this).dialog("close");
                 };
-                var $dialog = $('<div/>')
+                $('<div/>')
                     .attr('id', 'unhideNavItemDialog')
                     .append(data.message)
                     .dialog({
@@ -232,7 +298,7 @@ $(function () {
             url: $(this).attr('href') + '&ajax_request=true',
             success: function (data) {
                 PMA_ajaxRemoveMessage($msg);
-                if (data.success === true) {
+                if (typeof data !== 'undefined' && data.success === true) {
                     $tr.remove();
                     PMA_reloadNavigation();
                 } else {
@@ -242,8 +308,98 @@ $(function () {
         });
     });
 
-    PMA_showCurrentNavigation();
+    if ($('#pma_navigation_tree').hasClass('synced')) {
+        PMA_showCurrentNavigation();
+    }
+
+    // Add/Remove favorite table using Ajax.
+    $(".favorite_table_anchor").live("click", function (event) {
+        event.preventDefault();
+        $self = $(this);
+        var anchor_id = $self.attr("id");
+        if($self.data("favtargetn") !== null) {
+            if($('a[data-favtargets="' + $self.data("favtargetn") + '"]').length > 0)
+            {
+                $('a[data-favtargets="' + $self.data("favtargetn") + '"]').trigger('click');
+                return;
+            }
+        }
+
+        $.ajax({
+            url: $self.attr('href'),
+            cache: false,
+            type: 'POST',
+            data: {
+                favorite_tables: (isStorageSupported('localStorage'))
+                    ? window.localStorage.favorite_tables
+                    : ''
+            },
+            success: function (data) {
+                if (data.changes) {
+                    $('#pma_favorite_list').html(data.list);
+                    $('#' + anchor_id).parent().html(data.anchor);
+                    PMA_tooltip(
+                        $('#' + anchor_id),
+                        'a',
+                        $('#' + anchor_id).attr("title")
+                    );
+                    // Update localStorage.
+                    if (isStorageSupported('localStorage')) {
+                        window.localStorage.favorite_tables = data.favorite_tables;
+                    }
+                } else {
+                    PMA_ajaxShowMessage(data.message);
+                }
+            }
+        });
+    });
+
+    // Check if session storage is supported
+    if (isStorageSupported('sessionStorage')) {
+        var storage = window.sessionStorage;
+        // remove tree from storage if Navi_panel config form is submitted
+        $(document).on('submit', 'form.config-form', function(event) {
+        	storage.removeItem('navTree');
+        });
+        // Initialize if no previous state is defined
+        if (typeof storage.navTree === 'undefined') {
+            navTreeStateUpdate();
+        } else if (PMA_commonParams.get('server') === storage.server &&
+            PMA_commonParams.get('token') === storage.token
+        ) {
+            // Restore the tree from storage
+            $('#pma_navigation_tree_content').html(storage.navTree);
+            $('div.pageselector.dbselector').html(storage.page);
+        }
+    }
 });
+
+/**
+ * updates the tree state in sessionStorage
+ *
+ * @returns void
+ */
+function navTreeStateUpdate() {
+    // update if session storage is supported
+    if (isStorageSupported('sessionStorage')) {
+        var storage = window.sessionStorage;
+        // try catch necessary here to detect whether
+        // content to be stored exceeds storage capacity
+        try {
+            storage.setItem('navTree', $('#pma_navigation_tree_content').html());
+            storage.setItem('server', PMA_commonParams.get('server'));
+            storage.setItem('token', PMA_commonParams.get('token'));
+            storage.setItem('page', $('div.pageselector.dbselector').html());
+        } catch(error) {
+            // storage capacity exceeded & old navigation tree
+            // state is no more valid, so remove it
+            storage.removeItem('navTree');
+            storage.removeItem('server');
+            storage.removeItem('token');
+            storage.removeItem('page');
+        }
+    }
+}
 
 /**
  * Expands a node in navigation tree.
@@ -253,18 +409,18 @@ $(function () {
  *
  * @returns void
  */
-function expandTreeNode($expandElem, callback)
-{
+function expandTreeNode($expandElem, callback) {
     var $children = $expandElem.closest('li').children('div.list_container');
     var $icon = $expandElem.find('img');
     if ($expandElem.hasClass('loaded')) {
         if ($icon.is('.ic_b_plus')) {
             $icon.removeClass('ic_b_plus').addClass('ic_b_minus');
-            $children.show('fast');
+            $children.slideDown('fast');
         }
         if (callback && typeof callback == 'function') {
             callback.call();
         }
+        $children.promise().done(navTreeStateUpdate);
     } else {
         var $throbber = $('#pma_navigation .throbber')
             .first()
@@ -275,12 +431,11 @@ function expandTreeNode($expandElem, callback)
         $throbber.insertBefore($icon);
 
         loadChildNodes($expandElem, function (data) {
-            if (data.success === true) {
+            if (typeof data !== 'undefined' && data.success === true) {
                 var $destination = $expandElem.closest('li');
                 $icon.removeClass('ic_b_plus').addClass('ic_b_minus');
-                $destination
-                    .children('div.list_container')
-                    .show('fast');
+                $children = $destination.children('div.list_container');
+                $children.slideDown('fast');
                 if ($destination.find('ul > li').length == 1) {
                     $destination.find('ul > li')
                         .find('a.expander.container')
@@ -289,11 +444,13 @@ function expandTreeNode($expandElem, callback)
                 if (callback && typeof callback == 'function') {
                     callback.call();
                 }
+                PMA_showFullName($destination);
             } else {
                 PMA_ajaxShowMessage(data.error, false);
             }
             $icon.show();
             $throbber.remove();
+            $children.promise().done(navTreeStateUpdate);
         });
     }
     $expandElem.blur();
@@ -335,10 +492,11 @@ function collapseTreeNode($expandElem) {
     if ($expandElem.hasClass('loaded')) {
         if ($icon.is('.ic_b_minus')) {
             $icon.removeClass('ic_b_minus').addClass('ic_b_plus');
-            $children.hide('fast');
+            $children.slideUp('fast');
         }
     }
     $expandElem.blur();
+    $children.promise().done(navTreeStateUpdate);
 }
 
 /**
@@ -350,6 +508,9 @@ function collapseTreeNode($expandElem) {
  * @returns void
  */
 function loadChildNodes($expandElem, callback) {
+    if (!$expandElem.hasClass('expander')) {
+        return;
+    }
     var $destination = $expandElem.closest('li');
 
     var searchClause = PMA_fastFilter.getSearchClause();
@@ -361,19 +522,42 @@ function loadChildNodes($expandElem, callback) {
         pos: $expandElem.find('span.pos').text(),
         pos2_name: $expandElem.find('span.pos2_name').text(),
         pos2_value: $expandElem.find('span.pos2_value').text(),
-        searchClause: searchClause,
-        searchClause2: searchClause2
+        searchClause: '',
+        searchClause2: ''
     };
+
+    if ($('#pma_navigation_tree').children().first().is('ul')) {
+        params.searchClause = searchClause;
+        params.searchClause2 = searchClause2;
+    }
 
     var url = $('#pma_navigation').find('a.navigation_url').attr('href');
     $.get(url, params, function (data) {
-        if (data.success === true) {
+        if (typeof data !== 'undefined' && data.success === true) {
             $expandElem.addClass('loaded');
             $destination.find('div.list_container').remove(); // FIXME: Hack, there shouldn't be a list container there
             $destination.append(data.message);
+            if (data._debug){
+                $('#session_debug').replaceWith(data._debug);
+            }
+            if (data._errors) {
+                $errors = $(data._errors);
+                if ($errors.children().length > 0) {
+                    $('#pma_errors').replaceWith(data._errors);
+                }
+            }
             if (callback && typeof callback == 'function') {
                 callback(data);
             }
+        } else if(data.redirect_flag == "1") {
+            window.location.href += '&session_expired=1';
+            window.location.reload();
+        } else {
+            var $throbber = $expandElem.find('img.throbber');
+            $throbber.hide();
+            $icon = $expandElem.find('img.ic_b_plus');
+            $icon.show();
+            PMA_ajaxShowMessage(data.error, false);
         }
     });
 }
@@ -383,8 +567,7 @@ function loadChildNodes($expandElem, callback) {
  *
  * @returns void
  */
-function PMA_showCurrentNavigation()
-{
+function PMA_showCurrentNavigation() {
     var db = PMA_commonParams.get('db');
     var table = PMA_commonParams.get('table');
     $('#pma_navigation_tree')
@@ -408,6 +591,7 @@ function PMA_showCurrentNavigation()
             }
         }
     }
+    PMA_showFullName($('#pma_navigation_tree'));
 
     function handleTableOrDb(table, $dbItem) {
         if (table) {
@@ -486,7 +670,7 @@ function PMA_showCurrentNavigation()
             var $sub_containers = $dbItem.find('.subContainer');
             //If there are subContainers i.e. tableContainer or viewContainer
             if($sub_containers.length > 0) {
-                var $containers = new Array();
+                var $containers = [];
                 $sub_containers.each(function (index) {
                     $containers[index] = $(this);
                     $expander = $containers[index]
@@ -590,13 +774,16 @@ function PMA_reloadNavigation(callback) {
     });
     var url = $('#pma_navigation').find('a.navigation_url').attr('href');
     $.post(url, params, function (data) {
-        if (data.success) {
+        if (typeof data !== 'undefined' && data.success) {
             $('#pma_navigation_tree').html(data.message).children('div').show();
-            PMA_showCurrentNavigation();
+            if ($('#pma_navigation_tree').hasClass('synced')) {
+                PMA_showCurrentNavigation();
+            }
             // Fire the callback, if any
             if (typeof callback === 'function') {
                 callback.call();
             }
+            navTreeStateUpdate();
         } else {
             PMA_ajaxShowMessage(data.error);
         }
@@ -613,8 +800,7 @@ function PMA_reloadNavigation(callback) {
  *
  * @return void
  */
-function PMA_navigationTreePagination($this)
-{
+function PMA_navigationTreePagination($this) {
     var $msgbox = PMA_ajaxShowMessage();
     var isDbSelector = $this.closest('div.pageselector').is('.dbselector');
     var url, params;
@@ -639,7 +825,7 @@ function PMA_navigationTreePagination($this)
     }
     $.post(url, params, function (data) {
         PMA_ajaxRemoveMessage($msgbox);
-        if (data.success) {
+        if (typeof data !== 'undefined' && data.success) {
             if (isDbSelector) {
                 var val = PMA_fastFilter.getSearchClause();
                 $('#pma_navigation_tree')
@@ -670,6 +856,7 @@ function PMA_navigationTreePagination($this)
         } else {
             PMA_ajaxShowMessage(data.error);
         }
+        navTreeStateUpdate();
     });
 }
 
@@ -680,10 +867,6 @@ function PMA_navigationTreePagination($this)
  * XXX: Inside event handlers the 'this' object is accessed as 'event.data.resize_handler'
  */
 var ResizeHandler = function () {
-    /**
-     * Whether the user has initiated a resize operation
-     */
-    this.active = false;
     /**
      * @var int panel_width Used by the collapser to know where to go
      *                      back to when uncollapsing the panel
@@ -706,7 +889,7 @@ var ResizeHandler = function () {
         var $collapser = $('#pma_navigation_collapser');
         $('#pma_navigation').width(pos);
         $('body').css('margin-' + this.left, pos + 'px');
-        $("#floating_menubar")
+        $("#floating_menubar, #pma_console")
             .css('margin-' + this.left, (pos + resizer_width) + 'px');
         $resizer.css(this.left, pos + 'px');
         if (pos === 0) {
@@ -780,7 +963,11 @@ var ResizeHandler = function () {
      */
     this.mousedown = function (event) {
         event.preventDefault();
-        event.data.resize_handler.active = true;
+        $(document)
+            .bind('mousemove', {'resize_handler': event.data.resize_handler},
+                $.throttle(event.data.resize_handler.mousemove, 4))
+            .bind('mouseup', {'resize_handler': event.data.resize_handler},
+                event.data.resize_handler.mouseup);
         $('body').css('cursor', 'col-resize');
     };
     /**
@@ -791,12 +978,12 @@ var ResizeHandler = function () {
      * @return void
      */
     this.mouseup = function (event) {
-        if (event.data.resize_handler.active) {
-            event.data.resize_handler.active = false;
-            $('body').css('cursor', '');
-            $.cookie('pma_navi_width', event.data.resize_handler.getPos(event));
-            $('#topmenu').menuResizer('resize');
-        }
+        $('body').css('cursor', '');
+        $.cookie('pma_navi_width', event.data.resize_handler.getPos(event));
+        $('#topmenu').menuResizer('resize');
+        $(document)
+            .unbind('mousemove')
+            .unbind('mouseup');
     };
     /**
      * Event handler for updating the panel during a resize operation
@@ -806,10 +993,11 @@ var ResizeHandler = function () {
      * @return void
      */
     this.mousemove = function (event) {
-        if (event.data && event.data.resize_handler && event.data.resize_handler.active) {
-            event.preventDefault();
-            var pos = event.data.resize_handler.getPos(event);
-            event.data.resize_handler.setWidth(pos);
+        event.preventDefault();
+        var pos = event.data.resize_handler.getPos(event);
+        event.data.resize_handler.setWidth(pos);
+        if($('#sticky_columns').length !== 0) {
+            handleStickyColumns();
         }
     };
     /**
@@ -821,7 +1009,6 @@ var ResizeHandler = function () {
      */
     this.collapse = function (event) {
         event.preventDefault();
-        event.data.active = false;
         var panel_width = event.data.resize_handler.panel_width;
         var width = $('#pma_navigation').width();
         if (width === 0 && panel_width === 0) {
@@ -843,15 +1030,15 @@ var ResizeHandler = function () {
         $nav_tree.height($nav.height() - $nav_header.height());
         if ($nav_tree_content.length > 0) {
             $nav_tree_content.height($nav_tree.height() - $nav_tree_content.position().top);
-            $nav_tree.css({
-                'overflow': 'hidden'
-            });
         } else {
+            //TODO: in fast filter search response there is no #pma_navigation_tree_content, needs to be added in php
             $nav_tree.css({
-                'overflow': 'hidden',
                 'overflow-y': 'auto'
             });
         }
+        // Set content bottom space beacuse of console
+        $('body').css('margin-bottom',
+                      $(window).height() + $(document).scrollTop() - $('#pma_console').offset().top + 'px');
     };
     /* Initialisation section begins here */
     if ($.cookie('pma_navi_width')) {
@@ -863,9 +1050,6 @@ var ResizeHandler = function () {
     // Register the events for the resizer and the collapser
     $('#pma_navigation_resizer')
         .live('mousedown', {'resize_handler': this}, this.mousedown);
-    $(document)
-        .bind('mouseup', {'resize_handler': this}, this.mouseup)
-        .bind('mousemove', {'resize_handler': this}, $.throttle(this.mousemove, 4));
     var $collapser = $('#pma_navigation_collapser');
     $collapser.live('click', {'resize_handler': this}, this.collapse);
     // Add the correct arrow symbol to the collapser
@@ -875,6 +1059,7 @@ var ResizeHandler = function () {
     // need to call this now and then, browser might decide
     // to show/hide horizontal scrollbars depending on page content width
     setInterval(this.treeResize, 2000);
+    this.treeResize();
 }; // End of ResizeHandler
 
 /**
@@ -951,16 +1136,11 @@ var PMA_fastFilter = {
     getSearchClause2: function ($this) {
         var $filterContainer = $this.closest('div.list_container');
         var $filterInput = $([]);
-        while (1) {
-            if ($filterContainer.find('li.fast_filter:not(.db_fast_filter) input.searchClause').length !== 0) {
-                $filterInput = $filterContainer.find('li.fast_filter:not(.db_fast_filter) input.searchClause');
-                break;
-            } else if (! $filterContainer.is('div.list_container')) {
-                break;
-            }
-            $filterContainer = $filterContainer
-                .parent()
-                .closest('div.list_container');
+        if ($filterContainer
+            .find('li.fast_filter:not(.db_fast_filter) input.searchClause')
+            .length !== 0) {
+            $filterInput = $filterContainer
+                .find('li.fast_filter:not(.db_fast_filter) input.searchClause');
         }
         var searchClause2 = '';
         if ($filterInput.length !== 0 &&
@@ -1094,8 +1274,7 @@ var PMA_fastFilter = {
  *
  * @return void
  */
-PMA_fastFilter.filter.prototype.update = function (searchClause)
-{
+PMA_fastFilter.filter.prototype.update = function (searchClause) {
     if (this.searchClause != searchClause) {
         this.searchClause = searchClause;
         this.$this.find('.moreResults').remove();
@@ -1108,8 +1287,7 @@ PMA_fastFilter.filter.prototype.update = function (searchClause)
  *
  * @return void
  */
-PMA_fastFilter.filter.prototype.request = function ()
-{
+PMA_fastFilter.filter.prototype.request = function () {
     var self = this;
     clearTimeout(self.timeout);
     if (self.$this.find('li.fast_filter').find('img.throbber').length === 0) {
@@ -1127,7 +1305,7 @@ PMA_fastFilter.filter.prototype.request = function ()
             self.xhr.abort();
         }
         var url = $('#pma_navigation').find('a.navigation_url').attr('href');
-        var results = self.$this.find('li:not(.hidden):not(.fast_filter):not(.navGroup)').not('[class^=new]').length;
+        var results = self.$this.find('li:not(.hidden):not(.fast_filter):not(.navGroup):not(#navigation_controls_outer)').not('[class^=new]').not('[class^=warp_link]').length;
         var params = self.$this.find('> ul > li > form.fast_filter').first().serialize() + "&results=" + results;
         if (self.$this.find('> ul > li > form.fast_filter:first input[name=searchClause]').length === 0) {
             var $input = $('#pma_navigation_tree').find('li.fast_filter.db_fast_filter input.searchClause');
@@ -1140,19 +1318,21 @@ PMA_fastFilter.filter.prototype.request = function ()
             type: 'post',
             dataType: 'json',
             data: params,
-            complete: function (jqXHR) {
-                var data = $.parseJSON(jqXHR.responseText);
-                self.$this.find('li.fast_filter').find('div.throbber').remove();
-                if (data && data.results) {
-                    var $listItem = $('<li />', {'class': 'moreResults'})
-                        .appendTo(self.$this.find('li.fast_filter'));
-                    var $link = $('<a />', {href: '#'})
-                        .text(data.results)
-                        .appendTo($listItem)
-                        .click(function (event) {
-                            event.preventDefault();
-                            self.swap.apply(self, [data.message]);
-                        });
+            complete: function (jqXHR, status) {
+                if (status != 'abort') {
+                    var data = $.parseJSON(jqXHR.responseText);
+                    self.$this.find('li.fast_filter').find('div.throbber').remove();
+                    if (data && data.results) {
+                        var $listItem = $('<li />', {'class': 'moreResults'})
+                            .appendTo(self.$this.find('li.fast_filter'));
+                        $('<a />', {href: '#'})
+                            .text(data.results)
+                            .appendTo($listItem)
+                            .click(function (event) {
+                                event.preventDefault();
+                                self.swap.apply(self, [data.message]);
+                            });
+                    }
                 }
             }
         });
@@ -1165,8 +1345,7 @@ PMA_fastFilter.filter.prototype.request = function ()
  *
  * @return void
  */
-PMA_fastFilter.filter.prototype.swap = function (list)
-{
+PMA_fastFilter.filter.prototype.swap = function (list) {
     this.swapped = true;
     this.$this
         .html($(list).html())
@@ -1184,8 +1363,7 @@ PMA_fastFilter.filter.prototype.swap = function (list)
  *
  * @return void
  */
-PMA_fastFilter.filter.prototype.restore = function (focus)
-{
+PMA_fastFilter.filter.prototype.restore = function (focus) {
     if (this.swapped) {
         this.swapped = false;
         this.$this.html(this.$clone.html()).children().show();
@@ -1199,3 +1377,50 @@ PMA_fastFilter.filter.prototype.restore = function (focus)
     this.$this.find('div.pageselector').show();
     this.$this.find('div.throbber').remove();
 };
+
+/**
+ * Show full name when cursor hover and name not shown completely
+ *
+ * @param object $containerELem Container element
+ *
+ * @return void
+ */
+function PMA_showFullName($containerELem) {
+
+    $containerELem.find('.hover_show_full').mouseenter(function() {
+        /** mouseenter */
+        var $this = $(this);
+        var thisOffset = $this.offset();
+        if($this.text() === '') {
+            return;
+        }
+        var $parent = $this.parent();
+        if(  ($parent.offset().left + $parent.outerWidth())
+           < (thisOffset.left + $this.outerWidth()))
+        {
+            var $fullNameLayer = $('#full_name_layer');
+            if($fullNameLayer.length === 0)
+            {
+                $('body').append('<div id="full_name_layer" class="hide"></div>');
+                $('#full_name_layer').mouseleave(function() {
+                    /** mouseleave */
+                    $(this).addClass('hide')
+                           .removeClass('hovering');
+                }).mouseenter(function() {
+                    /** mouseenter */
+                    $(this).addClass('hovering');
+                });
+                $fullNameLayer = $('#full_name_layer');
+            }
+            $fullNameLayer.removeClass('hide');
+            $fullNameLayer.css({left: thisOffset.left, top: thisOffset.top});
+            $fullNameLayer.html($this.clone());
+            setTimeout(function() {
+                if(! $fullNameLayer.hasClass('hovering'))
+                {
+                    $fullNameLayer.trigger('mouseleave');
+                }
+            }, 200);
+        }
+    });
+}

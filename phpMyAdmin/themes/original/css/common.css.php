@@ -29,7 +29,9 @@ textarea {
 body {
 <?php if (! empty($GLOBALS['cfg']['FontFamily'])) { ?>
     font-family:        <?php echo $GLOBALS['cfg']['FontFamily']; ?>;
-<?php } ?>
+    <?php
+}
+?>
     padding:            0;
     margin: 0;
     margin-<?php echo $left; ?>: 240px;
@@ -41,15 +43,17 @@ body#loginform {
     margin: 0;
 }
 
-#page_content {
+#page_content, #session_debug {
     margin: 0 .5em;
 }
 
 <?php if (! empty($GLOBALS['cfg']['FontFamilyFixed'])) { ?>
-textarea, tt, pre, code {
+    textarea, tt, pre, code {
     font-family:        <?php echo $GLOBALS['cfg']['FontFamilyFixed']; ?>;
+    }
+    <?php
 }
-<?php } ?>
+?>
 h1 {
     font-size:          140%;
     font-weight:        bold;
@@ -66,13 +70,18 @@ h3 {
 
 a, a:link,
 a:visited,
-a:active {
+a:active,
+button.mult_submit,
+.checkall_box+label {
     text-decoration:    none;
     color:              #0000FF;
     cursor:             pointer;
 }
 
-a:hover {
+a:hover,
+button.mult_submit:hover,
+button.mult_submit:focus,
+.checkall_box+label:hover {
     text-decoration:    underline;
     color:              #FF0000;
 }
@@ -238,6 +247,23 @@ fieldset .formelement {
     white-space:        nowrap;
 }
 
+@media all and (min-width: 1600px) {
+    fieldset .formelement {
+        clear: none;
+    }
+    #foreign_keys.relationalTable td:first-child + td {
+        width: 25%;
+    }
+    #foreign_keys.relationalTable td:first-child + td select {
+        width: 32%;
+        margin-right: 1%;
+    }
+    #foreign_keys.relationalTable {
+        width: 100%;
+    }
+
+}
+
 /* revert for Gecko */
 fieldset div[class=formelement] {
     white-space:        normal;
@@ -269,33 +295,37 @@ table tr.even {
 }
 
 <?php if ($GLOBALS['cfg']['BrowseMarkerEnable']) { ?>
-/* marked table rows */
-td.marked,
-table tr.marked td,
-table tr.marked th,
-table tr.marked {
-    background:   <?php echo $GLOBALS['cfg']['BrowseMarkerBackground']; ?>;
-    color:   <?php echo $GLOBALS['cfg']['BrowseMarkerColor']; ?>;
+    /* marked table rows */
+    td.marked,
+    table tr.marked td,
+    table tr.marked th,
+    table tr.marked {
+        background:   <?php echo $GLOBALS['cfg']['BrowseMarkerBackground']; ?>;
+        color:   <?php echo $GLOBALS['cfg']['BrowseMarkerColor']; ?>;
+    }
+    <?php
 }
-<?php } ?>
+?>
 
 <?php if ($GLOBALS['cfg']['BrowsePointerEnable']) { ?>
-/* hovered items */
-.odd:hover,
-.even:hover,
-.hover {
-    background: <?php echo $GLOBALS['cfg']['BrowsePointerBackground']; ?>;
-    color: <?php echo $GLOBALS['cfg']['BrowsePointerColor']; ?>;
-}
+    /* hovered items */
+    .odd:hover,
+    .even:hover,
+    .hover {
+        background: <?php echo $GLOBALS['cfg']['BrowsePointerBackground']; ?>;
+        color: <?php echo $GLOBALS['cfg']['BrowsePointerColor']; ?>;
+    }
 
-/* hovered table rows */
-table tr.odd:hover th,
-table tr.even:hover th,
-table tr.hover th {
-    background:   <?php echo $GLOBALS['cfg']['BrowsePointerBackground']; ?>;
-    color:   <?php echo $GLOBALS['cfg']['BrowsePointerColor']; ?>;
+    /* hovered table rows */
+    table tr.odd:hover th,
+    table tr.even:hover th,
+    table tr.hover th {
+        background:   <?php echo $GLOBALS['cfg']['BrowsePointerBackground']; ?>;
+        color:   <?php echo $GLOBALS['cfg']['BrowsePointerColor']; ?>;
+    }
+    <?php
 }
-<?php } ?>
+?>
 
 /**
  * marks table rows/cells if the db field is in a where condition
@@ -328,10 +358,12 @@ table [class=value] {
 
 
 <?php if (! empty($GLOBALS['cfg']['FontFamilyFixed'])) { ?>
-.value {
-    font-family:        <?php echo $GLOBALS['cfg']['FontFamilyFixed']; ?>;
+    .value {
+        font-family:        <?php echo $GLOBALS['cfg']['FontFamilyFixed']; ?>;
+    }
+    <?php
 }
-<?php } ?>
+?>
 .attention {
     color:              red;
     font-weight:        bold;
@@ -378,8 +410,7 @@ img.lightbulb {
 /* leave some space between icons and text */
 .icon {
     vertical-align:     middle;
-    margin-right:       0.3em;
-    margin-left:        0.3em;
+    margin-<?php echo $left; ?>:        0.3em;
 }
 
 /* no extra space in table cells */
@@ -393,7 +424,7 @@ td .icon {
 }
 
 /* message boxes: error, confirmation */
-#pma_errors, #pma_demo {
+#pma_errors, #pma_demo, #pma_footer {
     padding: 0 0.5em;
 }
 
@@ -412,13 +443,17 @@ div.error {
     margin:             0.3em 0 0 0;
     border:             2px solid;
     background-repeat:  no-repeat;
-        <?php if ($GLOBALS['text_dir'] === 'ltr') { ?>
-    background-position: 10px 50%;
-    padding:            0.1em 0.1em 0.1em 36px;
-        <?php } else { ?>
-    background-position: 99% 50%;
-    padding:            0.1em 46px 0.1em 0.1em;
-        <?php } ?>
+    <?php
+    if ($GLOBALS['text_dir'] === 'ltr') { ?>
+        background-position: 10px 50%;
+        padding:            0.1em 0.1em 0.1em 36px;
+    <?php
+    } else { ?>
+        background-position: 99% 50%;
+        padding:            0.1em 46px 0.1em 0.1em;
+        <?php
+    }
+?>
 }
 
 .success {
@@ -470,13 +505,17 @@ fieldset.confirmation legend {
     font-weight:        bold;
     background-image:   url(<?php echo $_SESSION['PMA_Theme']->getImgPath('s_really.png');?>);
     background-repeat:  no-repeat;
-        <?php if ($GLOBALS['text_dir'] === 'ltr') { ?>
-    background-position: 5px 50%;
-    padding:            0.2em 0.2em 0.2em 25px;
-        <?php } else { ?>
-    background-position: 97% 50%;
-    padding:            0.2em 25px 0.2em 0.2em;
-        <?php } ?>
+    <?php
+    if ($GLOBALS['text_dir'] === 'ltr') { ?>
+        background-position: 5px 50%;
+        padding:            0.2em 0.2em 0.2em 25px;
+        <?php
+    } else { ?>
+        background-position: 97% 50%;
+        padding:            0.2em 25px 0.2em 0.2em;
+        <?php
+    }
+?>
 }
 /* end messageboxes */
 
@@ -759,7 +798,7 @@ div#tablestatistics table {
     margin-<?php echo $right; ?>: 0.5em;
     min-width: 16em;
 }
-/* END table stats */
+/* end table stats */
 
 
 /* server privileges */
@@ -768,7 +807,7 @@ div#tablestatistics table {
 #tabledatabases td {
     vertical-align: middle;
 }
-/* END server privileges */
+/* end server privileges */
 
 
 
@@ -791,20 +830,27 @@ div#tablestatistics table {
     white-space:        nowrap;
 }
 
-#goto_pagetop {
+#goto_pagetop, #lock_page_icon {
     position: fixed;
     padding: .1em .3em;
     top: 0;
-    <?php echo $right; ?>: 0;
     z-index: 900;
     background: white;
+}
+
+#goto_pagetop {
+    <?php echo $right; ?>: 0;
+}
+
+#lock_page_icon {
+    <?php echo $right; ?>: 2em;
 }
 
 #span_table_comment {
     font-weight: bold;
     font-style: italic;
     white-space: nowrap;
-    margin-left: 10px;  
+    margin-left: 10px;
     color: #D6D6D6;
     text-shadow: none;
 }
@@ -904,7 +950,7 @@ div#tablestatistics table {
 #fieldset_user_global_rights legend input {
     margin-<?php echo $left; ?>: 2em;
 }
-/* END user privileges */
+/* end user privileges */
 
 
 /* serverstatus */
@@ -1002,13 +1048,29 @@ div#chartVariableSettings {
     margin-left:10px;
 }
 
-table#chartGrid div.monitorChart {
-    background: #EBEBEB;
+table#chartGrid td {
+    padding: 3px;
+    margin: 0;
 }
 
-div#serverstatus div.tabLinks {
-    float:<?php echo $left; ?>;
-    padding-bottom: 10px;
+table#chartGrid div.monitorChart {
+    background: #EBEBEB;
+    overflow: hidden;
+    border: none;
+}
+
+div.tabLinks {
+    margin-left: 0.3em;
+    float: <?php echo $left; ?>;
+    padding: 5px 0px;
+}
+
+div.tabLinks a, div.tabLinks label {
+    margin-right: 7px;
+}
+
+div.tabLinks .icon {
+    margin: -0.2em 0.3em 0px 0px;
 }
 
 .popupContent {
@@ -1108,29 +1170,10 @@ div#logTable table {
 }
 /* end server variables */
 
-/* querywindow */
-body#bodyquerywindow {
-    margin: 0;
-    padding: 0;
-    background-image: none;
-    background-color: #F5F5F5;
-}
-
-div#querywindowcontainer {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-}
-
-div#querywindowcontainer fieldset {
-    margin-top: 0;
-}
-/* END querywindow */
-
 /* profiling */
 
 div#profilingchart {
-    width: 550px;
+    width: 850px;
     height: 370px;
     float: left;
 }
@@ -1140,30 +1183,7 @@ div#profilingchart {
     left: 11px;
     bottom:24px;
 }
-
-#profilesummarytable th.header, #profiletable th.header{
-    cursor: pointer;
-}
-
-#profilesummarytable th.header .sorticon, #profiletable th.header .sorticon{
-    width: 16px;
-    height: 16px;
-    background-repeat: no-repeat;
-    background-position: right center;
-    display: inline-block;
-    vertical-align: middle;
-    float: right;
-}
-
-#profilesummarytable th.headerSortUp .sorticon, #profiletable th.headerSortUp .sorticon{
-    background-image: url(<?php echo $_SESSION['PMA_Theme']->getImgPath('s_desc.png');?>);
-}
-
-#profilesummarytable th.headerSortDown .sorticon, #profiletable th.headerSortDown .sorticon{
-    background-image: url(<?php echo $_SESSION['PMA_Theme']->getImgPath('s_asc.png');?>);
-}
-
-/* END profiling */
+/* end profiling */
 
 /* querybox */
 
@@ -1219,7 +1239,18 @@ div#queryboxcontainer div#bookmarkoptions {
 #maincontainer li {
     margin:  0.2em 0em;
 }
-/* END main page */
+
+#full_name_layer {
+    position: absolute;
+    padding: 2px;
+    margin-top: -3px;
+    z-index: 801;
+
+    border: solid 1px #888;
+    background: #fff;
+
+}
+/* end main page */
 
 /* iconic view for ul items */
 
@@ -1228,15 +1259,11 @@ li.no_bullets {
     margin-left: -25px !important;      //align with other list items which have bullets
 }
 
-/* END iconic view for ul items */
+/* end iconic view for ul items */
 
 #body_browse_foreigners {
     background:         <?php echo $GLOBALS['cfg']['NaviBackground']; ?>;
     margin: .5em .5em 0 .5em;
-}
-
-#bodyquerywindow {
-    background:         <?php echo $GLOBALS['cfg']['NaviBackground']; ?>;
 }
 
 #bodythemes {
@@ -1275,6 +1302,15 @@ li.no_bullets {
 
 #div_mysql_charset_collations table {
     float: <?php echo $left; ?>;
+}
+
+#div_mysql_charset_collations table th,
+#div_mysql_charset_collations table td {
+    padding: 0.4em;
+}
+
+#div_mysql_charset_collations table th#collationHeader {
+    width: 35%;
 }
 
 .operations_half_width {
@@ -1345,12 +1381,14 @@ div.sqlvalidate  {
 
 #main_pane_left {
     width:              60%;
+    min-width:          260px;
     float:              <?php echo $left; ?>;
     padding-top:        1em;
 }
 
 #main_pane_right {
-    margin-<?php echo $left; ?>: 60%;
+    overflow:           hidden;
+    min-width:          160px;
     padding-top: 1em;
     padding-<?php echo $left; ?>: 1em;
 }
@@ -1383,7 +1421,8 @@ textarea#partitiondefinition {
 }
 
 #list_server {
-    list-style-image: none;
+    list-style-type: none;
+    padding: 0;
 }
 
 /**
@@ -1447,6 +1486,7 @@ input[type=text].invalid_value,
 input[type=password].invalid_value,
 input[type=number].invalid_value,
 input[type=date].invalid_value,
+select.invalid_value,
 .invalid_value {
     background: #FFCCCC;
 }
@@ -1550,7 +1590,6 @@ select#table_select {
     margin-bottom: 0;
 }
 
-#quick_or_custom,
 #output_quick_export {
     display: none;
 }
@@ -1607,7 +1646,16 @@ input#input_import_file {
     padding: 0.3em;
     margin: 0.1em;
 }
-
+#structure-action-links a {
+    margin-<?php echo $right; ?>: 1em;
+}
+#addColumns input[type="radio"] {
+    margin: 0;
+    margin-<?php echo $left; ?>: 1em;
+}
+#addColumns input[type="submit"] {
+    margin-<?php echo $left; ?>: 1em;
+}
 .margin#change_column_dialog {
     margin: 0 .5em;
 }
@@ -1651,7 +1699,8 @@ table#index_columns {
 }
 
 table#index_columns select {
-    width: 100%;
+    width: 85%;
+    float: right;
 }
 
 #move_columns_dialog div {
@@ -2264,7 +2313,7 @@ fieldset .disabled-field td {
 .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
 .ui-timepicker-div dl { text-align: left; }
 .ui-timepicker-div dl dt { height: 25px; }
-.ui-timepicker-div dl dd { margin: -25px 0 10px 65px; }
+.ui-timepicker-div dl dd { margin: -25px 0 10px 85px; }
 .ui-timepicker-div td { font-size: 90%; }
 
 input.btn {
@@ -2282,7 +2331,8 @@ body .ui-widget {
 
 /* jqPlot */
 
-/*rules for the plot target div.  These will be cascaded down to all plot elements according to css rules*/
+/*rules for the plot target div.  These will be cascaded down to all plot elements
+according to css rules*/
 .jqplot-target {
     position: relative;
     color: #222222;
@@ -2309,13 +2359,17 @@ body .ui-widget {
     margin-right: 10px;
 }
 
-.jqplot-y2axis, .jqplot-y3axis, .jqplot-y4axis, .jqplot-y5axis, .jqplot-y6axis, .jqplot-y7axis, .jqplot-y8axis, .jqplot-y9axis, .jqplot-yMidAxis {
+.jqplot-y2axis, .jqplot-y3axis, .jqplot-y4axis, .jqplot-y5axis, .jqplot-y6axis,
+.jqplot-y7axis, .jqplot-y8axis, .jqplot-y9axis, .jqplot-yMidAxis {
     margin-left: 10px;
     margin-right: 10px;
 }
 
 /*rules applied to all axis tick divs*/
-.jqplot-axis-tick, .jqplot-xaxis-tick, .jqplot-yaxis-tick, .jqplot-x2axis-tick, .jqplot-y2axis-tick, .jqplot-y3axis-tick, .jqplot-y4axis-tick, .jqplot-y5axis-tick, .jqplot-y6axis-tick, .jqplot-y7axis-tick, .jqplot-y8axis-tick, .jqplot-y9axis-tick, .jqplot-yMidAxis-tick {
+.jqplot-axis-tick, .jqplot-xaxis-tick, .jqplot-yaxis-tick, .jqplot-x2axis-tick,
+.jqplot-y2axis-tick, .jqplot-y3axis-tick, .jqplot-y4axis-tick, .jqplot-y5axis-tick,
+.jqplot-y6axis-tick, .jqplot-y7axis-tick, .jqplot-y8axis-tick, .jqplot-y9axis-tick,
+.jqplot-yMidAxis-tick {
     position: absolute;
     white-space: pre;
 }
@@ -2354,7 +2408,8 @@ body .ui-widget {
     font-size: 1.5em;
 }
 
-.jqplot-y2axis-tick, .jqplot-y3axis-tick, .jqplot-y4axis-tick, .jqplot-y5axis-tick, .jqplot-y6axis-tick, .jqplot-y7axis-tick, .jqplot-y8axis-tick, .jqplot-y9axis-tick {
+.jqplot-y2axis-tick, .jqplot-y3axis-tick, .jqplot-y4axis-tick, .jqplot-y5axis-tick,
+.jqplot-y6axis-tick, .jqplot-y7axis-tick, .jqplot-y8axis-tick, .jqplot-y9axis-tick {
     left: 0px;
     /* initial position untill tick is drawn in proper place */
     top: 15px;
@@ -2392,7 +2447,9 @@ body .ui-widget {
     position: absolute;
 }
 
-.jqplot-y2axis-label, .jqplot-y3axis-label, .jqplot-y4axis-label, .jqplot-y5axis-label, .jqplot-y6axis-label, .jqplot-y7axis-label, .jqplot-y8axis-label, .jqplot-y9axis-label {
+.jqplot-y2axis-label, .jqplot-y3axis-label, .jqplot-y4axis-label,
+.jqplot-y5axis-label, .jqplot-y6axis-label, .jqplot-y7axis-label,
+.jqplot-y8axis-label, .jqplot-y9axis-label {
 /*    text-align: center;*/
     font-size: 11pt;
     margin-left: 10px;
@@ -2542,7 +2599,7 @@ div.jqplot-noData-container {
     background-color: rgba(96%, 96%, 96%, 0.3);
 }
 
-#relationalTable select {
+.relationalTable select {
     width: 125px;
     margin-right: 5px;
 }
@@ -2560,3 +2617,482 @@ div.jqplot-noData-container {
     height:10em;
     width:570px;
 }
+
+div#page_content div#tableslistcontainer table.data {
+    border-top: 0.1px solid #EEEEEE;
+}
+
+div#page_content form#db_search_form.ajax fieldset {
+    margin-top: -0.3em;
+}
+
+div#page_content div#tableslistcontainer, div#page_content div.notice, div#page_content div#result_query {
+    margin-top: 1em;
+}
+
+table.show_create {
+    margin-top: 1em;
+}
+
+table.show_create td {
+    border-right: 1px solid #bbb;
+}
+
+#alias_modal table th {
+    vertical-align: middle;
+    padding-left: 1em;
+}
+
+#alias_modal label.col-2 {
+    min-width: 20%;
+    display: inline-block;
+}
+
+#alias_modal select {
+    width: 25%;
+    margin-right: 2em;
+}
+
+#alias_modal label {
+    font-weight: bold;
+}
+
+.ui-dialog {
+    position: fixed;
+}
+
+.small_font {
+    font-size: smaller;
+}
+
+/* Console styles */
+#pma_console_container {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    <?php echo $left; ?>: 0;
+    z-index: 100;
+}
+#pma_console {
+    position: relative;
+    margin-<?php echo $left; ?>: 240px;
+}
+#pma_console>.templates {
+    display: none;
+}
+#pma_console .mid_text,
+#pma_console .toolbar span {
+    vertical-align: middle;
+}
+#pma_console .toolbar {
+    position: relative;
+    background: #ccc;
+    border-top: solid 1px #aaa;
+    cursor: n-resize;
+}
+#pma_console .toolbar.collapsed:not(:hover) {
+    display: inline-block;
+    border-top-<?php echo $right; ?>-radius: 3px;
+    border-<?php echo $right; ?>: solid 1px #aaa;
+}
+#pma_console .toolbar.collapsed {
+    cursor: default;
+}
+#pma_console .toolbar.collapsed>.button {
+    display: none;
+}
+#pma_console .message span.text,
+#pma_console .message span.action,
+#pma_console .toolbar .button,
+#pma_console .switch_button {
+    padding: 0 3px;
+    display: inline-block;
+}
+#pma_console .message span.action,
+#pma_console .toolbar .button,
+#pma_console .switch_button {
+    cursor: pointer;
+}
+#pma_console .message span.action:hover,
+#pma_console .toolbar .button:hover,
+#pma_console .switch_button:hover {
+    background: #ddd;
+}
+#pma_console .toolbar .button {
+    margin-<?php echo $right; ?>: .4em;
+}
+#pma_console .toolbar .button {
+    float: <?php echo $right; ?>;
+}
+#pma_console .content {
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin-bottom: -65px;
+    border-top: solid 1px #aaa;
+    background: #fff;
+    padding-top: .4em;
+}
+#pma_console .message,
+#pma_console .query_input {
+    position: relative;
+    font-family: Monaco, Consolas, monospace;
+    cursor: text;
+    margin: 0 10px .2em 1.4em;
+}
+#pma_console .message {
+    border-bottom: solid 1px #ccc;
+    padding-bottom: .2em;
+}
+#pma_console .message.expanded .action_content {
+    position: relative;
+}
+#pma_console .message:before,
+#pma_console .query_input:before {
+    left: -0.7em;
+    position: absolute;
+    content: ">";
+}
+#pma_console .query_input:before {
+    top: -2px;
+}
+#pma_console .query_input textarea {
+    width: 100%;
+    height: 4em;
+    resize: vertical;
+}
+#pma_console .message:hover:before {
+    color: #7cf;
+    font-weight: bold;
+}
+#pma_console .message.expanded:before {
+    content: "]";
+}
+#pma_console .message.welcome:before {
+    display: none;
+}
+#pma_console .message.failed:before,
+#pma_console .message.failed.expanded:before,
+#pma_console .message.failed:hover:before {
+    content: "=";
+    color: #944;
+}
+#pma_console .message.pending:before {
+    opacity: .3;
+}
+#pma_console .message.collapsed>.query {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+#pma_console .message.expanded>.query {
+    display: block;
+    white-space: pre;
+    word-wrap: break-word;
+}
+#pma_console .message .text.targetdb,
+#pma_console .message.collapsed .action.collapse,
+#pma_console .message.expanded .action.expand,
+#pma_console .message .action.requery,
+#pma_console .message .action.profiling,
+#pma_console .message .action.explain,
+#pma_console .message .action.bookmark {
+    display: none;
+}
+#pma_console .message.select .action.profiling,
+#pma_console .message.select .action.explain,
+#pma_console .message.history .text.targetdb,
+#pma_console .message.successed .text.targetdb,
+#pma_console .message.history .action.requery,
+#pma_console .message.history .action.bookmark,
+#pma_console .message.bookmark .action.requery,
+#pma_console .message.bookmark .action.bookmark,
+#pma_console .message.successed .action.requery,
+#pma_console .message.successed .action.bookmark {
+    display: inline-block;
+}
+#pma_console .message .action_content {
+    position: absolute;
+    bottom: 100%;
+    background: #ccc;
+    border: solid 1px #aaa;
+    border-top-<?php echo $left; ?>-radius: 3px;
+}
+html.ie8 #pma_console .message .action_content {
+    position: relative!important;
+}
+#pma_console .message.bookmark .text.targetdb,
+#pma_console .message .text.query_time {
+    margin: 0;
+    display: inline-block;
+}
+#pma_console .message.failed .text.query_time,
+#pma_console .message .text.failed {
+    display: none;
+}
+#pma_console .message.failed .text.failed {
+    display: inline-block;
+}
+#pma_console .message .text {
+    background: #fff;
+}
+#pma_console .message.collapsed:not(:hover) .action_content {
+    display: none;
+}
+#pma_console .message .bookmark_label {
+    padding: 0 4px;
+    top: 0;
+    background: #369;
+    color: #fff;
+    border-radius: 3px;
+}
+#pma_console .message .bookmark_label.shared {
+    background: #396;
+}
+#pma_console .message.expanded .bookmark_label {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+#pma_console .query_input {
+    position: relative;
+}
+#pma_console .mid_layer {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    /* For support IE8, this layer doesn't use filter:opacity or opacity,
+    js code will fade this layer opacity to 0.18(using animation) */
+    background: #666;
+    display: none;
+    cursor: pointer;
+    z-index: 200;
+}
+#pma_console .card {
+    position: absolute;
+    width: 94%;
+    height: 100%;
+    min-height: 48px;
+    <?php echo $left; ?>: 100%;
+    top: 0;
+    border-<?php echo $left; ?>: solid 1px #999;
+    z-index: 300;
+    transition: <?php echo $left; ?> 0.2s;
+    -ms-transition: <?php echo $left; ?> 0.2s;
+    -webkit-transition: <?php echo $left; ?> 0.2s;
+    -moz-transition: <?php echo $left; ?> 0.2s;
+}
+#pma_console .card.show {
+    <?php echo $left; ?>: 6%;
+    box-shadow: -2px 1px 4px -1px #999;
+}
+
+html.ie7 #pma_console .query_input {
+    display: none;
+}
+
+#pma_bookmarks .content.add_bookmark,
+#pma_console_options .content {
+    padding: 4px 6px;
+}
+#pma_bookmarks .content.add_bookmark .options {
+    margin-<?php echo $left; ?>: 1.4em;
+    padding-bottom: .4em;
+    margin-bottom: .4em;
+    border-bottom: solid 1px #ccc;
+}
+#pma_bookmarks .content.add_bookmark .options button {
+    margin: 0 7px;
+    vertical-align: bottom;
+}
+#pma_bookmarks .content.add_bookmark input[type=text] {
+    margin: 0;
+    padding: 2px 4px;
+}
+
+/* Code mirror console style*/
+
+.cm-s-pma .CodeMirror-code pre,
+.cm-s-pma .CodeMirror-code {
+    font-family: Monaco, Consolas, monospace;
+}
+.cm-s-pma .CodeMirror-measure>pre,
+.cm-s-pma .CodeMirror-code>pre,
+.cm-s-pma .CodeMirror-lines {
+    padding: 0;
+}
+.cm-s-pma.CodeMirror {
+    resize: none;
+    height: auto;
+    width: 100%;
+    min-height: initial;
+    max-height: initial;
+}
+.firefox .cm-s-pma.CodeMirror {
+    font-size: 120%;
+}
+.cm-s-pma .CodeMirror-scroll {
+    padding-bottom: 2em;
+    cursor: text;
+}
+
+/* PMA drop-improt style */
+
+.pma_drop_handler {
+    display: none;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    height: 100%;
+    z-index: 999;
+    color: white;
+    font-size: 30pt;
+    text-align: center;
+    padding-top: 20%;
+}
+
+.pma_sql_import_status {
+    display: none;
+    position: fixed;
+    bottom: 0px;
+    right: 25px;
+    width: 400px;
+    border: 1px solid #999;
+    background: #f3f3f3;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    -moz-box-shadow: <?php echo $GLOBALS['text_dir'] === 'rtl' ? '-' : ''; ?>2px 2px 5px #ccc;
+    -webkit-box-shadow: <?php echo $GLOBALS['text_dir'] === 'rtl' ? '-' : ''; ?>2px 2px 5px #ccc;
+    box-shadow: <?php echo $GLOBALS['text_dir'] === 'rtl' ? '-' : ''; ?>2px 2px 5px #ccc;
+}
+
+.pma_sql_import_status h2,
+.pma_drop_result h2 {
+    background-color: #bbb;
+    padding: .1em .3em;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #fff;
+    font-size: 1.6em;
+    font-weight: normal;
+    text-shadow: 0 1px 0 #777;
+    -moz-box-shadow: <?php echo $GLOBALS['text_dir'] === 'rtl' ? '-' : ''; ?>1px 1px 15px #999 inset;
+    -webkit-box-shadow: <?php echo $GLOBALS['text_dir'] === 'rtl' ? '-' : ''; ?>1px 1px 15px #999 inset;
+    box-shadow: <?php echo $GLOBALS['text_dir'] === 'rtl' ? '-' : ''; ?>1px 1px 15px #999 inset;
+}
+
+.pma_sql_import_status div {
+    height: 270px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    list-style-type: none;
+}
+
+.pma_sql_import_status div li {
+    padding: 8px 10px;
+    border-bottom: 1px solid #bbb;
+    color: rgb(148, 14, 14);
+    background: white;
+}
+
+.pma_sql_import_status div li .filesize {
+    float: right;
+}
+
+.pma_sql_import_status h2 .minimize {
+    float: right;
+    margin-right: 5px;
+    padding: 0px 10px;
+}
+
+.pma_sql_import_status h2 .close {
+    float: right;
+    margin-right: 5px;
+    padding: 0px 10px;
+    display: none;
+}
+
+.pma_sql_import_status h2 .minimize:hover,
+.pma_sql_import_status h2 .close:hover,
+.pma_drop_result h2 .close:hover {
+    background: rgba(155, 149, 149, 0.78);
+    cursor: pointer;
+}
+
+.pma_drop_file_status {
+    color: #235a81;
+}
+
+.pma_drop_file_status span.underline:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.pma_drop_result {
+    position: fixed;
+    top: 10%;
+    left: 20%;
+    width: 60%;
+    background: white;
+    min-height: 300px;
+    z-index: 800;
+    -webkit-box-shadow: 0px 0px 15px #999;
+    border-radius: 10px;
+    cursor: move;
+}
+
+.pma_drop_result h2 .close {
+    float: right;
+    margin-right: 5px;
+    padding: 0px 10px;
+}
+
+#composite_index_list {
+    list-style-type: none;
+    list-style-position: inside;
+}
+
+span.drag_icon {
+    display: inline-block;
+    background-image: url('<?php echo $_SESSION['PMA_Theme']->getImgPath('s_sortable.png');?>');
+    background-position: center center;
+    background-repeat: no-repeat;
+    width: 1em;
+    height: 3em;
+    cursor: move;
+}
+
+.topmargin {
+    margin-top: 1em;
+}
+
+/* styles for sortable tables created with tablesorter jquery plugin */
+th.header {
+    cursor: pointer;
+    color: #0000FF;
+}
+
+th.header:hover {
+    text-decoration: underline;
+}
+
+th.header .sorticon {
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat;
+    background-position: right center;
+    display: inline-table;
+    vertical-align: middle;
+    float: right;
+}
+
+th.headerSortUp .sorticon, th.headerSortDown:hover .sorticon {
+    background-image: url(<?php echo $_SESSION['PMA_Theme']->getImgPath('s_desc.png');?>);
+}
+
+th.headerSortDown .sorticon, th.headerSortUp:hover .sorticon {
+    background-image: url(<?php echo $_SESSION['PMA_Theme']->getImgPath('s_asc.png');?>);
+}
+/* end of styles of sortable tables */

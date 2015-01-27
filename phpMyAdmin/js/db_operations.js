@@ -35,16 +35,24 @@ AJAX.registerOnload('db_operations.js', function () {
     $("#rename_db_form.ajax").live('submit', function (event) {
         event.preventDefault();
 
+        var old_db_name = PMA_commonParams.get('db');
+        var new_db_name = $('#new_db_name').val();
+
+        if (new_db_name == old_db_name) {
+            PMA_ajaxShowMessage(PMA_messages.strDropDatabaseStrongWarning);
+            return false;
+        }
+
         var $form = $(this);
 
-        var question = escapeHtml('CREATE DATABASE ' + $('#new_db_name').val() + ' / DROP DATABASE ' + PMA_commonParams.get('db'));
+        var question = escapeHtml('CREATE DATABASE ' + new_db_name + ' / DROP DATABASE ' + old_db_name);
 
         PMA_prepareForAjaxRequest($form);
 
         $form.PMA_confirm(question, $form.attr('action'), function (url) {
             PMA_ajaxShowMessage(PMA_messages.strRenamingDatabases, false);
             $.get(url, $("#rename_db_form").serialize() + '&is_js_confirmed=1', function (data) {
-                if (data.success === true) {
+                if (typeof data !== 'undefined' && data.success === true) {
                     PMA_ajaxShowMessage(data.message);
                     PMA_commonParams.set('db', data.newname);
 
@@ -78,7 +86,7 @@ AJAX.registerOnload('db_operations.js', function () {
         $.get($form.attr('action'), $form.serialize(), function (data) {
             // use messages that stay on screen
             $('div.success, div.error').fadeOut();
-            if (data.success === true) {
+            if (typeof data !== 'undefined' && data.success === true) {
                 if ($("#checkbox_switch").is(":checked")) {
                     PMA_commonParams.set('db', data.newname);
                     PMA_commonActions.refreshMain(false, function () {
@@ -104,7 +112,7 @@ AJAX.registerOnload('db_operations.js', function () {
         PMA_prepareForAjaxRequest($form);
         PMA_ajaxShowMessage(PMA_messages.strChangingCharset);
         $.get($form.attr('action'), $form.serialize() + "&submitcollation=1", function (data) {
-            if (data.success === true) {
+            if (typeof data !== 'undefined' && data.success === true) {
                 PMA_ajaxShowMessage(data.message);
             } else {
                 PMA_ajaxShowMessage(data.error, false);

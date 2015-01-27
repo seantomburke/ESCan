@@ -111,7 +111,7 @@ class PMA_Index
         PMA_Index::_loadIndexes($table, $schema);
         if (! isset(PMA_Index::$_registry[$schema][$table][$index_name])) {
             $index = new PMA_Index;
-            if (strlen($index_name)) {
+            if (/*overload*/mb_strlen($index_name)) {
                 $index->setName($index_name);
                 PMA_Index::$_registry[$schema][$table][$index->getName()] = $index;
             }
@@ -199,7 +199,9 @@ class PMA_Index
      */
     public function addColumn($params)
     {
-        if (strlen($params['Column_name'])) {
+        if (isset($params['Column_name'])
+            && /*overload*/mb_strlen($params['Column_name'])
+        ) {
             $this->_columns[$params['Column_name']] = new PMA_Index_Column($params);
         }
     }
@@ -339,7 +341,7 @@ class PMA_Index
     public function getComments()
     {
         $comments = $this->getRemarks();
-        if (strlen($comments)) {
+        if (/*overload*/mb_strlen($comments)) {
             $comments .= "\n";
         }
         $comments .= $this->getComment();
@@ -370,7 +372,7 @@ class PMA_Index
     /**
      * Return a list of all index choices
      *
-     * @return array index choices
+     * @return string[] index choices
      */
     static public function getIndexChoices()
     {
@@ -404,7 +406,7 @@ class PMA_Index
                  . (($this->_choice == $each_index_choice)
                  ? ' selected="selected"'
                  : '')
-                 . '>'. $each_index_choice . '</option>' . "\n";
+                 . '>' . $each_index_choice . '</option>' . "\n";
         }
 
         return $html_options;
@@ -426,7 +428,7 @@ class PMA_Index
      *
      * @param boolean $as_text whether to output should be in text
      *
-     * @return mixed how index is paked
+     * @return mixed how index is packed
      */
     public function isPacked($as_text = false)
     {
@@ -508,7 +510,7 @@ class PMA_Index
     /**
      * Returns the columns of the index
      *
-     * @return array the columns of the index
+     * @return PMA_Index_Column[] the columns of the index
      */
     public function getColumns()
     {
@@ -522,7 +524,7 @@ class PMA_Index
      * @param string  $schema     The schema name
      * @param boolean $print_mode Whether the output is for the print mode
      *
-     * @return array  Index collection array
+     * @return string HTML for showing index
      *
      * @access  public
      */
@@ -568,9 +570,7 @@ class PMA_Index
         $r .= '<th>' . __('Cardinality') . '</th>';
         $r .= '<th>' . __('Collation') . '</th>';
         $r .= '<th>' . __('Null') . '</th>';
-        if (PMA_MYSQL_INT_VERSION > 50500) {
-            $r .= '<th>' . __('Comment') . '</th>';
-        }
+        $r .= '<th>' . __('Comment') . '</th>';
         $r .= '</tr>';
         $r .= '</thead>';
         $r .= '<tbody>';
@@ -598,7 +598,7 @@ class PMA_Index
                         . PMA_Util::backquote($table)
                         . ' DROP PRIMARY KEY;';
                     $this_params['message_to_show']
-                        = __('The primary key has been dropped');
+                        = __('The primary key has been dropped.');
                     $js_msg = PMA_jsFormat(
                         'ALTER TABLE ' . $table . ' DROP PRIMARY KEY'
                     );
@@ -662,8 +662,7 @@ class PMA_Index
                     . htmlspecialchars($column->getNull(true))
                     . '</td>';
 
-                if (PMA_MYSQL_INT_VERSION > 50500
-                    && $column->getSeqInIndex() == 1
+                if ($column->getSeqInIndex() == 1
                 ) {
                     $r .= '<td ' . $row_span . '>'
                         . htmlspecialchars($index->getComments()) . '</td>';
@@ -727,7 +726,8 @@ class PMA_Index
         while ($while_index = array_pop($indexes)) {
             // ... compare with every remaining index in stack
             foreach ($indexes as $each_index) {
-                if ($each_index->getCompareData() !== $while_index->getCompareData()) {
+                if ($each_index->getCompareData() !== $while_index->getCompareData()
+                ) {
                     continue;
                 }
 

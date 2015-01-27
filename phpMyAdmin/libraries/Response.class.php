@@ -25,14 +25,14 @@ class PMA_Response
      *
      * @access private
      * @static
-     * @var object
+     * @var PMA_Response
      */
     private static $_instance;
     /**
      * PMA_Header instance
      *
      * @access private
-     * @var object
+     * @var PMA_Header
      */
     private $_header;
     /**
@@ -54,7 +54,7 @@ class PMA_Response
      * PMA_Footer instance
      *
      * @access private
-     * @var object
+     * @var PMA_Footer
      */
     private $_footer;
     /**
@@ -75,7 +75,7 @@ class PMA_Response
      */
     private $_isAjaxPage;
     /**
-     * Whether there were any errors druing the processing of the request
+     * Whether there were any errors during the processing of the request
      * Only used for ajax responses
      *
      * @access private
@@ -86,7 +86,7 @@ class PMA_Response
      * Workaround for PHP bug
      *
      * @access private
-     * @var bool
+     * @var string|bool
      */
     private $_CWD;
 
@@ -256,7 +256,7 @@ class PMA_Response
     private function _getDisplay()
     {
         // The header may contain nothing at all,
-        // if it's content was already rendered
+        // if its content was already rendered
         // and, in this case, the header will be
         // in the content part of the request
         $retval  = $this->_header->getDisplay();
@@ -296,34 +296,50 @@ class PMA_Response
             unset($this->_JSON['message']);
         }
 
-        if ($this->_isAjaxPage && $this->_isSuccess) {
+        if ($this->_isSuccess) {
+            // Note: the old judge sentence is:
+            // $this->_isAjaxPage && $this->_isSuccess
+            // Removal the first, because console need log all queries, if caused any
+            // bug, contact Edward Cheng
             $this->addJSON('_title', $this->getHeader()->getTitleTag());
 
-            $menuHash = $this->getHeader()->getMenu()->getHash();
-            $this->addJSON('_menuHash', $menuHash);
-            $hashes = array();
-            if (isset($_REQUEST['menuHashes'])) {
-                $hashes = explode('-', $_REQUEST['menuHashes']);
-            }
-            if (! in_array($menuHash, $hashes)) {
-                $this->addJSON('_menu', $this->getHeader()->getMenu()->getDisplay());
+            if (isset($GLOBALS['dbi'])) {
+                $menuHash = $this->getHeader()->getMenu()->getHash();
+                $this->addJSON('_menuHash', $menuHash);
+                $hashes = array();
+                if (isset($_REQUEST['menuHashes'])) {
+                    $hashes = explode('-', $_REQUEST['menuHashes']);
+                }
+                if (! in_array($menuHash, $hashes)) {
+                    $this->addJSON('_menu', $this->getHeader()->getMenu()->getDisplay());
+                }
             }
 
             $this->addJSON('_scripts', $this->getHeader()->getScripts()->getFiles());
             $this->addJSON('_selflink', $this->getFooter()->getSelfUrl('unencoded'));
             $this->addJSON('_displayMessage', $this->getHeader()->getMessage());
+
+            $debug = $this->_footer->getDebugMessage();
+            if (/*overload*/mb_strlen($debug)) {
+                $this->addJSON('_debug', $debug);
+            }
+
             $errors = $this->_footer->getErrorMessages();
-            if (strlen($errors)) {
+            if (/*overload*/mb_strlen($errors)) {
                 $this->addJSON('_errors', $errors);
             }
+            $promptPhpErrors = $GLOBALS['error_handler']->hasErrorsForPrompt();
+            $this->addJSON('_promptPhpErrors', $promptPhpErrors);
+
             if (empty($GLOBALS['error_message'])) {
                 // set current db, table and sql query in the querywindow
+                // (this is for the bottom console)
                 $query = '';
                 $maxChars = $GLOBALS['cfg']['MaxCharactersInDisplayedSQL'];
                 if (isset($GLOBALS['sql_query'])
-                    && strlen($GLOBALS['sql_query']) < $maxChars
+                    && /*overload*/mb_strlen($GLOBALS['sql_query']) < $maxChars
                 ) {
-                    $query = PMA_escapeJsString($GLOBALS['sql_query']);
+                    $query = $GLOBALS['sql_query'];
                 }
                 $this->addJSON(
                     '_reloadQuerywindow',

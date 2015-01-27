@@ -71,7 +71,7 @@ class ConfigGenerator
         }
         // keep 1d array keys which are present in $persist_keys (config.values.php)
         foreach (array_keys($persistKeys) as $k) {
-            if (strpos($k, '/') === false) {
+            if (/*overload*/mb_strpos($k, '/') === false) {
                 $k = preg_replace('/[^A-Za-z0-9_]/', '_', $k);
                 $ret .= self::_getVarExport($k, $cf->getDefault($k), $crlf);
             }
@@ -121,7 +121,7 @@ class ConfigGenerator
      */
     private static function _isZeroBasedArray(array $array)
     {
-        for ($i = 0; $i < count($array); $i++) {
+        for ($i = 0, $nb = count($array); $i < $nb; $i++) {
             if (! isset($array[$i])) {
                 return false;
             }

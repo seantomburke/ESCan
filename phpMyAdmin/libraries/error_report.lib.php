@@ -5,6 +5,13 @@
  *
  * @package PhpMyAdmin
  */
+
+/*
+ * Include for handleContext() and configureCurl in PMA_sendErrorReport()
+ */
+require_once 'libraries/Util.class.php';
+
+
 if (! defined('PHPMYADMIN')) {
     exit;
 }
@@ -23,54 +30,105 @@ if (is_readable('js/line_counts.php')) {
 define('SUBMISSION_URL', "http://reports.phpmyadmin.net/incidents/create");
 
 /**
+ * returns the pretty printed error report data collected from the
+ * current configuration or from the request parameters sent by the
+ * error reporting js code.
+ *
+ * @return String the report
+ */
+function PMA_getPrettyReportData()
+{
+    $report = PMA_getReportData();
+
+    /* JSON_PRETTY_PRINT available since PHP 5.4 */
+    if (defined('JSON_PRETTY_PRINT')) {
+        return json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    }
+
+    return PMA_prettyPrint($report);
+}
+
+/**
  * returns the error report data collected from the current configuration or
  * from the request parameters sent by the error reporting js code.
  *
- * @param boolean $pretty_print whether to prettify the report
+ * @param string $exception_type whether exception is 'js' or 'php'
  *
- * @return Array/String the report
+ * @return Array error report if success, Empty Array otherwise
  */
-function PMA_getReportData($pretty_print = true)
+function PMA_getReportData($exception_type = 'js')
 {
-    if (empty($_REQUEST['exception'])) {
-        return '';
-    }
-    $exception = $_REQUEST['exception'];
-    $exception["stack"] = PMA_translateStacktrace($exception["stack"]);
-    List($uri, $script_name) = PMA_sanitizeUrl($exception["url"]);
-    $exception["uri"] = $uri;
-    unset($exception["url"]);
+    $relParams = PMA_getRelationsParam();
+    // common params for both, php & js exceptions
     $report = array(
-        "exception" => $exception,
-        "script_name" => $script_name,
-        "pma_version" => PMA_VERSION,
-        "browser_name" => PMA_USR_BROWSER_AGENT,
-        "browser_version" => PMA_USR_BROWSER_VER,
-        "user_os" => PMA_USR_OS,
-        "server_software" => $_SERVER['SERVER_SOFTWARE'],
-        "user_agent_string" => $_SERVER['HTTP_USER_AGENT'],
-        "locale" => $_COOKIE['pma_lang'],
-        "configuration_storage" =>
-            empty($GLOBALS['cfg']['Servers'][1]['pmadb']) ? "disabled" :
-            "enabled",
-        "php_version" => phpversion(),
-        "microhistory" => $_REQUEST['microhistory'],
-    );
+            "pma_version" => PMA_VERSION,
+            "browser_name" => PMA_USR_BROWSER_AGENT,
+            "browser_version" => PMA_USR_BROWSER_VER,
+            "user_os" => PMA_USR_OS,
+            "server_software" => $_SERVER['SERVER_SOFTWARE'],
+            "user_agent_string" => $_SERVER['HTTP_USER_AGENT'],
+            "locale" => $_COOKIE['pma_lang'],
+            "configuration_storage" =>
+                is_null($relParams['db']) ? "disabled" :
+                "enabled",
+            "php_version" => phpversion()
+            );
 
-    if (! empty($_REQUEST['description'])) {
-        $report['steps'] = $_REQUEST['description'];
-    }
-
-    if ($pretty_print) {
-        /* JSON_PRETTY_PRINT available since PHP 5.4 */
-        if (defined('JSON_PRETTY_PRINT')) {
-            return json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-        } else {
-            return PMA_prettyPrint($report);
+    if ($exception_type == 'js') {
+        if (empty($_REQUEST['exception'])) {
+            return array();
         }
+        $exception = $_REQUEST['exception'];
+        $exception["stack"] = PMA_translateStacktrace($exception["stack"]);
+        List($uri, $script_name) = PMA_sanitizeUrl($exception["url"]);
+        $exception["uri"] = $uri;
+        unset($exception["url"]);
+
+        $report ["exception_type"] = 'js';
+        $report ["exception"] = $exception;
+        $report ["script_name"] = $script_name;
+        $report ["microhistory"] = $_REQUEST['microhistory'];
+
+        if (! empty($_REQUEST['description'])) {
+            $report['steps'] = $_REQUEST['description'];
+        }
+    } elseif ($exception_type == 'php') {
+        $errors = array();
+        // create php error report
+        $i=0;
+        if (!isset($_SESSION['prev_errors'])
+            || $_SESSION['prev_errors'] == ''
+        ) {
+            return array();
+        }
+        foreach ($_SESSION['prev_errors'] as $errorObj) {
+            if ($errorObj->getLine()
+                && $errorObj->getType()
+                && $errorObj->getNumber() != E_USER_WARNING
+            ) {
+                $errors[$i++] = array(
+                    "lineNum" => $errorObj->getLine(),
+                    "file" => $errorObj->getFile(),
+                    "type" => $errorObj->getType(),
+                    "msg" => $errorObj->getOnlyMessage(),
+                    "stackTrace" => $errorObj->getBacktrace(5),
+                    "stackhash" => $errorObj->getHash()
+                    );
+
+            }
+        }
+
+        // if there were no 'actual' errors to be submitted.
+        if ($i==0) {
+            return array();   // then return empty array
+        }
+        $report ["exception_type"] = 'php';
+        $report["errors"] = $errors;
     } else {
-        return $report;
+        return array();
     }
+
+    return $report;
 }
 
 /**
@@ -98,15 +156,23 @@ function PMA_sanitizeUrl($url)
 
     // get script name
     preg_match("<([a-zA-Z\-_\d]*\.php)$>", $components["path"], $matches);
-    $script_name = $matches[1];
+    if (count($matches) < 2) {
+        $script_name = 'index.php';
+    } else {
+        $script_name = $matches[1];
+    }
 
     // remove deployment specific details to make uri more generic
-    parse_str($components["query"], $query_array);
-    unset($query_array["db"]);
-    unset($query_array["table"]);
-    unset($query_array["token"]);
-    unset($query_array["server"]);
-    $query = http_build_query($query_array);
+    if (isset($components["query"])) {
+        parse_str($components["query"], $query_array);
+        unset($query_array["db"]);
+        unset($query_array["table"]);
+        unset($query_array["token"]);
+        unset($query_array["server"]);
+        $query = http_build_query($query_array);
+    } else {
+        $query = '';
+    }
 
     $uri = $script_name . "?" . $query;
     return array($uri, $script_name);
@@ -130,43 +196,28 @@ function PMA_sendErrorReport($report)
                 'header' => "Content-Type: multipart/form-data\r\n",
             )
         );
-        if (strlen($GLOBALS['cfg']['ProxyUrl'])) {
-            $context['http'] = array(
-                'proxy' => $GLOBALS['cfg']['ProxyUrl'],
-                'request_fulluri' => true
-            );
-            if (strlen($GLOBALS['cfg']['ProxyUser'])) {
-                $auth = base64_encode(
-                    $GLOBALS['cfg']['ProxyUser'] . ':' . $GLOBALS['cfg']['ProxyPass']
-                );
-                $context['http']['header'] .= 'Proxy-Authorization: Basic '
-                    . $auth . "\r\n";
-            }
-        }
+        $context = PMA_Util::handleContext($context);
         $response = file_get_contents(
             SUBMISSION_URL,
             false,
             stream_context_create($context)
         );
-    } else if (function_exists('curl_init')) {
-        $curl_handle = curl_init(SUBMISSION_URL);
-        if (strlen($GLOBALS['cfg']['ProxyUrl'])) {
-            curl_setopt($curl_handle, CURLOPT_PROXY, $GLOBALS['cfg']['ProxyUrl']);
-            if (strlen($GLOBALS['cfg']['ProxyUser'])) {
-                curl_setopt(
-                    $curl_handle,
-                    CURLOPT_PROXYUSERPWD,
-                    $GLOBALS['cfg']['ProxyUser'] . ':' . $GLOBALS['cfg']['ProxyPass']
-                );
-            }
-        }
-        curl_setopt($curl_handle, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($curl_handle, CURLOPT_HTTPHEADER, array('Expect:'));
-        curl_setopt($curl_handle, CURLOPT_POSTFIELDS, $data_string);
-        curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
-        $response = curl_exec($curl_handle);
-        curl_close($curl_handle);
+        return $response;
     }
+
+    if (!function_exists('curl_init')) {
+        return null;
+    }
+
+    $curl_handle = curl_init(SUBMISSION_URL);
+    $curl_handle = PMA_Util::configureCurl($curl_handle);
+    curl_setopt($curl_handle, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($curl_handle, CURLOPT_HTTPHEADER, array('Expect:'));
+    curl_setopt($curl_handle, CURLOPT_POSTFIELDS, $data_string);
+    curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+    $response = curl_exec($curl_handle);
+    curl_close($curl_handle);
+
     return $response;
 }
 
@@ -176,29 +227,44 @@ function PMA_sendErrorReport($report)
  * @param string $filename javascript filename
  *
  * @return Number of lines
+ *
+ * @todo Should gracefully handle non existing files
  */
 function PMA_countLines($filename)
 {
     global $LINE_COUNT;
-    if (!defined('LINE_COUNTS')) {
-        $linecount = 0;
-        $handle = fopen('./js/' . $filename, 'r');
-        while (!feof($handle)) {
-            $line = fgets($handle);
-            if ($line === false) {
-                break;
-            }
-            $linecount++;
-        }
-        fclose($handle);
-        return $linecount;
-    } else {
+    if (defined('LINE_COUNTS')) {
         return $LINE_COUNT[$filename];
     }
+
+    // ensure that the file is inside the phpMyAdmin folder
+    $depath = 1;
+    foreach (explode('/', $filename) as $part) {
+        if ($part == '..') {
+            $depath--;
+        } elseif ($part != '.') {
+            $depath++;
+        }
+        if ($depath < 0) {
+            return 0;
+        }
+    }
+
+    $linecount = 0;
+    $handle = fopen('./js/' . $filename, 'r');
+    while (!feof($handle)) {
+        $line = fgets($handle);
+        if ($line === false) {
+            break;
+        }
+        $linecount++;
+    }
+    fclose($handle);
+    return $linecount;
 }
 
 /**
- * returns the translated linenumber and the file name from the cumulative line
+ * returns the translated line number and the file name from the cumulative line
  * number and an array of files
  *
  * uses the $LINE_COUNT global array of file names and line numbers
@@ -207,7 +273,7 @@ function PMA_countLines($filename)
  * @param Integer $cumulative_number the cumulative line number in the
  *                                   concatenated files
  *
- * @return Array the filename and linenumber
+ * @return Array the filename and line number
  * Returns two variables in an array:
  * - A String $filename the filename where the requested cumulative number
  *   exists
@@ -224,23 +290,26 @@ function PMA_getLineNumber($filenames, $cumulative_number)
         }
         $cumulative_sum += $filecount + 2;
     }
+    if (! isset($filename)) {
+        $filename = '';
+    }
     return array($filename, $linenumber);
 }
 
 /**
- * translates the cumulative line numbers in the stactrace as well as sanitize
+ * translates the cumulative line numbers in the stack trace as well as sanitize
  * urls and trim long lines in the context
  *
- * @param Array $stack the stacktrace
+ * @param Array $stack the stack trace
  *
- * @return Array $stack the modified stacktrace
+ * @return Array $stack the modified stack trace
  */
 function PMA_translateStacktrace($stack)
 {
     foreach ($stack as &$level) {
         foreach ($level["context"] as &$line) {
-            if (strlen($line) > 80) {
-                $line = substr($line, 0, 75) . "//...";
+            if (/*overload*/mb_strlen($line) > 80) {
+                $line = /*overload*/mb_substr($line, 0, 75) . "//...";
             }
         }
         if (preg_match("<js/get_scripts.js.php\?(.*)>", $level["url"], $matches)) {
@@ -272,40 +341,40 @@ function PMA_getErrorReportForm()
 {
     $html = "";
     $html .= '<form action="error_report.php" method="post" name="report_frm"'
-            .' id="report_frm" class="ajax">'
-            .'<fieldset style="padding-top:0px">';
+            . ' id="report_frm" class="ajax">'
+            . '<fieldset style="padding-top:0px">';
 
     $html .= '<p>' . __(
         'phpMyAdmin has encountered an error. We have collected data about'
-        .' this error as well as information about relevant configuration'
-        .' settings to send to the phpMyAdmin team to help us in'
-        .' debugging the problem.'
-    ) .'</p>';
+        . ' this error as well as information about relevant configuration'
+        . ' settings to send to the phpMyAdmin team to help us in'
+        . ' debugging the problem.'
+    ) . '</p>';
 
     $html .= '<div class="label"><label><p>'
             . __('You may examine the data in the error report:')
-            .'</p></label></div>'
-            .'<pre class="report-data">'
-            .PMA_getReportData()
-            .'</pre>';
+            . '</p></label></div>'
+            . '<pre class="report-data">'
+            . htmlspecialchars(PMA_getPrettyReportData())
+            . '</pre>';
 
     $html .= '<div class="label"><label><p>'
             . __('Please explain the steps that lead to the error:')
-            .'</p></label></div>'
-            .'<textarea class="report-description" name="description"'
-            .'id="report_description"></textarea>';
+            . '</p></label></div>'
+            . '<textarea class="report-description" name="description"'
+            . 'id="report_description"></textarea>';
 
     $html .= '<input type="checkbox" name="always_send"'
-            .' id="always_send_checkbox"/>'
-            .'<label for="always_send_checkbox">'
+            . ' id="always_send_checkbox"/>'
+            . '<label for="always_send_checkbox">'
             . __('Automatically send report next time')
-            .'</label>';
+            . '</label>';
 
     $html .= '</fieldset>';
 
     $html .= PMA_URL_getHiddenInputs();
 
-    $reportData = PMA_getReportData(false);
+    $reportData = PMA_getReportData();
     if (! empty($reportData)) {
         $html .= PMA_getHiddenFields($reportData);
     }
@@ -356,3 +425,5 @@ function PMA_prettyPrint($object, $namespace="")
     }
     return $output;
 }
+
+?>

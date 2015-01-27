@@ -28,6 +28,10 @@ AJAX.registerTeardown('db_structure.js', function () {
     $("a.drop_table_anchor.ajax").die('click');
     $('a.drop_tracking_anchor.ajax').die('click');
     $('#real_end_input').die('click');
+    $("a.favorite_table_anchor.ajax").die('click');
+    $('a.real_row_count').off('click');
+    $('a.row_count_sum').off('click');
+    $('select[name=submit_mult]').unbind('change');
 });
 
 /**
@@ -63,8 +67,8 @@ function PMA_adjustTotals() {
         // If the value is approximated
         if (strRows.indexOf('~') === 0) {
             rowSumApproximated = true;
-            // The approximated value contains a preceding ~ and a following 2 (Eg 100 --> ~1002)
-            strRows = strRows.substring(1, strRows.length - 1);
+            // The approximated value contains a preceding ~ (Eg 100 --> ~100)
+            strRows = strRows.substring(1, strRows.length);
         }
         strRows = strRows.replace(/[,.]/g, '');
         var intRow = parseInt(strRows, 10);
@@ -97,7 +101,7 @@ function PMA_adjustTotals() {
         sizeSum += valSize;
         overheadSum += valOverhead;
     });
-    // Add some commas for readablility:
+    // Add some commas for readability:
     // 1000000 becomes 1,000,000
     var strRowSum = rowsSum + "";
     var regex = /(\d+)(\d{3})/;
@@ -124,10 +128,56 @@ function PMA_adjustTotals() {
 
     // Update summary with new data
     var $summary = $("#tbl_summary_row");
-    $summary.find('.tbl_num').text($.sprintf(PMA_messages.strTables, tableSum));
-    $summary.find('.tbl_rows').text(strRowSum);
+    $summary.find('.tbl_num').text(PMA_sprintf(PMA_messages.strTables, tableSum));
+    $summary.find('.row_count_sum').text(strRowSum);
     $summary.find('.tbl_size').text(sizeSum + " " + byteUnits[size_magnitude]);
     $summary.find('.tbl_overhead').text(overheadSum + " " + byteUnits[overhead_magnitude]);
+}
+
+/**
+ * Gets the real row count for a table or DB.
+ * @param object $target Target for appending the real count value.
+ */
+function PMA_fetchRealRowCount($target)
+{
+    var $throbber = $('#pma_navigation .throbber')
+        .first()
+        .clone()
+        .css({visibility: 'visible', display: 'inline-block'})
+        .click(false);
+    $target.html($throbber);
+    $.ajax({
+        type: 'GET',
+        url: $target.attr('href'),
+        cache: false,
+        dataType: 'json',
+        success: function (response) {
+            if (response.success) {
+                // If to update all row counts for a DB.
+                if (response.real_row_count_all) {
+                    $.each(JSON.parse(response.real_row_count_all),
+                        function (index, table) {
+                            // Update each table row count.
+                            $('table.data td[data-table*="' + table.table + '"]')
+                            .text(table.row_count);
+                        }
+                    );
+                }
+                // If to update a particular table's row count.
+                if (response.real_row_count) {
+                    // Append the parent cell with real row count.
+                    $target.parent().text(response.real_row_count);
+                }
+                // Adjust the 'Sum' displayed at the bottom.
+                PMA_adjustTotals();
+            } else {
+                PMA_ajaxShowMessage(PMA_messages.strErrorRealRowCount);
+            }
+        },
+        error: function () {
+            PMA_ajaxShowMessage(PMA_messages.strErrorRealRowCount);
+        }
+    });
 }
 
 AJAX.registerOnload('db_structure.js', function () {
@@ -156,6 +206,46 @@ AJAX.registerOnload('db_structure.js', function () {
         }
     });
 
+/**
+ * function to open the confirmation dialog for making table consistent with central list
+ *
+ * @param string   msg     message text to be displayed to user
+ * @param function success function to be called on success
+ *
+ */
+    var jqConfirm = function(msg, success) {
+        var dialogObj = $("<div style='display:none'>"+msg+"</div>");
+        $('body').append(dialogObj);
+        var buttonOptions = {};
+        buttonOptions[PMA_messages.strContinue] = function () {
+            success();
+            $( this ).dialog( "close" );
+        };
+        buttonOptions[PMA_messages.strCancel] = function () {
+            $( this ).dialog( "close" );
+            $('#tablesForm')[0].reset();
+        };
+        $(dialogObj).dialog({
+            resizable: false,
+            modal: true,
+            title: PMA_messages.confirmTitle,
+            buttons: buttonOptions
+        });
+    };
+
+/**
+ *  Event handler on select of "Make consistent with central list"
+ */
+    $('select[name=submit_mult]').change(function(event) {
+        if($(this).val() === 'make_consistent_with_central_list') {
+            event.preventDefault();
+            event.stopPropagation();
+            jqConfirm(PMA_messages.makeConsistentMessage, function(){
+                        $('#tablesForm').submit();
+                    });
+            return false;
+        }
+    });
      /**
      * Event handler for 'Foreign Key Checks' disabling option
      * in the drop table confirmation form
@@ -198,14 +288,14 @@ AJAX.registerOnload('db_structure.js', function () {
          * @var question    String containing the question to be asked for confirmation
          */
         var question = PMA_messages.strTruncateTableStrongWarning + ' ' +
-            $.sprintf(PMA_messages.strDoYouReally, 'TRUNCATE ' + escapeHtml(curr_table_name));
+            PMA_sprintf(PMA_messages.strDoYouReally, 'TRUNCATE ' + escapeHtml(curr_table_name));
 
         $this_anchor.PMA_confirm(question, $this_anchor.attr('href'), function (url) {
 
             PMA_ajaxShowMessage(PMA_messages.strProcessingRequest);
 
             $.get(url, {'is_js_confirmed' : 1, 'ajax_request' : true}, function (data) {
-                if (data.success === true) {
+                if (typeof data !== 'undefined' && data.success === true) {
                     PMA_ajaxShowMessage(data.message);
                     // Adjust table statistics
                     var $tr = $this_anchor.closest('tr');
@@ -254,10 +344,10 @@ AJAX.registerOnload('db_structure.js', function () {
         var question;
         if (! is_view) {
             question = PMA_messages.strDropTableStrongWarning + ' ' +
-                $.sprintf(PMA_messages.strDoYouReally, 'DROP TABLE ' + escapeHtml(curr_table_name));
+                PMA_sprintf(PMA_messages.strDoYouReally, 'DROP TABLE ' + escapeHtml(curr_table_name));
         } else {
             question =
-                $.sprintf(PMA_messages.strDoYouReally, 'DROP VIEW ' + escapeHtml(curr_table_name));
+                PMA_sprintf(PMA_messages.strDoYouReally, 'DROP VIEW ' + escapeHtml(curr_table_name));
         }
 
         $this_anchor.PMA_confirm(question, $this_anchor.attr('href'), function (url) {
@@ -265,7 +355,7 @@ AJAX.registerOnload('db_structure.js', function () {
             var $msg = PMA_ajaxShowMessage(PMA_messages.strProcessingRequest);
 
             $.get(url, {'is_js_confirmed' : 1, 'ajax_request' : true}, function (data) {
-                if (data.success === true) {
+                if (typeof data !== 'undefined' && data.success === true) {
                     PMA_ajaxShowMessage(data.message);
                     toggleRowColors($curr_row.next());
                     $curr_row.hide("medium").remove();
@@ -301,7 +391,7 @@ AJAX.registerOnload('db_structure.js', function () {
             PMA_ajaxShowMessage(PMA_messages.strDeletingTrackingData);
 
             $.get(url, {'is_js_confirmed': 1, 'ajax_request': true}, function (data) {
-                if (data.success === true) {
+                if (typeof data !== 'undefined' && data.success === true) {
                     var $tracked_table = $curr_tracking_row.parents('table');
                     var table_name = $curr_tracking_row.find('td:nth-child(2)').text();
 
@@ -365,7 +455,7 @@ AJAX.registerOnload('db_structure.js', function () {
 
     //Calculate Real End for InnoDB
     /**
-     * Ajax Event handler for calculatig the real end for a InnoDB table
+     * Ajax Event handler for calculating the real end for a InnoDB table
      *
      */
     $('#real_end_input').live('click', function (event) {
@@ -382,4 +472,28 @@ AJAX.registerOnload('db_structure.js', function () {
         return false;
     }); //end Calculate Real End for InnoDB
 
+    PMA_tooltip(
+        $("select[name*='funcs']"),
+        'select',
+        PMA_messages.strFunctionHint
+    );
+    // Add tooltip to favorite icons.
+    $(".favorite_table_anchor").each(function () {
+        PMA_tooltip(
+            $(this),
+            'a',
+            $(this).attr("title")
+        );
+    });
+
+    // Get real row count via Ajax.
+    $('a.real_row_count').on('click', function (event) {
+        event.preventDefault();
+        PMA_fetchRealRowCount($(this));
+    });
+    // Get all real row count.
+    $('a.row_count_sum').on('click', function (event) {
+        event.preventDefault();
+        PMA_fetchRealRowCount($(this));
+    });
 }); // end $()

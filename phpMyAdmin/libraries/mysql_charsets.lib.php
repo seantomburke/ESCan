@@ -9,9 +9,21 @@ if (! defined('PHPMYADMIN')) {
     exit;
 }
 
+/**
+ * Generate charset dropdown box
+ *
+ * @param int         $type           Type
+ * @param string      $name           Element name
+ * @param string      $id             Element id
+ * @param null|string $default        Default value
+ * @param bool        $label          Label
+ * @param bool        $submitOnChange Submit on change
+ *
+ * @return string
+ */
 function PMA_generateCharsetDropdownBox($type = PMA_CSDROPDOWN_COLLATION,
-    $name = null, $id = null, $default = null, $label = true, $indent = 0,
-    $submitOnChange = false, $displayUnavailable = false
+    $name = null, $id = null, $default = null, $label = true,
+    $submitOnChange = false
 ) {
     global $mysql_charsets, $mysql_charsets_descriptions,
         $mysql_charsets_available, $mysql_collations, $mysql_collations_available;
@@ -102,14 +114,26 @@ function PMA_getDbCollation($db)
         return 'utf8_general_ci';
     }
 
-    $sql = PMA_DRIZZLE
-        ? 'SELECT DEFAULT_COLLATION_NAME FROM data_dictionary.SCHEMAS'
-        . ' WHERE SCHEMA_NAME = \'' . PMA_Util::sqlAddSlashes($db)
-        . '\' LIMIT 1'
-        : 'SELECT DEFAULT_COLLATION_NAME FROM information_schema.SCHEMATA'
-        . ' WHERE SCHEMA_NAME = \'' . PMA_Util::sqlAddSlashes($db)
-        . '\' LIMIT 1';
-    return $GLOBALS['dbi']->fetchValue($sql);
+    if (! $GLOBALS['cfg']['Server']['DisableIS']) {
+        // this is slow with thousands of databases
+        $sql = PMA_DRIZZLE
+            ? 'SELECT DEFAULT_COLLATION_NAME FROM data_dictionary.SCHEMAS'
+            . ' WHERE SCHEMA_NAME = \'' . PMA_Util::sqlAddSlashes($db)
+            . '\' LIMIT 1'
+            : 'SELECT DEFAULT_COLLATION_NAME FROM information_schema.SCHEMATA'
+            . ' WHERE SCHEMA_NAME = \'' . PMA_Util::sqlAddSlashes($db)
+            . '\' LIMIT 1';
+        return $GLOBALS['dbi']->fetchValue($sql);
+    } else {
+        $GLOBALS['dbi']->selectDb($db);
+        $return = $GLOBALS['dbi']->fetchValue(
+            'SHOW VARIABLES LIKE \'collation_database\'', 0, 1
+        );
+        if ($db !== $GLOBALS['db']) {
+            $GLOBALS['dbi']->selectDb($GLOBALS['db']);
+        }
+        return $return;
+    }
 }
 
 /**
@@ -244,6 +268,7 @@ function PMA_getCollationDescr($collation)
         break;
     case 'bin':
         $is_bin = true;
+        // no break; statement here, continuing with 'general' section:
     case 'general':
         switch ($parts[0]) {
         // Unicode charsets

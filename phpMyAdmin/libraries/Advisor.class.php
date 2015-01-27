@@ -26,7 +26,7 @@ class Advisor
      *
      * @return array with run and parse results
      */
-    function run()
+    public function run()
     {
         // HowTo: A simple Advisory system in 3 easy steps.
 
@@ -48,7 +48,8 @@ class Advisor
         include_once 'libraries/sysinfo.lib.php';
         $sysinfo = PMA_getSysInfo();
         $memory  = $sysinfo->memory();
-        $this->variables['system_memory'] = $memory['MemTotal'];
+        $this->variables['system_memory']
+            = isset($memory['MemTotal']) ? $memory['MemTotal'] : 0;
 
         // Step 2: Read and parse the list of rules
         $this->parseResult = $this->parseRulesFile();
@@ -65,12 +66,12 @@ class Advisor
     /**
      * Stores current error in run results.
      *
-     * @param string $description description of an error.
-     * @param object $exception   exception raised
+     * @param string    $description description of an error.
+     * @param Exception $exception   exception raised
      *
      * @return void
      */
-    function storeError($description, $exception)
+    public function storeError($description, $exception)
     {
         $this->runResult['errors'][] = $description
             . ' '
@@ -85,7 +86,7 @@ class Advisor
      *
      * @return boolean
      */
-    function runRules()
+    public function runRules()
     {
         $this->runResult = array(
             'fired' => array(),
@@ -159,7 +160,7 @@ class Advisor
      *
      * @return string
      */
-    static function escapePercent($str)
+    public static function escapePercent($str)
     {
         return preg_replace('/%( |,|\.|$|\(|\)|<|>)/', '%%\1', $str);
     }
@@ -168,31 +169,29 @@ class Advisor
      * Wrapper function for translating.
      *
      * @param string $str   the string
-     * @param mixed  $param the parameters
+     * @param string $param the parameters
      *
      * @return string
      */
-    function translate($str, $param = null)
+    public function translate($str, $param = null)
     {
-        if (is_null($param)) {
-            return sprintf(_gettext(Advisor::escapePercent($str)));
+        $string = _gettext(Advisor::escapePercent($str));
+        if ( ! is_null($param)) {
+            $params = $this->ruleExprEvaluate('array(' . $param . ')');
         } else {
-            $printf = 'sprintf("' . _gettext(Advisor::escapePercent($str)) . '",';
-            return $this->ruleExprEvaluate(
-                $printf . $param . ')',
-                strlen($printf)
-            );
+            $params = array();
         }
+        return vsprintf($string, $params);
     }
 
     /**
      * Splits justification to text and formula.
      *
-     * @param string $rule the rule
+     * @param array $rule the rule
      *
-     * @return array
+     * @return string[]
      */
-    static function splitJustification($rule)
+    public static function splitJustification($rule)
     {
         $jst = preg_split('/\s*\|\s*/', $rule['justification'], 2);
         if (count($jst) > 1) {
@@ -205,11 +204,11 @@ class Advisor
      * Adds a rule to the result list
      *
      * @param string $type type of rule
-     * @param array  $rule rule itslef
+     * @param array  $rule rule itself
      *
      * @return void
      */
-    function addRule($type, $rule)
+    public function addRule($type, $rule)
     {
         switch($type) {
         case 'notfired':
@@ -242,7 +241,7 @@ class Advisor
             // linking to server_variables.php
             $rule['recommendation'] = preg_replace(
                 '/\{([a-z_0-9]+)\}/Ui',
-                '<a href="server_variables.php?' . PMA_URL_getCommon()
+                '<a href="server_variables.php' . PMA_URL_getCommon()
                 . '&filter=\1">\1</a>',
                 $this->translate($rule['recommendation'])
             );
@@ -318,21 +317,14 @@ class Advisor
      * Runs a code expression, replacing variable names with their respective
      * values
      *
-     * @param string $expr        expression to evaluate
-     * @param int    $ignoreUntil if > 0, it doesn't replace any variables until
-     *                            that string position, but still evaluates the
-     *                            whole expr
+     * @param string $expr expression to evaluate
      *
-     * @return string result of evaluated expression
+     * @return integer result of evaluated expression
      *
      * @throws Exception
      */
-    function ruleExprEvaluate($expr, $ignoreUntil = 0)
+    public function ruleExprEvaluate($expr)
     {
-        if ($ignoreUntil > 0) {
-            $exprIgnore = substr($expr, 0, $ignoreUntil);
-            $expr = substr($expr, $ignoreUntil);
-        }
         // Evaluate fired() conditions
         $expr = preg_replace_callback(
             '/fired\s*\(\s*(\'|")(.*)\1\s*\)/Ui',
@@ -345,16 +337,19 @@ class Advisor
             array($this, '_ruleExprEvaluateVariable'),
             $expr
         );
-        if ($ignoreUntil > 0) {
-            $expr = $exprIgnore . $expr;
-        }
         $value = 0;
         $err = 0;
 
         // Actually evaluate the code
         ob_start();
-        eval('$value = ' . $expr . ';');
-        $err = ob_get_contents();
+        try {
+            eval('$value = ' . $expr . ';');
+            $err = ob_get_contents();
+        } catch (Exception $e) {
+            // In normal operation, there is just output in the buffer,
+            // but when running under phpunit, error in eval raises exception
+            $err = $e->getMessage();
+        }
         ob_end_clean();
 
         // Error handling
@@ -373,7 +368,7 @@ class Advisor
      *
      * @return array with parsed data
      */
-    static function parseRulesFile()
+    public static function parseRulesFile()
     {
         $file = file('libraries/advisory_rules.txt', FILE_IGNORE_NEW_LINES);
         $errors = array();
@@ -397,7 +392,10 @@ class Advisor
             if (substr($line, 0, 4) == 'rule') {
                 if ($ruleLine > 0) {
                     $errors[] = sprintf(
-                        __('Invalid rule declaration on line %1$s, expected line %2$s of previous rule.'),
+                        __(
+                            'Invalid rule declaration on line %1$s, expected line '
+                            . '%2$s of previous rule.'
+                        ),
                         $i + 1,
                         $ruleSyntax[$ruleLine++]
                     );
@@ -436,13 +434,18 @@ class Advisor
                 // Non tabbed lines are not
                 if ($line[0] != "\t") {
                     $errors[] = sprintf(
-                        __('Unexpected character on line %1$s. Expected tab, but found "%2$s".'),
+                        __(
+                            'Unexpected character on line %1$s. Expected tab, but '
+                            . 'found "%2$s".'
+                        ),
                         $i + 1,
                         $line[0]
                     );
                     continue;
                 }
-                $rules[$ruleNo][$ruleSyntax[$ruleLine]] = chop(substr($line, 1));
+                $rules[$ruleNo][$ruleSyntax[$ruleLine]] = chop(
+                    /*overload*/mb_substr($line, 1)
+                );
                 $lines[$ruleNo][$ruleSyntax[$ruleLine]] = $i + 1;
                 $ruleLine += 1;
             }
@@ -457,6 +460,7 @@ class Advisor
     }
 }
 
+
 /**
  * Formats interval like 10 per hour
  *
@@ -467,7 +471,6 @@ class Advisor
  */
 function ADVISOR_bytime($num, $precision)
 {
-    $per = '';
     if ($num >= 1) { // per second
         $per = __('per second');
     } elseif ($num * 60 >= 1) { // per minute
@@ -493,6 +496,8 @@ function ADVISOR_bytime($num, $precision)
 /**
  * Wrapper for PMA_Util::timespanFormat
  *
+ * This function is used when evaluating advisory_rules.txt
+ *
  * @param int $seconds the timespan
  *
  * @return string  the formatted value
@@ -505,15 +510,17 @@ function ADVISOR_timespanFormat($seconds)
 /**
  * Wrapper around PMA_Util::formatByteDown
  *
+ * This function is used when evaluating advisory_rules.txt
+ *
  * @param double $value the value to format
  * @param int    $limes the sensitiveness
  * @param int    $comma the number of decimals to retain
  *
- * @return array    the formatted value and its unit
+ * @return string the formatted value with unit
  */
 function ADVISOR_formatByteDown($value, $limes = 6, $comma = 0)
 {
-    return PMA_Util::formatByteDown($value, $limes, $comma);
+    return implode(' ', PMA_Util::formatByteDown($value, $limes, $comma));
 }
 
 ?>

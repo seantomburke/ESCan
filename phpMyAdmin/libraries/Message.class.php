@@ -177,7 +177,7 @@ class PMA_Message
     static public function success($string = '')
     {
         if (empty($string)) {
-            $string = __('Your SQL query has been executed successfully');
+            $string = __('Your SQL query has been executed successfully.');
         }
 
         return new PMA_Message($string, PMA_Message::SUCCESS);
@@ -342,7 +342,7 @@ class PMA_Message
 
     /**
      * returns whether this message is a success message or not
-     * and optionaly makes this message a success message
+     * and optionally makes this message a success message
      *
      * @param boolean $set Whether to make this message of SUCCESS type
      *
@@ -501,7 +501,7 @@ class PMA_Message
      */
     public function addMessage($message, $separator = ' ')
     {
-        if (strlen($separator)) {
+        if (/*overload*/mb_strlen($separator)) {
             $this->addedMessages[] = $separator;
         }
 
@@ -515,8 +515,8 @@ class PMA_Message
     /**
      * set all params at once, usually used in conjunction with string
      *
-     * @param array   $params   parameters to set
-     * @param boolean $sanitize whether to sanitize params
+     * @param array|string $params   parameters to set
+     * @param boolean      $sanitize whether to sanitize params
      *
      * @return void
      */
@@ -628,11 +628,11 @@ class PMA_Message
     {
         $message = $this->message;
 
-        if (0 === strlen($message)) {
+        if (0 === /*overload*/mb_strlen($message)) {
             $string = $this->getString();
             if (isset($GLOBALS[$string])) {
                 $message = $GLOBALS[$string];
-            } elseif (0 === strlen($string)) {
+            } elseif (0 === /*overload*/mb_strlen($string)) {
                 $message = '';
             } else {
                 $message = $string;
@@ -654,6 +654,17 @@ class PMA_Message
 
         return $message;
     }
+
+    /**
+    * Returns only message string without image & other HTML.
+    *
+    * @return string
+    */
+    public function getOnlyMessage()
+    {
+        return $this->message;
+    }
+
 
     /**
      * returns PMA_Message::$string
@@ -733,7 +744,6 @@ class PMA_Message
      */
     public function getMessageWithIcon($message)
     {
-        $image = '';
         if ('error' == $this->getLevel()) {
             $image = 's_error.png';
         } elseif ('success' == $this->getLevel()) {

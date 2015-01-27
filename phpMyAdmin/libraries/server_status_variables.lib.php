@@ -15,7 +15,7 @@ if (! defined('PHPMYADMIN')) {
 /**
  * Returns the html for the list filter
  *
- * @param Object $ServerStatusData An instance of the PMA_ServerStatusData class
+ * @param PMA_ServerStatusData $ServerStatusData Server status data
  *
  * @return string
  */
@@ -37,7 +37,7 @@ function PMA_getHtmlForFilter($ServerStatusData)
     $retval  = '';
     $retval .= '<fieldset id="tableFilter">';
     $retval .= '<legend>' . __('Filters') . '</legend>';
-    $retval .= '<form action="server_status_variables.php?'
+    $retval .= '<form action="server_status_variables.php'
         . PMA_URL_getCommon() . '">';
     $retval .= '<input type="submit" value="' . __('Refresh') . '" />';
     $retval .= '<div class="formelement">';
@@ -65,7 +65,7 @@ function PMA_getHtmlForFilter($ServerStatusData)
             } else {
                 $selected = '';
             }
-            $retval .= '<option' . $selected . ' value="' . $section_id. '">';
+            $retval .= '<option' . $selected . ' value="' . $section_id . '">';
             $retval .= htmlspecialchars($section_name) . '</option>';
         }
     }
@@ -87,7 +87,7 @@ function PMA_getHtmlForFilter($ServerStatusData)
 /**
  * Prints the suggestion links
  *
- * @param Object $ServerStatusData An instance of the PMA_ServerStatusData class
+ * @param PMA_ServerStatusData $ServerStatusData Server status data
  *
  * @return string
  */
@@ -122,7 +122,7 @@ function PMA_getHtmlForLinkSuggestions($ServerStatusData)
 /**
  * Returns a table with variables information
  *
- * @param Object $ServerStatusData An instance of the PMA_ServerStatusData class
+ * @param PMA_ServerStatusData $ServerStatusData Server status data
  *
  * @return string
  */
@@ -165,17 +165,17 @@ function PMA_getHtmlForVariablesList($ServerStatusData)
         'Qcache_lowmem_prunes' => 0,
 
         'Qcache_free_blocks' =>
-            isset($ServerStatusData->server_status['Qcache_total_blocks'])
-            ? $ServerStatusData->server_status['Qcache_total_blocks'] / 5
+            isset($ServerStatusData->status['Qcache_total_blocks'])
+            ? $ServerStatusData->status['Qcache_total_blocks'] / 5
             : 0,
         'Slow_launch_threads' => 0,
 
         // depends on Key_read_requests
-        // normaly lower then 1:0.01
+        // normally lower then 1:0.01
         'Key_reads' => isset($ServerStatusData->status['Key_read_requests'])
             ? (0.01 * $ServerStatusData->status['Key_read_requests']) : 0,
         // depends on Key_write_requests
-        // normaly nearly 1:1
+        // normally nearly 1:1
         'Key_writes' => isset($ServerStatusData->status['Key_write_requests'])
             ? (0.9 * $ServerStatusData->status['Key_write_requests']) : 0,
 
@@ -202,15 +202,15 @@ function PMA_getHtmlForVariablesList($ServerStatusData)
 /**
  * Returns HTML for render variables list
  *
- * @param Object $ServerStatusData An instance of the PMA_ServerStatusData class
- * @param Array  $alerts           Alert Array
- * @param Array  $strShowStatus    Status Array
+ * @param PMA_ServerStatusData $ServerStatusData Server status data
+ * @param Array                $alerts           Alert Array
+ * @param Array                $strShowStatus    Status Array
  *
  * @return string
  */
 function PMA_getHtmlForRenderVariables($ServerStatusData, $alerts, $strShowStatus)
 {
-    $retval  = '<table class="data sortable noclick" id="serverstatusvariables">';
+    $retval  = '<table class="data noclick" id="serverstatusvariables">';
     $retval .= '<col class="namecol" />';
     $retval .= '<col class="valuecol" />';
     $retval .= '<col class="descrcol" />';
@@ -236,7 +236,7 @@ function PMA_getHtmlForRenderVariables($ServerStatusData, $alerts, $strShowStatu
         $retval .= htmlspecialchars(str_replace('_', ' ', $name));
         // Fields containing % are calculated,
         // they can not be described in MySQL documentation
-        if (strpos($name, '%') === false) {
+        if (/*overload*/mb_strpos($name, '%') === false) {
             $retval .= PMA_Util::showMySQLDocu(
                 'server-status-variables',
                 false,
@@ -253,7 +253,7 @@ function PMA_getHtmlForRenderVariables($ServerStatusData, $alerts, $strShowStatu
                 $retval .= '<span class="allfine">';
             }
         }
-        if ('%' === substr($name, -1, 1)) {
+        if (substr($name, -1) === '%') {
             $retval .= htmlspecialchars(PMA_Util::formatNumber($value, 0, 2)) . ' %';
         } elseif (strpos($name, 'Uptime') !== false) {
             $retval .= htmlspecialchars(

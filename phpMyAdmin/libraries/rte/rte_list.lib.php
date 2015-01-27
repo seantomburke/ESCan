@@ -89,9 +89,9 @@ function PMA_RTE_getList($type, $items)
     }
     $retval .= "        </tr>\n";
     $retval .= "        <!-- TABLE DATA -->\n";
-    $ct = 0;
+    $count = 0;
     foreach ($items as $item) {
-        $rowclass = ($ct % 2 == 0) ? 'odd' : 'even';
+        $rowclass = ($count % 2 == 0) ? 'odd' : 'even';
         if ($GLOBALS['is_ajax_request'] && empty($_REQUEST['ajax_page_request'])) {
             $rowclass .= ' ajaxInsert hide';
         }
@@ -109,7 +109,7 @@ function PMA_RTE_getList($type, $items)
         default:
             break;
         }
-        $ct++;
+        $count++;
     }
     $retval .= "    </table>\n";
     $retval .= "</fieldset>\n";
@@ -147,12 +147,13 @@ function PMA_RTN_getRowForList($routine, $rowclass = '')
     $retval .= "                </strong>\n";
     $retval .= "            </td>\n";
     $retval .= "            <td>\n";
+    // Since editing a procedure involved dropping and recreating, check also for
+    // CREATE ROUTINE privilege to avoid lost procedures.
     if ($routine['ROUTINE_DEFINITION'] !== null
-        && PMA_Util::currentUserHasPrivilege('ALTER ROUTINE', $db)
         && PMA_Util::currentUserHasPrivilege('CREATE ROUTINE', $db)
     ) {
         $retval .= '                <a ' . $ajax_class['edit']
-                                         . ' href="db_routines.php?'
+                                         . ' href="db_routines.php'
                                          . $url_query
                                          . '&amp;edit_item=1'
                                          . '&amp;item_name='
@@ -181,30 +182,34 @@ function PMA_RTN_getRowForList($routine, $rowclass = '')
         false
     );
     if ($routine !== false) {
-        $execute_action = 'execute_routine';
-        for ($i=0; $i<$routine_details['item_num_params']; $i++) {
-            if ($routine_details['item_type'] == 'PROCEDURE'
-                && $routine_details['item_param_dir'][$i] == 'OUT'
-            ) {
-                continue;
+        if (PMA_Util::currentUserHasPrivilege('EXECUTE', $db)) {
+            $execute_action = 'execute_routine';
+            for ($i=0; $i<$routine_details['item_num_params']; $i++) {
+                if ($routine_details['item_type'] == 'PROCEDURE'
+                    && $routine_details['item_param_dir'][$i] == 'OUT'
+                ) {
+                    continue;
+                }
+                $execute_action = 'execute_dialog';
+                break;
             }
-            $execute_action = 'execute_dialog';
-            break;
+            $retval .= '                <a ' . $ajax_class['exec']
+                                             . ' href="db_routines.php'
+                                             . $url_query
+                                             . '&amp;' . $execute_action . '=1'
+                                             . '&amp;item_name='
+                                             . urlencode($routine['SPECIFIC_NAME'])
+                                             . '&amp;' . $type_link
+                                             . '">' . $titles['Execute'] . "</a>\n";
+        } else {
+            $retval .= "                {$titles['NoExecute']}\n";
         }
-        $retval .= '                <a ' . $ajax_class['exec']
-                                         . ' href="db_routines.php?'
-                                         . $url_query
-                                         . '&amp;' . $execute_action . '=1'
-                                         . '&amp;item_name='
-                                         . urlencode($routine['SPECIFIC_NAME'])
-                                         . '&amp;' . $type_link
-                                         . '">' . $titles['Execute'] . "</a>\n";
     }
 
     $retval .= "            </td>\n";
     $retval .= "            <td>\n";
     $retval .= '                <a ' . $ajax_class['export']
-                                     . ' href="db_routines.php?'
+                                     . ' href="db_routines.php'
                                      . $url_query
                                      . '&amp;export_item=1'
                                      . '&amp;item_name='
@@ -213,17 +218,13 @@ function PMA_RTN_getRowForList($routine, $rowclass = '')
                                      . '">' . $titles['Export'] . "</a>\n";
     $retval .= "            </td>\n";
     $retval .= "            <td>\n";
-    if (PMA_Util::currentUserHasPrivilege('ALTER ROUTINE', $db)) {
-        $retval .= '                <a ' . $ajax_class['drop']
-                                         . ' href="sql.php?'
+    $retval .= '                <a ' . $ajax_class['drop']
+                                         . ' href="sql.php'
                                          . $url_query
                                          . '&amp;sql_query=' . urlencode($sql_drop)
                                          . '&amp;goto=db_routines.php'
                                          . urlencode("?db={$db}")
                                          . '" >' . $titles['Drop'] . "</a>\n";
-    } else {
-        $retval .= "                {$titles['NoDrop']}\n";
-    }
     $retval .= "            </td>\n";
     $retval .= "            <td>\n";
     $retval .= "                 {$routine['ROUTINE_TYPE']}\n";
@@ -259,15 +260,15 @@ function PMA_TRI_getRowForList($trigger, $rowclass = '')
     $retval .= "            </td>\n";
     if (empty($table)) {
         $retval .= "            <td>\n";
-        $retval .= "                <a href='db_triggers.php?{$url_query}"
-                                     . "&amp;table={$trigger['table']}'>"
-                                     . $trigger['table'] . "</a>\n";
+        $retval .= "<a href='db_triggers.php{$url_query}"
+            . "&amp;table=" . urlencode($trigger['table']) . "'>"
+            . urlencode($trigger['table']) . "</a>";
         $retval .= "            </td>\n";
     }
     $retval .= "            <td>\n";
     if (PMA_Util::currentUserHasPrivilege('TRIGGER', $db, $table)) {
         $retval .= '                <a ' . $ajax_class['edit']
-                                         . ' href="db_triggers.php?'
+                                         . ' href="db_triggers.php'
                                          . $url_query
                                          . '&amp;edit_item=1'
                                          . '&amp;item_name='
@@ -279,7 +280,7 @@ function PMA_TRI_getRowForList($trigger, $rowclass = '')
     $retval .= "            </td>\n";
     $retval .= "            <td>\n";
     $retval .= '                    <a ' . $ajax_class['export']
-                                         . ' href="db_triggers.php?'
+                                         . ' href="db_triggers.php'
                                          . $url_query
                                          . '&amp;export_item=1'
                                          . '&amp;item_name='
@@ -289,7 +290,7 @@ function PMA_TRI_getRowForList($trigger, $rowclass = '')
     $retval .= "            <td>\n";
     if (PMA_Util::currentUserHasPrivilege('TRIGGER', $db)) {
         $retval .= '                <a ' . $ajax_class['drop']
-                                         . ' href="sql.php?'
+                                         . ' href="sql.php'
                                          . $url_query
                                          . '&amp;sql_query='
                                          . urlencode($trigger['drop'])
@@ -343,7 +344,7 @@ function PMA_EVN_getRowForList($event, $rowclass = '')
     $retval .= "            <td>\n";
     if (PMA_Util::currentUserHasPrivilege('EVENT', $db)) {
         $retval .= '                <a ' . $ajax_class['edit']
-                                         . ' href="db_events.php?'
+                                         . ' href="db_events.php'
                                          . $url_query
                                          . '&amp;edit_item=1'
                                          . '&amp;item_name='
@@ -355,7 +356,7 @@ function PMA_EVN_getRowForList($event, $rowclass = '')
     $retval .= "            </td>\n";
     $retval .= "            <td>\n";
     $retval .= '                <a ' . $ajax_class['export']
-                                     . ' href="db_events.php?'
+                                     . ' href="db_events.php'
                                      . $url_query
                                      . '&amp;export_item=1'
                                      . '&amp;item_name='
@@ -365,7 +366,7 @@ function PMA_EVN_getRowForList($event, $rowclass = '')
     $retval .= "            <td>\n";
     if (PMA_Util::currentUserHasPrivilege('EVENT', $db)) {
         $retval .= '                <a ' . $ajax_class['drop']
-                                         . ' href="sql.php?'
+                                         . ' href="sql.php'
                                          . $url_query
                                          . '&amp;sql_query=' . urlencode($sql_drop)
                                          . '&amp;goto=db_events.php'

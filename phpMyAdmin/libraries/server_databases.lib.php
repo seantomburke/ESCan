@@ -109,10 +109,7 @@ function PMA_getHtmlForDatabase(
 
     $html .= PMA_getHtmlForTableFooterButtons(
         $cfg['AllowUserDropDatabase'],
-        $is_superuser,
-        $sort_by,
-        $sort_order,
-        $dbstats
+        $is_superuser
     );
 
     if (empty($dbstats)) {
@@ -128,56 +125,53 @@ function PMA_getHtmlForDatabase(
 /**
  * Returns the html for Table footer buttons
  *
- * @param bool   $is_allowUserDropDatabase Allow user drop database
- * @param bool   $is_superuser             User status
- * @param string $sort_by                  sort by string
- * @param string $sort_order               sort order string
- * @param Array  $dbstats                  database status
+ * @param bool $is_allowUserDropDb Allow user drop database
+ * @param bool $is_superuser       User status
  *
  * @return string
  */
-function PMA_getHtmlForTableFooterButtons(
-    $is_allowUserDropDatabase, $is_superuser,
-    $sort_by, $sort_order, $dbstats
-) {
-    $html = "";
-    if ($is_superuser || $is_allowUserDropDatabase) {
-        $html .= '<img class="selectallarrow" src="'
-            . $GLOBALS['pmaThemeImage'] . 'arrow_' . $GLOBALS['text_dir'] . '.png"'
-            . ' width="38" height="22" alt="' . __('With selected:') . '" />' . "\n"
-            . '<input type="checkbox" id="dbStatsForm_checkall" '
-            . 'class="checkall_box" title="' . __('Check All') . '" /> '
-            . '<label for="dbStatsForm_checkall">' . __('Check All') . '</label> '
-            . '<i style="margin-left: 2em">' . __('With selected:') . '</i>' . "\n";
-        $html .= PMA_Util::getButtonOrImage(
-            '',
-            'mult_submit' . ' ajax',
-            'drop_selected_dbs',
-            __('Drop'), 'b_deltbl.png'
-        );
+function PMA_getHtmlForTableFooterButtons($is_allowUserDropDb, $is_superuser)
+{
+    if (!$is_superuser && !$is_allowUserDropDb) {
+        return '';
     }
+
+    $html = '<img class="selectallarrow" src="'
+        . $GLOBALS['pmaThemeImage'] . 'arrow_' . $GLOBALS['text_dir'] . '.png"'
+        . ' width="38" height="22" alt="' . __('With selected:') . '" />' . "\n"
+        . '<input type="checkbox" id="dbStatsForm_checkall" '
+        . 'class="checkall_box" title="' . __('Check All') . '" /> '
+        . '<label for="dbStatsForm_checkall">' . __('Check All') . '</label> '
+        . '<i style="margin-left: 2em">' . __('With selected:') . '</i>' . "\n";
+    $html .= PMA_Util::getButtonOrImage(
+        '',
+        'mult_submit' . ' ajax',
+        'drop_selected_dbs',
+        __('Drop'), 'b_deltbl.png'
+    );
+
     return $html;
 }
 
 /**
  * Returns the html for Table footer
  *
- * @param bool   $is_allowUserDropDatabase Allow user drop database
- * @param bool   $is_superuser             User status
- * @param Array  $databases_count          Database count
- * @param string $column_order             column order
- * @param array  $replication_types        replication types
- * @param string $first_database           First database
+ * @param bool   $is_allowUserDropDb Allow user drop database
+ * @param bool   $is_superuser       User status
+ * @param int    $databases_count    Database count
+ * @param string $column_order       column order
+ * @param array  $replication_types  replication types
+ * @param string $first_database     First database
  *
  * @return string
  */
 function PMA_getHtmlForTableFooter(
-    $is_allowUserDropDatabase, $is_superuser,
+    $is_allowUserDropDb, $is_superuser,
     $databases_count, $column_order,
     $replication_types, $first_database
 ) {
     $html = '<tfoot><tr>' . "\n";
-    if ($is_superuser || $is_allowUserDropDatabase) {
+    if ($is_superuser || $is_allowUserDropDb) {
         $html .= '    <th></th>' . "\n";
     }
     $html .= '    <th>' . __('Total') . ': <span id="databases_count">'
@@ -186,7 +180,7 @@ function PMA_getHtmlForTableFooter(
     $html .= PMA_getHtmlForColumnOrder($column_order, $first_database);
 
     foreach ($replication_types as $type) {
-        if ($GLOBALS["server_" . $type. "_status"]) {
+        if ($GLOBALS['replication_info'][$type]['status']) {
             $html .= '    <th></th>' . "\n";
         }
     }
@@ -255,6 +249,8 @@ function PMA_getHtmlAndColumnOrderForDatabaseList(
 function PMA_getHtmlForColumnOrder($column_order, $first_database)
 {
     $html = "";
+    // avoid execution path notice
+    $unit = "";
     foreach ($column_order as $stat_name => $stat) {
         if (array_key_exists($stat_name, $first_database)) {
             if ($stat['format'] === 'byte') {
@@ -288,22 +284,22 @@ function PMA_getHtmlForColumnOrder($column_order, $first_database)
 /**
  * Returns the html for Column Order with Sort
  *
- * @param bool   $is_superuser             User status
- * @param bool   $is_allowUserDropDatabase Allow user drop database
- * @param Array  $_url_params              Url params
- * @param string $sort_by                  sort colume name
- * @param string $sort_order               order
- * @param array  $column_order             column order
- * @param array  $first_database           database to show
+ * @param bool   $is_superuser       User status
+ * @param bool   $is_allowUserDropDb Allow user drop database
+ * @param Array  $_url_params        Url params
+ * @param string $sort_by            sort column name
+ * @param string $sort_order         order
+ * @param array  $column_order       column order
+ * @param array  $first_database     database to show
  *
  * @return string
  */
 function PMA_getHtmlForColumnOrderWithSort(
-    $is_superuser, $is_allowUserDropDatabase,
+    $is_superuser, $is_allowUserDropDb,
     $_url_params, $sort_by, $sort_order,
     $column_order, $first_database
 ) {
-    $html = ($is_superuser || $is_allowUserDropDatabase
+    $html = ($is_superuser || $is_allowUserDropDb
         ? '        <th></th>' . "\n"
         : '')
         . '    <th><a href="server_databases.php'
@@ -319,30 +315,32 @@ function PMA_getHtmlForColumnOrderWithSort(
         . '        </a></th>' . "\n";
     $table_columns = 3;
     foreach ($column_order as $stat_name => $stat) {
-        if (array_key_exists($stat_name, $first_database)) {
-            if ($stat['format'] === 'byte') {
-                $table_columns += 2;
-                $colspan = ' colspan="2"';
-            } else {
-                $table_columns++;
-                $colspan = '';
-            }
-            $_url_params['sort_by'] = $stat_name;
-            $_url_params['sort_order']
-                = ($sort_by == $stat_name && $sort_order == 'desc') ? 'asc' : 'desc';
-            $html .= '    <th' . $colspan . '>'
-                . '<a href="server_databases.php'
-                . PMA_URL_getCommon($_url_params) . '">' . "\n"
-                . '            ' . $stat['disp_name'] . "\n"
-                . ($sort_by == $stat_name
-                    ? '            ' . PMA_Util::getImage(
-                        's_' . $sort_order . '.png',
-                        ($sort_order == 'asc' ? __('Ascending') : __('Descending'))
-                    ) . "\n"
-                    : ''
-                  )
-                . '        </a></th>' . "\n";
+        if (!array_key_exists($stat_name, $first_database)) {
+            continue;
         }
+
+        if ($stat['format'] === 'byte') {
+            $table_columns += 2;
+            $colspan = ' colspan="2"';
+        } else {
+            $table_columns++;
+            $colspan = '';
+        }
+        $_url_params['sort_by'] = $stat_name;
+        $_url_params['sort_order']
+            = ($sort_by == $stat_name && $sort_order == 'desc') ? 'asc' : 'desc';
+        $html .= '    <th' . $colspan . '>'
+            . '<a href="server_databases.php'
+            . PMA_URL_getCommon($_url_params) . '">' . "\n"
+            . '            ' . $stat['disp_name'] . "\n"
+            . ($sort_by == $stat_name
+                ? '            ' . PMA_Util::getImage(
+                    's_' . $sort_order . '.png',
+                    ($sort_order == 'asc' ? __('Ascending') : __('Descending'))
+                ) . "\n"
+                : ''
+              )
+            . '        </a></th>' . "\n";
     }
     return $html;
 }
@@ -367,7 +365,7 @@ function PMA_getHtmlForNoticeEnableStatistics($url_query, $html)
     //we should put notice above database list
     $html  = $notice . $html;
     $html .= '<ul><li id="li_switch_dbstats"><strong>' . "\n";
-    $html .= '<a href="server_databases.php?' . $url_query . '&amp;dbstats=1"'
+    $html .= '<a href="server_databases.php' . $url_query . '&amp;dbstats=1"'
         . ' title="' . __('Enable Statistics') . '">' . "\n"
         . '            ' . __('Enable Statistics');
     $html .= '</a></strong><br />' . "\n";
@@ -381,12 +379,12 @@ function PMA_getHtmlForNoticeEnableStatistics($url_query, $html)
  *
  * @param bool  $is_superuser      User status
  * @param Array $replication_types replication types
- * @param bool  $cfg_inconic       cfg about Properties Iconic
+ * @param bool  $cfg_iconic        cfg about Properties Iconic
  *
  * @return string
  */
 function PMA_getHtmlForReplicationType(
-    $is_superuser, $replication_types, $cfg_inconic
+    $is_superuser, $replication_types, $cfg_iconic
 ) {
     $html = '';
     foreach ($replication_types as $type) {
@@ -396,13 +394,13 @@ function PMA_getHtmlForReplicationType(
             $name = __('Slave replication');
         }
 
-        if ($GLOBALS["server_{$type}_status"]) {
-            $html .= '    <th>'. $name .'</th>' . "\n";
+        if ($GLOBALS['replication_info'][$type]['status']) {
+            $html .= '    <th>' . $name . '</th>' . "\n";
         }
     }
 
     if ($is_superuser && ! PMA_DRIZZLE) {
-        $html .= '    <th>' . ($cfg_inconic ? '' : __('Action')) . "\n"
+        $html .= '    <th>' . ($cfg_iconic ? '' : __('Action')) . "\n"
             . '    </th>' . "\n";
     }
     return $html;
@@ -415,11 +413,6 @@ function PMA_getHtmlForReplicationType(
  */
 function PMA_getListForSortDatabase()
 {
-    /**
-     * avoids 'undefined index' errors
-     */
-    $sort_by = '';
-    $sort_order = '';
     if (empty($_REQUEST['sort_by'])) {
         $sort_by = 'SCHEMA_NAME';
     } else {
@@ -441,7 +434,7 @@ function PMA_getListForSortDatabase()
     }
 
     if (isset($_REQUEST['sort_order'])
-        && strtolower($_REQUEST['sort_order']) == 'desc'
+        && /*overload*/mb_strtolower($_REQUEST['sort_order']) == 'desc'
     ) {
         $sort_order = 'desc';
     } else {
@@ -463,7 +456,7 @@ function PMA_dropMultiDatabases()
     } else {
         $action = 'server_databases.php';
         $submit_mult = 'drop_db';
-        $err_url = 'server_databases.php?' . PMA_URL_getCommon();
+        $err_url = 'server_databases.php' . PMA_URL_getCommon();
         if (isset($_REQUEST['selected_dbs'])
             && !isset($_REQUEST['is_js_confirmed'])
         ) {

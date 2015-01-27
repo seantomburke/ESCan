@@ -21,9 +21,7 @@ if (! defined('PHPMYADMIN')) {
 
 
 $HideStructureActions = '';
-if (PMA_Util::showText('ActionLinksMode')
-    && $GLOBALS['cfg']['HideStructureActions'] === true
-) {
+if ($GLOBALS['cfg']['HideStructureActions'] === true) {
     $HideStructureActions .= ' HideStructureActions';
 }
 
@@ -34,7 +32,7 @@ $response->addHTML($html_form);
 $response->addHTML(PMA_URL_getHiddenInputs($db, $table));
 
 $tabletype = '<input type="hidden" name="table_type" value=';
-if ($db_is_information_schema) {
+if ($db_is_system_schema) {
     $tabletype .= '"information_schema" />';
 } else if ($tbl_is_view) {
     $tabletype .= '"view" />';
@@ -43,13 +41,13 @@ if ($db_is_information_schema) {
 }
 $response->addHTML($tabletype);
 
-$tablestructure = '<table id="tablestructure" class="data">';
+$tablestructure = '<table id="tablestructure" class="data topmargin">';
 $response->addHTML($tablestructure);
 
 
 $response->addHTML(
     PMA_getHtmlForTableStructureHeader(
-        $db_is_information_schema,
+        $db_is_system_schema,
         $tbl_is_view
     )
 );
@@ -69,7 +67,8 @@ if ($GLOBALS['cfg']['ShowPropertyComments']) {
         $mime_map = PMA_getMIME($db, $table, true);
     }
 }
-
+require_once 'libraries/central_columns.lib.php';
+$central_list = PMA_getCentralColumnsFromTable($db, $table);
 $rownum    = 0;
 $columns_list = array();
 $save_row  = array();
@@ -161,31 +160,34 @@ foreach ($fields as $row) {
     }
 
     if ($primary && $primary->hasColumn($field_name)) {
-        $displayed_field_name = '<u>' . $field_name . '</u>';
+        $displayed_field_name .= PMA_Util::getImage(
+            'b_primary.png', __('Primary')
+        );
     }
     $response->addHTML(
         '<tr class="' . ($odd_row ? 'odd': 'even') . '">'
     );
     $odd_row = !$odd_row;
-
+    $isInCentralColumns = in_array($row['Field'], $central_list)?true:false;
     $response->addHTML(
         PMA_getHtmlTableStructureRow(
             $row, $rownum, $displayed_field_name,
             $type_nowrap, $extracted_columnspec, $type_mime,
             $field_charset, $attribute, $tbl_is_view,
-            $db_is_information_schema, $url_query, $field_encoded, $titles, $table
+            $db_is_system_schema, $url_query, $field_encoded, $titles, $table
         )
     );
 
-    if (! $tbl_is_view && ! $db_is_information_schema) {
+    if (! $tbl_is_view && ! $db_is_system_schema) {
         $response->addHTML(
             PMA_getHtmlForActionsInTableStructure(
                 $type, $tbl_storage_engine, $primary,
                 $field_name, $url_query, $titles, $row, $rownum,
-                $hidden_titles, $columns_with_unique_index
+                $columns_with_unique_index,
+                $isInCentralColumns
             )
         );
-    } // end if (! $tbl_is_view && ! $db_is_information_schema)
+    } // end if (! $tbl_is_view && ! $db_is_system_schema)
 
     $response->addHTML('</tr>');
 
@@ -197,7 +199,7 @@ $response->addHTML('</tbody></table>');
 $response->addHTML(
     PMA_getHtmlForCheckAllTableColumn(
         $pmaThemeImage, $text_dir, $tbl_is_view,
-        $db_is_information_schema, $tbl_storage_engine
+        $db_is_system_schema, $tbl_storage_engine
     )
 );
 
@@ -212,17 +214,21 @@ $response->addHTML(
  * Work on the table
  */
 
+$response->addHTML('<div id="structure-action-links">');
+
 if ($tbl_is_view) {
     $response->addHTML(PMA_getHtmlForEditView($url_params));
 }
 $response->addHTML(
     PMA_getHtmlForOptionalActionLinks(
-        $url_query, $tbl_is_view, $db_is_information_schema,
+        $url_query, $tbl_is_view, $db_is_system_schema,
         $tbl_storage_engine, $cfgRelation
     )
 );
 
-if (! $tbl_is_view && ! $db_is_information_schema) {
+$response->addHTML('</div>');
+
+if (! $tbl_is_view && ! $db_is_system_schema) {
     $response->addHTML('<br />');
     $response->addHTML(PMA_getHtmlForAddColumn($columns_list));
 }
@@ -232,7 +238,7 @@ if (! $tbl_is_view && ! $db_is_information_schema) {
  */
 
 if (! $tbl_is_view
-    && ! $db_is_information_schema
+    && ! $db_is_system_schema
     && 'ARCHIVE' !=  $tbl_storage_engine
 ) {
     //return the list of index
@@ -252,7 +258,7 @@ if ($cfg['ShowStats']) {
     //get table stats in HTML format
     $tablestats = PMA_getHtmlForDisplayTableStats(
         $showtable, $table_info_num_rows, $tbl_is_view,
-        $db_is_information_schema, $tbl_storage_engine,
+        $db_is_system_schema, $tbl_storage_engine,
         $url_query, $tbl_collation
     );
     //returning the response in JSON format to be used by Ajax

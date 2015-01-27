@@ -24,11 +24,12 @@ one we ship.
 
 Currently known list of external libraries:
 
-js/jquery 
+js/jquery
     jQuery js framework and various jQuery based libraries.
 
-libraries/php-gettext 
+libraries/php-gettext
     php-gettext library
-libraries/tcpdf 
-    tcpdf library, stripped down of not needed files 
-
+libraries/tcpdf
+    tcpdf library, stripped down of not needed files
+libraries/phpseclib
+    portions of phpseclib library

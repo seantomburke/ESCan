@@ -32,6 +32,18 @@ class AuthenticationHttp extends AuthenticationPlugin
      */
     public function auth()
     {
+        $response = PMA_Response::getInstance();
+        if ($response->isAjax()) {
+            $response->isSuccess(false);
+            // reload_flag removes the token parameter from the URL and reloads
+            $response->addJSON('reload_flag', '1');
+            if (defined('TESTSUITE')) {
+                return true;
+            } else {
+                exit;
+            }
+        }
+
         /* Perform logout to custom URL */
         if (! empty($_REQUEST['old_usr'])
             && ! empty($GLOBALS['cfg']['Server']['LogoutURL'])
@@ -66,8 +78,8 @@ class AuthenticationHttp extends AuthenticationPlugin
         $response = PMA_Response::getInstance();
         $response->getFooter()->setMinimal();
         $header = $response->getHeader();
-        $header->setTitle(__('Access denied'));
-        $header->disableMenu();
+        $header->setTitle(__('Access denied!'));
+        $header->disableMenuAndConsole();
         $header->setBodyId('loginform');
 
         $response->addHTML('<h1>');
@@ -114,6 +126,10 @@ class AuthenticationHttp extends AuthenticationPlugin
     public function authCheck()
     {
         global $PHP_AUTH_USER, $PHP_AUTH_PW;
+
+        if ($GLOBALS['token_provided'] && $GLOBALS['token_mismatch']) {
+            return false;
+        }
 
         // Grabs the $PHP_AUTH_USER variable whatever are the values of the
         // 'register_globals' and the 'variables_order' directives
@@ -227,6 +243,10 @@ class AuthenticationHttp extends AuthenticationPlugin
         unset($GLOBALS['PHP_AUTH_PW']);
         unset($_SERVER['PHP_AUTH_PW']);
 
+        // try to workaround PHP 5 session garbage collection which
+        // looks at the session file's last modified time
+        $_SESSION['last_access_time'] = time();
+
         return true;
     }
 
@@ -247,15 +267,14 @@ class AuthenticationHttp extends AuthenticationPlugin
     }
 
     /**
-     * This method is called when any PluginManager to which the observer
-     * is attached calls PluginManager::notify()
+     * Callback when user changes password.
      *
-     * @param SplSubject $subject The PluginManager notifying the observer
-     *                            of an update.
+     * @param string $password New password to set
      *
-     * @return void
+     * @return array Additional URL parameters.
      */
-    public function update (SplSubject $subject)
+    public function handlePasswordChange($password)
     {
+        return array('old_usr' => 'relog');
     }
 }

@@ -24,7 +24,6 @@ $cfg_db['Servers'] = array(
     1 => array(
         'port'         => 'integer',
         'connect_type' => array('tcp', 'socket'),
-        'extension'    => array('mysql', 'mysqli'),
         'auth_type'    => array('config', 'http', 'signon', 'cookie'),
         'AllowDeny'    => array(
             'order' => array('', 'deny,allow', 'allow,deny', 'explicit')
@@ -57,6 +56,11 @@ $cfg_db['RowActionLinks'] = array(
     'left'  => __('Left'),
     'right' => __('Right'),
     'both'  => __('Both')
+);
+$cfg_db['TablePrimaryKeyOrder'] = array(
+    'NONE'  => __('None'),
+    'ASC'   => __('Ascending'),
+    'DESC'  => __('Descending')
 );
 $cfg_db['ProtectBinary'] = array(false, 'blob', 'noblob', 'all');
 $cfg_db['DefaultDisplay'] = array('horizontal', 'vertical', 'horizontalflipped');
@@ -102,12 +106,6 @@ $cfg_db['DefaultTabTable'] = array(
     'tbl_select.php',    // search page
     'tbl_change.php',    // insert row page
     'sql.php'            // browse page
-);
-$cfg_db['QueryWindowDefTab'] = array(
-    'sql',     // SQL
-    'files',   // Import files
-    'history', // SQL history
-    'full'     // All (SQL and SQL history)
 );
 $cfg_db['InitialSlidersState'] = array(
     'open'     => __('Open'),
@@ -201,8 +199,6 @@ $cfg_db['Export']['texytext_null'] = 'short_string';
  * Use only full paths
  */
 $cfg_db['_overrides'] = array();
-$cfg_db['_overrides']['Servers/1/extension'] = extension_loaded('mysqli')
-    ? 'mysqli' : 'mysql';
 
 /**
  * Basic validator assignments (functions from libraries/config/Validator.class.php
@@ -214,6 +210,7 @@ $cfg_db['_validators'] = array(
     'CharTextareaRows' => 'validatePositiveNumber',
     'ExecTimeLimit' => 'validateNonNegativeNumber',
     'Export/sql_max_query_size' => 'validatePositiveNumber',
+    'FirstLevelNavigationItems' => 'validatePositiveNumber',
     'ForeignKeyMaxLimit' => 'validatePositiveNumber',
     'Import/csv_enclosed' => array(array('validateByRegex', '/^.?$/')),
     'Import/csv_escaped' => array(array('validateByRegex', '/^.$/')),
@@ -224,6 +221,7 @@ $cfg_db['_validators'] = array(
     'Import/skip_queries' => 'validateNonNegativeNumber',
     'InsertRows' => 'validatePositiveNumber',
     'NumRecentTables' => 'validateNonNegativeNumber',
+    'NumFavoriteTables' => 'validateNonNegativeNumber',
     'LimitChars' => 'validatePositiveNumber',
     'LoginCookieValidity' => 'validatePositiveNumber',
     'LoginCookieStore' => 'validateNonNegativeNumber',
@@ -235,8 +233,6 @@ $cfg_db['_validators'] = array(
     'MemoryLimit' => array(array('validateByRegex', '/^(-1|(\d+(?:[kmg])?))$/i')),
     'NavigationTreeTableLevel' => 'validatePositiveNumber',
     'QueryHistoryMax' => 'validatePositiveNumber',
-    'QueryWindowWidth' => 'validatePositiveNumber',
-    'QueryWindowHeight' => 'validatePositiveNumber',
     'RepeatCells' => 'validateNonNegativeNumber',
     'Server' => 'validateServer',
     'Server_pmadb' => 'validatePMAStorage',

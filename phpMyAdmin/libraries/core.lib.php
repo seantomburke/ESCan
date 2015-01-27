@@ -12,6 +12,13 @@ if (! defined('PHPMYADMIN')) {
 }
 
 /**
+ * String handling (security)
+ */
+require_once 'libraries/string.lib.php';
+require_once 'libraries/String.class.php';
+$PMA_String = new PMA_String();
+
+/**
  * checks given $var and returns it if valid, or $default of not valid
  * given $var is also checked for type being 'similar' as $default
  * or against any other type if $type is provided
@@ -107,7 +114,7 @@ function PMA_isValid(&$var, $type = 'length', $compare = null)
         return in_array($var, $type);
     }
 
-    // allow some aliaes of var types
+    // allow some aliases of var types
     $type = strtolower($type);
     switch ($type) {
     case 'identic' :
@@ -156,7 +163,7 @@ function PMA_isValid(&$var, $type = 'length', $compare = null)
     if ($type === 'length' || $type === 'scalar') {
         $is_scalar = is_scalar($var);
         if ($is_scalar && $type === 'length') {
-            return (bool) strlen($var);
+            return (bool) /*overload*/mb_strlen($var);
         }
         return $is_scalar;
     }
@@ -222,7 +229,13 @@ function PMA_fatalError(
 
         /* Load gettext for fatal errors */
         if (!function_exists('__')) {
-            include_once './libraries/php-gettext/gettext.inc';
+            // It is possible that PMA_fatalError() is called before including
+            // vendor_config.php which defines GETTEXT_INC. See bug #4557
+            if (defined(GETTEXT_INC)) {
+                include_once GETTEXT_INC;
+            } else {
+                include_once './libraries/php-gettext/gettext.inc';
+            }
         }
 
         // these variables are used in the included file libraries/error.inc.php
@@ -275,7 +288,7 @@ function PMA_getPHPDocLink($target)
  *
  * @param string $extension Extension name
  * @param bool   $fatal     Whether the error is fatal.
- * @param string $extra     Extra string to append to messsage.
+ * @param string $extra     Extra string to append to message.
  *
  * @return void
  */
@@ -300,15 +313,16 @@ function PMA_warnMissingExtension($extension, $fatal = false, $extra = '')
     }
     if ($fatal) {
         PMA_fatalError($message);
-    } else {
-        $GLOBALS['error_handler']->addError(
-            $message,
-            E_USER_WARNING,
-            '',
-            '',
-            false
-        );
+        return;
     }
+
+    $GLOBALS['error_handler']->addError(
+        $message,
+        E_USER_WARNING,
+        '',
+        '',
+        false
+    );
 }
 
 /**
@@ -340,7 +354,7 @@ function PMA_getTableCount($db)
  * (renamed with PMA prefix to avoid double definition when embedded
  * in Moodle)
  *
- * @param string $size size
+ * @param string|int $size size (Default = 0)
  *
  * @return integer $size
  */
@@ -350,19 +364,32 @@ function PMA_getRealSize($size = 0)
         return 0;
     }
 
-    $scan['gb'] = 1073741824; //1024 * 1024 * 1024;
-    $scan['g']  = 1073741824; //1024 * 1024 * 1024;
-    $scan['mb'] = 1048576;
-    $scan['m']  = 1048576;
-    $scan['kb'] =    1024;
-    $scan['k']  =    1024;
-    $scan['b']  =       1;
+    $scan = array(
+        'gb' => 1073741824, //1024 * 1024 * 1024,
+        'g'  => 1073741824, //1024 * 1024 * 1024,
+        'mb' =>    1048576,
+        'm'  =>    1048576,
+        'kb' =>       1024,
+        'k'  =>       1024,
+        'b'  =>          1,
+    );
 
     foreach ($scan as $unit => $factor) {
-        if (strlen($size) > strlen($unit)
-            && strtolower(substr($size, strlen($size) - strlen($unit))) == $unit
+        $sizeLength = strlen($size);
+        $unitLength = strlen($unit);
+        if ($sizeLength > $unitLength
+            && strtolower(
+                substr(
+                    $size,
+                    $sizeLength - $unitLength
+                )
+            ) == $unit
         ) {
-            return substr($size, 0, strlen($size) - strlen($unit)) * $factor;
+            return substr(
+                $size,
+                0,
+                $sizeLength - $unitLength
+            ) * $factor;
         }
     }
 
@@ -385,11 +412,9 @@ function PMA_arrayMergeRecursive()
     switch(func_num_args()) {
     case 0 :
         return false;
-        break;
     case 1 :
         // when does that happen?
         return func_get_arg(0);
-        break;
     case 2 :
         $args = func_get_args();
         if (! is_array($args[0]) || ! is_array($args[1])) {
@@ -414,13 +439,11 @@ function PMA_arrayMergeRecursive()
             }
         }
         return $args[0];
-        break;
     default :
         $args = func_get_args();
         $args[1] = PMA_arrayMergeRecursive($args[0], $args[1]);
         array_shift($args);
         return call_user_func_array('PMA_arrayMergeRecursive', $args);
-        break;
     }
 }
 
@@ -430,9 +453,9 @@ function PMA_arrayMergeRecursive()
  * this function is protected against deep recursion attack CVE-2006-1549,
  * 1000 seems to be more than enough
  *
- * @param array  &$array             array to walk
- * @param string $function           function to call for every array element
- * @param bool   $apply_to_keys_also whether to call the function for the keys also
+ * @param array    &$array             array to walk
+ * @param callable $function           function to call for every array element
+ * @param bool     $apply_to_keys_also whether to call the function for the keys also
  *
  * @return void
  *
@@ -442,10 +465,17 @@ function PMA_arrayMergeRecursive()
 function PMA_arrayWalkRecursive(&$array, $function, $apply_to_keys_also = false)
 {
     static $recursive_counter = 0;
+    $walked_keys = array();
+
     if (++$recursive_counter > 1000) {
         PMA_fatalError(__('possible deep recursion attack'));
     }
     foreach ($array as $key => $value) {
+        if (isset($walked_keys[$key])) {
+            continue;
+        }
+        $walked_keys[$key] = true;
+
         if (is_array($value)) {
             PMA_arrayWalkRecursive($array[$key], $function, $apply_to_keys_also);
         } else {
@@ -457,6 +487,7 @@ function PMA_arrayWalkRecursive(&$array, $function, $apply_to_keys_also = false)
             if ($new_key != $key) {
                 $array[$new_key] = $array[$key];
                 unset($array[$key]);
+                $walked_keys[$new_key] = true;
             }
         }
     }
@@ -482,14 +513,27 @@ function PMA_checkPageValidity(&$page, $whitelist)
 
     if (in_array($page, $whitelist)) {
         return true;
-    } elseif (in_array(substr($page, 0, strpos($page . '?', '?')), $whitelist)) {
-        return true;
-    } else {
-        $_page = urldecode($page);
-        if (in_array(substr($_page, 0, strpos($_page . '?', '?')), $whitelist)) {
-            return true;
-        }
     }
+
+    $_page = /*overload*/mb_substr(
+        $page,
+        0,
+        /*overload*/mb_strpos($page . '?', '?')
+    );
+    if (in_array($_page, $whitelist)) {
+        return true;
+    }
+
+    $_page = urldecode($page);
+    $_page = /*overload*/mb_substr(
+        $_page,
+        0,
+        /*overload*/mb_strpos($_page . '?', '?')
+    );
+    if (in_array($_page, $whitelist)) {
+        return true;
+    }
+
     return false;
 }
 
@@ -507,11 +551,17 @@ function PMA_getenv($var_name)
 {
     if (isset($_SERVER[$var_name])) {
         return $_SERVER[$var_name];
-    } elseif (isset($_ENV[$var_name])) {
+    }
+
+    if (isset($_ENV[$var_name])) {
         return $_ENV[$var_name];
-    } elseif (getenv($var_name)) {
+    }
+
+    if (getenv($var_name)) {
         return getenv($var_name);
-    } elseif (function_exists('apache_getenv')
+    }
+
+    if (function_exists('apache_getenv')
         && apache_getenv($var_name, true)
     ) {
         return apache_getenv($var_name, true);
@@ -530,7 +580,7 @@ function PMA_getenv($var_name)
  */
 function PMA_sendHeaderLocation($uri, $use_refresh = false)
 {
-    if (PMA_IS_IIS && strlen($uri) > 600) {
+    if (PMA_IS_IIS && /*overload*/mb_strlen($uri) > 600) {
         include_once './libraries/js_escape.lib.php';
         PMA_Response::getInstance()->disable();
 
@@ -555,36 +605,38 @@ function PMA_sendHeaderLocation($uri, $use_refresh = false)
         echo '//]]>' . "\n";
         echo '</script></body></html>' . "\n";
 
-    } else {
-        if (SID) {
-            if (strpos($uri, '?') === false) {
-                header('Location: ' . $uri . '?' . SID);
-            } else {
-                $separator = PMA_URL_getArgSeparator();
-                header('Location: ' . $uri . $separator . SID);
-            }
+        return;
+    }
+
+    if (SID) {
+        if (/*overload*/mb_strpos($uri, '?') === false) {
+            header('Location: ' . $uri . '?' . SID);
         } else {
-            session_write_close();
-            if (headers_sent()) {
-                if (function_exists('debug_print_backtrace')) {
-                    echo '<pre>';
-                    debug_print_backtrace();
-                    echo '</pre>';
-                }
-                trigger_error(
-                    'PMA_sendHeaderLocation called when headers are already sent!',
-                    E_USER_ERROR
-                );
-            }
-            // bug #1523784: IE6 does not like 'Refresh: 0', it
-            // results in a blank page
-            // but we need it when coming from the cookie login panel)
-            if (PMA_IS_IIS && $use_refresh) {
-                header('Refresh: 0; ' . $uri);
-            } else {
-                header('Location: ' . $uri);
-            }
+            $separator = PMA_URL_getArgSeparator();
+            header('Location: ' . $uri . $separator . SID);
         }
+        return;
+    }
+
+    session_write_close();
+    if (headers_sent()) {
+        if (function_exists('debug_print_backtrace')) {
+            echo '<pre>';
+            debug_print_backtrace();
+            echo '</pre>';
+        }
+        trigger_error(
+            'PMA_sendHeaderLocation called when headers are already sent!',
+            E_USER_ERROR
+        );
+    }
+    // bug #1523784: IE6 does not like 'Refresh: 0', it
+    // results in a blank page
+    // but we need it when coming from the cookie login panel)
+    if (PMA_IS_IIS && $use_refresh) {
+        header('Refresh: 0; ' . $uri);
+    } else {
+        header('Location: ' . $uri);
     }
 }
 
@@ -595,7 +647,7 @@ function PMA_sendHeaderLocation($uri, $use_refresh = false)
  */
 function PMA_noCacheHeader()
 {
-    if (defined('TESTSUITE')) {
+    if (defined('TESTSUITE') && ! defined('PMA_TEST_HEADERS')) {
         return;
     }
     // rfc2616 - Section 14.21
@@ -615,13 +667,14 @@ function PMA_noCacheHeader()
          * Adding Pragma: public fixes this.
          */
         header('Pragma: public');
-    } else {
-        header('Pragma: no-cache'); // HTTP/1.0
-        // test case: exporting a database into a .gz file with Safari
-        // would produce files not having the current time
-        // (added this header for Safari but should not harm other browsers)
-        header('Last-Modified: ' . date(DATE_RFC1123));
+        return;
     }
+
+    header('Pragma: no-cache'); // HTTP/1.0
+    // test case: exporting a database into a .gz file with Safari
+    // would produce files not having the current time
+    // (added this header for Safari but should not harm other browsers)
+    header('Last-Modified: ' . date(DATE_RFC1123));
 }
 
 
@@ -664,7 +717,7 @@ function PMA_downloadHeader($filename, $mimetype, $length = 0, $no_cache = true)
  * $path is a string describing position of an element in an associative array,
  * eg. Servers/1/host refers to $array[Servers][1][host]
  *
- * @param string $path  path in the arry
+ * @param string $path  path in the array
  * @param array  $array the array
  *
  * @return mixed    array element or $default
@@ -687,7 +740,7 @@ function PMA_arrayKeyExists($path, $array)
  * $path is a string describing position of an element in an associative array,
  * eg. Servers/1/host refers to $array[Servers][1][host]
  *
- * @param string $path    path in the arry
+ * @param string $path    path in the array
  * @param array  $array   the array
  * @param mixed  $default default value
  *
@@ -782,15 +835,59 @@ function PMA_linkURL($url)
 {
     if (!preg_match('#^https?://#', $url) || defined('PMA_SETUP')) {
         return $url;
-    } else {
-        if (!function_exists('PMA_URL_getCommon')) {
-            include_once './libraries/url_generating.lib.php';
-        }
-        $params = array();
-        $params['url'] = $url;
-        return './url.php' . PMA_URL_getCommon($params);
     }
+
+    if (!function_exists('PMA_URL_getCommon')) {
+        include_once './libraries/url_generating.lib.php';
+    }
+    $params = array();
+    $params['url'] = $url;
+
+    $url = PMA_URL_getCommon($params);
+    //strip off token and such sensitive information. Just keep url.
+    $arr = parse_url($url);
+    parse_str($arr["query"], $vars);
+    $query = http_build_query(array("url" => $vars["url"]));
+    $url = './url.php?' . $query;
+
+    return $url;
 }
+
+/**
+ * Checks whether domain of URL is whitelisted domain or not.
+ * Use only for URLs of external sites.
+ *
+ * @param string $url URL of external site.
+ *
+ * @return boolean True: if domain of $url is allowed domain,
+ *                 False: otherwise.
+ */
+function PMA_isAllowedDomain($url)
+{
+    $arr = parse_url($url);
+    $domain = $arr["host"];
+    $domainWhiteList = array(
+        /* Include current domain */
+        $_SERVER['SERVER_NAME'],
+        /* phpMyAdmin domains */
+        'wiki.phpmyadmin.net', 'www.phpmyadmin.net', 'phpmyadmin.net',
+        'docs.phpmyadmin.net',
+        /* mysql.com domains */
+        'dev.mysql.com','bugs.mysql.com',
+        /* php.net domains */
+        'php.net',
+        /* Github domains*/
+        'github.com','www.github.com',
+        /* Following are doubtful ones. */
+        'www.primebase.com','pbxt.blogspot.com'
+    );
+    if (in_array(/*overload*/mb_strtolower($domain), $domainWhiteList)) {
+        return true;
+    }
+
+    return false;
+}
+
 
 /**
  * Adds JS code snippets to be displayed by the PMA_Response class.
@@ -824,4 +921,103 @@ function PMA_addJSVar($key, $value, $escape = true)
     PMA_addJSCode(PMA_getJsValue($key, $value, $escape));
 }
 
+/**
+ * Replace some html-unfriendly stuff
+ *
+ * @param string $buffer String to process
+ *
+ * @return string Escaped and cleaned up text suitable for html
+ */
+function PMA_mimeDefaultFunction($buffer)
+{
+    $buffer = htmlspecialchars($buffer);
+    $buffer = str_replace('  ', ' &nbsp;', $buffer);
+    $buffer = preg_replace("@((\015\012)|(\015)|(\012))@", '<br />' . "\n", $buffer);
+
+    return $buffer;
+}
+
+/**
+ * Displays SQL query before executing.
+ *
+ * @param array|string $query_data Array containing queries or query itself
+ *
+ * @return void
+ */
+function PMA_previewSQL($query_data)
+{
+    $retval = '<div class="preview_sql">';
+    if (empty($query_data)) {
+        $retval .= __('No change');
+    } elseif (is_array($query_data)) {
+        foreach ($query_data as $query) {
+            $retval .= PMA_Util::formatSql($query);
+        }
+    } else {
+        $retval .= PMA_Util::formatSql($query_data);
+    }
+    $retval .= '</div>';
+    $response = PMA_Response::getInstance();
+    $response->addJSON('sql_data', $retval);
+    exit;
+}
+
+/**
+ * recursively check if variable is empty
+ *
+ * @param mixed $value the variable
+ *
+ * @return bool true if empty
+ */
+function PMA_emptyRecursive($value)
+{
+    $empty = true;
+    if (is_array($value)) {
+        PMA_arrayWalkRecursive(
+            $value,
+            function ($item) use (&$empty) {
+                $empty = $empty && empty($item);
+            }
+        );
+    } else {
+        $empty = empty($value);
+    }
+    return $empty;
+}
+
+/**
+ * Creates some globals from $_POST variables matching a pattern
+ *
+ * @param array $post_patterns The patterns to search for
+ *
+ * @return void
+ */
+function PMA_setPostAsGlobal($post_patterns)
+{
+    foreach (array_keys($_POST) as $post_key) {
+        foreach ($post_patterns as $one_post_pattern) {
+            if (preg_match($one_post_pattern, $post_key)) {
+                $GLOBALS[$post_key] = $_POST[$post_key];
+            }
+        }
+    }
+}
+
+/**
+ * Creates some globals from $_REQUEST
+ *
+ * @param string $param db|table
+ *
+ * @return void
+ */
+function PMA_setGlobalDbOrTable($param)
+{
+    $GLOBALS[$param] = '';
+    if (PMA_isValid($_REQUEST[$param])) {
+        // can we strip tags from this?
+        // only \ and / is not allowed in db names for MySQL
+        $GLOBALS[$param] = $_REQUEST[$param];
+        $GLOBALS['url_params'][$param] = $GLOBALS[$param];
+    }
+}
 ?>

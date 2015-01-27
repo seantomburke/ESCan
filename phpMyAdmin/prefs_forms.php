@@ -45,7 +45,7 @@ if (isset($_POST['revert'])) {
     $url_params = array('form' => $form_param);
     PMA_sendHeaderLocation(
         $cfg['PmaAbsoluteUri'] . 'prefs_forms.php'
-        . PMA_URL_getCommon($url_params, '&')
+        . PMA_URL_getCommon($url_params, 'text')
     );
     exit;
 }
@@ -83,7 +83,7 @@ if ($form_display->hasErrors()) {
     // form has errors
     ?>
     <div class="error config-form">
-        <b><?php echo __('Cannot save settings, submitted form contains errors') ?></b>
+        <b><?php echo __('Cannot save settings, submitted form contains errors!') ?></b>
         <?php $form_display->displayErrors(); ?>
     </div>
     <?php

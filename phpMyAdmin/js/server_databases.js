@@ -54,7 +54,7 @@ AJAX.registerOnload('server_databases.js', function () {
          * @var question    String containing the question to be asked for confirmation
          */
         var question = PMA_messages.strDropDatabaseStrongWarning + ' ' +
-            $.sprintf(PMA_messages.strDoYouReally, selected_dbs.join('<br />'));
+            PMA_sprintf(PMA_messages.strDoYouReally, selected_dbs.join('<br />'));
 
         $(this).PMA_confirm(
             question,
@@ -64,7 +64,7 @@ AJAX.registerOnload('server_databases.js', function () {
                 PMA_ajaxShowMessage(PMA_messages.strProcessingRequest, false);
 
                 $.post(url, function (data) {
-                    if (data.success === true) {
+                    if (typeof data !== 'undefined' && data.success === true) {
                         PMA_ajaxShowMessage(data.message);
 
                         var $rowsToRemove = $form.find('tr.removeMe');
@@ -74,7 +74,7 @@ AJAX.registerOnload('server_databases.js', function () {
 
                         $rowsToRemove.remove();
                         $form.find('tbody').PMA_sort_table('.name');
-                        if ($form.find('tbody').find('tr').length == 0) {
+                        if ($form.find('tbody').find('tr').length === 0) {
                             // user just dropped the last db on this page
                             PMA_commonActions.refreshMain();
                         }
@@ -109,7 +109,7 @@ AJAX.registerOnload('server_databases.js', function () {
         PMA_prepareForAjaxRequest($form);
 
         $.post($form.attr('action'), $form.serialize(), function (data) {
-            if (data.success === true) {
+            if (typeof data !== 'undefined' && data.success === true) {
                 PMA_ajaxShowMessage(data.message);
 
                 //Append database's row to table

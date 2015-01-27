@@ -24,8 +24,8 @@ Currently phpMyAdmin can:
 * execute, edit and bookmark any :term:`SQL`-statement, even batch-queries
 * load text files into tables
 * create [#f1]_ and read dumps of tables
-* export [#f1]_ data to various formats: :term:`CSV`, :term:`XML`, :term:`PDF`, 
-  :term:`ISO`/:term:`IEC` 26300 - :term:`OpenDocument` Text and Spreadsheet, Microsoft 
+* export [#f1]_ data to various formats: :term:`CSV`, :term:`XML`, :term:`PDF`,
+  :term:`ISO`/:term:`IEC` 26300 - :term:`OpenDocument` Text and Spreadsheet, Microsoft
   Word 2000, and LATEX formats
 * import data and :term:`MySQL` structures from :term:`OpenDocument` spreadsheets, as
   well as :term:`XML`, :term:`CSV`, and :term:`SQL` files
@@ -40,7 +40,7 @@ Currently phpMyAdmin can:
 * transform stored data into any format using a set of predefined
   functions, like displaying BLOB-data as image or download-link
 * track changes on databases, tables and views
-* support InnoDB tables and foreign keys see :ref:`faq3_6`
+* support InnoDB tables and foreign keys
 * support mysqli, the improved MySQL extension see :ref:`faq1_17`
 * create, edit, call, export and drop stored procedures and functions
 * create, edit, export and drop events and triggers
