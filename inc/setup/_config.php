@@ -13,13 +13,22 @@ $scriptpath=str_replace($scriptname,'',$_SERVER['PHP_SELF']);
 define(WEBSITE, 'http://'.$_SERVER['SERVER_NAME'].$scriptpath);
 }
 
-
 function define_db()
 {
-define(DBDATABASE, 'c9');  			            //MySQL Database Name. try 'escan'
-define(DBSERVER, '127.6.194.129'); 				    //MySQL Server. Try 'localhost' or '127.0.0.1'
-define(DBUSERNAME, 'hawaiianchimp');			//MySQL Username. Try 'escan'
-define(DBPASSWORD, ''); 			            //MySQL Password. Lookup in ESC transition files
+    
+$url = parse_url(getenv("CLEARDB_DATABASE_URL")); //if heroku cleardb credentials are defined
+echo $url;
+if($url){
+    define(DBDATABASE, substr($url["path"], 1));        //cleardb database
+    define(DBSERVER, $url["host"]); 				    //cleardb host server
+    define(DBUSERNAME, $url["user"]);			//cleardb username
+    define(DBPASSWORD, $url["pass"]);           //cleardb password
+}
+else{
+    define(DBDATABASE, 'escan');  			            //MySQL Database Name. try 'escan'
+    define(DBSERVER, '127.0.0.1'); 				    //MySQL Server. Try 'localhost' or '127.0.0.1'
+    define(DBUSERNAME, 'escan');			//MySQL Username. Try 'escan'
+    define(DBPASSWORD, ''); 			            //MySQL Password. Lookup in ESC transition files
 }
 
 function define_webmaster()
