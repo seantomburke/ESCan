@@ -21,21 +21,21 @@ include_once 'inc/standard.php';
 
 if(WEBMASTER_USERNAME && WEBMASTER_EMAIL && WEBMASTER_PASSWORD && DBDATABASE && DBUSERNAME && DBSERVER)
 {
-
-$db = new DB();
-$db->query("SHOW TABLES");
-if($db->isEmpty())
-{
-    $sql = explode(';', file_get_contents('inc/setup/setup.sql'));
-    echo 'Getting setup.sql<br>';
-    foreach($sql as $row)
+    $db = new DB();
+    $sql = "SELECT COUNT(DISTINCT `table_name`) FROM `information_schema`.`columns` WHERE `table_schema` = '".DBDATABASE."';"
+    if($db->query($sql,1)===0)
     {
-        $short = str_split($row, 100);
-        echo 'Running '.$short[0].'...<br>';
-        $db->execute($row);
-    }
+        $sql = explode(';', file_get_contents('inc/setup/setup.sql'));
+        echo 'Getting setup.sql<br>';
+        foreach($sql as $row)
+        {
+            $short = str_split($row, 100);
+            echo 'Running '.$short[0].'...<br>';
+            $db->execute($row);
+        }
 
-    echo 'Database setup<br>';
+        echo 'Database setup<br>';
+    }
 }
 
 echo '<br>Connecting to Database<br>';
