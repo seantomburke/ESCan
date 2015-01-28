@@ -231,51 +231,45 @@ class Login {
 
 	function loginFormMini($formname, $formaction, $formclass = '', $isPhone)
 	{
-	
-		 if($isPhone)
-		 {
-		 	if($_SESSION['loggedin'] == 1)
-		 	{
-		 		$output ='
-		 		<div  class="'.$formclass.'">
-		 			<span>'.$_SESSION['name'].'</span> | <a href="settings.php">Settings</a> | <a href="logout.php">Logout</a>
-		 		</div>';
-		 	}
-		 	else
-		 	{
-		 		$output ='
-		 		<div  class="'.$formclass.'">
-		 			<span><a href="login.php">Login</a>
-		 		</div>';
-		 	}
-		 }
-		 else
-		 {
-			if($_SESSION['loggedin'] == 1)
-			{
-				$output ='
-				<div  class="'.$formclass.'">
-					<span><strong>'.$_SESSION['name'].'</strong>: '.switchAccess($_SESSION['access']).'</span> | <a href="settings.php">Settings</a> | <a href="logout.php">Logout</a>
-				</div>';
-			}
-			else
-			{
-				$output = '
-			<div  class="'.$formclass.'">
-			<form name="'.$formname.'" method="post" id="'.$formname.'"
-			 enctype="application/x-www-form-urlencoded" action="'.$formaction.'">
-				<div class="row">
-					<input name="ucinetid" id="ucinetid" type="text" placeholder="UCInetID">
-					<input name="password" id="password" type="password" placeholder="Password">
-					<input name="action" id="action" value="login" type="hidden">
-					<input name="submit" id="submit" value="Login" type="submit">
-				</div>
-				<div class="row">
-					<span class="forgot"><a href="register.php">Register</a> | <a href="iforgot.php">Forgot your password?</a></span>
-				</div>
-			</form>
+		if($_SESSION['loggedin'] == 1)
+		{
+			$output ='
+			<div  class="phone '.$formclass.'">
+				<span>'.$_SESSION['name'].'</span> | <a href="settings.php">Settings</a> | <a href="logout.php">Logout</a>
 			</div>';
-			}
+		}
+		else
+		{
+			$output ='
+			<div  class="phone '.$formclass.'">
+				<span><a href="login.php">Login</a>
+			</div>';
+		}
+
+		if($_SESSION['loggedin'] == 1)
+		{
+			$output .='
+			<div  class="'.$formclass.'">
+				<span><strong>'.$_SESSION['name'].'</strong>: '.switchAccess($_SESSION['access']).'</span> | <a href="settings.php">Settings</a> | <a href="logout.php">Logout</a>
+			</div>';
+		}
+		else
+		{
+			$output .= '
+		<div  class="nophone '.$formclass.'">
+		<form name="'.$formname.'" method="post" id="'.$formname.'"
+		 enctype="application/x-www-form-urlencoded" action="'.$formaction.'">
+			<div class="row">
+				<input name="ucinetid" id="ucinetid" type="text" placeholder="UCInetID">
+				<input name="password" id="password" type="password" placeholder="Password">
+				<input name="action" id="action" value="login" type="hidden">
+				<input name="submit" id="submit" value="Login" type="submit">
+			</div>
+			<div class="row">
+				<span class="forgot"><a href="register.php">Register</a> | <a href="iforgot.php">Forgot your password?</a></span>
+			</div>
+		</form>
+		</div>';
 		}
 		return $output;
 	}	
