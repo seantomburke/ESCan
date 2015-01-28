@@ -22,9 +22,23 @@ include_once 'inc/standard.php';
 if(WEBMASTER_USERNAME && WEBMASTER_EMAIL && WEBMASTER_PASSWORD && DBDATABASE && DBUSERNAME && DBSERVER)
 {
 
-echo '<br>Connecting to Database<br>';
-
 $db = new DB();
+$db->query("SHOW TABLES");
+if($db->isEmpty())
+{
+    $sql = explode(';', file_get_contents('inc/setup/setup.sql'));
+    echo 'Getting setup.sql<br>';
+    foreach($sql as $row)
+    {
+        $short = str_split($row, 100);
+        echo 'Running '.$short[0].'...<br>';
+        $db->execute($row);
+    }
+
+    echo 'Database setup<br>';
+}
+
+echo '<br>Connecting to Database<br>';
 
 $sql = "SELECT * FROM users WHERE access = ". WEBMASTER .";";
 $db->query($sql);
@@ -52,16 +66,6 @@ if(!$db->isEmpty())
     }
 }
 
-$sql = explode(';', file_get_contents('inc/setup/setup.sql'));
-echo 'Getting setup.sql<br>';
-foreach($sql as $row)
-{
-	$short = str_split($row, 100);
-	echo 'Running '.$short[0].'...<br>';
-	$db->execute($row);
-}
-
-echo 'Database setup<br>';
 echo 'Creating Webmaster<br>';
 
 echo 'Inserting Webmaster<br>';
