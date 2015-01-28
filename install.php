@@ -19,12 +19,14 @@ echo 'Initializing Setup<br>';
 include_once 'inc/setup/_config.php';
 include_once 'inc/standard.php';
 
+echo '<br>Starting Install<br>';
+$db = new DB();
+
 if(WEBMASTER_USERNAME && WEBMASTER_EMAIL && WEBMASTER_PASSWORD && DBDATABASE && DBUSERNAME && DBSERVER)
 {
-    $db = new DB();
-    $sql = "SELECT COUNT(DISTINCT `table_name`) FROM `information_schema`.`columns` WHERE `table_schema` = '".DBDATABASE."';";
-    if($db->query($sql,1)===0)
-    {
+    // //$sql = 'SELECT COUNT(DISTINCT "table_name") FROM "information_schema"."columns" WHERE "table_schema" = "'.DBDATABASE.'";"';
+    // if($db->query($sql)===0)
+    // {
         $sql = explode(';', file_get_contents('inc/setup/setup.sql'));
         echo 'Getting setup.sql<br>';
         foreach($sql as $row)
@@ -35,8 +37,7 @@ if(WEBMASTER_USERNAME && WEBMASTER_EMAIL && WEBMASTER_PASSWORD && DBDATABASE && 
         }
 
         echo 'Database setup<br>';
-    }
-}
+    // }
 
 echo '<br>Connecting to Database<br>';
 
