@@ -22,7 +22,7 @@ include_once 'inc/standard.php';
 if(WEBMASTER_USERNAME && WEBMASTER_EMAIL && WEBMASTER_PASSWORD && DBDATABASE && DBUSERNAME && DBSERVER)
 {
     $db = new DB();
-    $sql = "SELECT COUNT(DISTINCT `table_name`) FROM `information_schema`.`columns` WHERE `table_schema` = '".DBDATABASE."';"
+    $sql = "SELECT COUNT(DISTINCT `table_name`) FROM `information_schema`.`columns` WHERE `table_schema` = '".DBDATABASE."';";
     if($db->query($sql,1)===0)
     {
         $sql = explode(';', file_get_contents('inc/setup/setup.sql'));
