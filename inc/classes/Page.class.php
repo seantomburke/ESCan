@@ -92,6 +92,8 @@ class Page
 			$this->isPhone = true;
 		else 
 			$this->isPhone = false;
+
+		$this->isPhone = false; //changed to responsive css layout, no longer needed.
 			
 		$this->name = strtolower($page['name']);
 		$this->access = $access;
@@ -292,24 +294,7 @@ class Page
 
 	private function buildHTML()
 	{
-		if($this->isPhone)
-		{
-			$css = 'iPhone';
-			$this->addExtraMeta('
-			<link rel="apple-touch-startup-image" href="images/fb-splash.png">
-			<link rel="apple-touch-icon-precomposed" href="images/facebook.png"/>
-			<link media="only screen and (max-device-width: 480px)"
-			    href="/css/iPhone.css" type="text/css" rel="stylesheet" />
-			
-			<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-			<meta name="apple-mobile-web-app-capable" content="yes" />
-			<meta name="viewport" content="user-scalable=no,width=device-width,height=device-height" />
-			<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />			
-			<meta name="apple-touch-fullscreen" content="yes" />
-			<meta name="viewport" content="width=320" />');
-		}	
-		else
-			$css = 'global';
+		$css = 'global';
 			
 		$css = ($css) ? '<link rel=stylesheet type="text/css" href="css/'.$css.'.css?t='.time().'""  >' : '';
 
@@ -381,7 +366,7 @@ class Page
 				</a>
 			</div>
 			'.$this->login->loginFormMini('login','login.php','loginmini', $this->isPhone).'
-			<div id="today"><h2 id="time">Today: '.date('M d, h:i A', strtotime(NOW_DATE.' '.NOW_TIME)).'</h2></div>
+			<div id="today" class="nophone"><h2 id="time">Today: '.date('M d, h:i A', strtotime(NOW_DATE.' '.NOW_TIME)).'</h2></div>
 		</div>';
 	}
 
