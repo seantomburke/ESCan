@@ -1,4 +1,5 @@
 <?php
+error_reporting(-1);
 date_default_timezone_set('America/Los_Angeles');
 
 function define_basic()
@@ -17,9 +18,9 @@ function define_db()
 {
 
     $url = parse_url(getenv("CLEARDB_DATABASE_URL")); //if heroku cleardb credentials are defined
-    var_dump($url);
+    echo $url[2];
 
-    if($url){
+    if($url[2]){
         define(DBDATABASE, substr($url["path"], 1));        //cleardb database
         define(DBSERVER, $url["host"]); 				    //cleardb host server
         define(DBUSERNAME, $url["user"]);			//cleardb username
@@ -28,13 +29,9 @@ function define_db()
     else{
         define(DBDATABASE, 'escan');  			            //MySQL Database Name. try 'escan'
         define(DBSERVER, '127.0.0.1'); 				    //MySQL Server. Try 'localhost' or '127.0.0.1'
-        define(DBUSERNAME, 'escan');			//MySQL Username. Try 'escan'
-        define(DBPASSWORD, ''); 			            //MySQL Password. Lookup in ESC transition files
+        define(DBUSERNAME, 'root');			//MySQL Username. Try 'escan'
+        define(DBPASSWORD, 'root'); 			            //MySQL Password. Lookup in ESC transition files
     }
-    echo "<br>DBDATABASE: ".DBDATABASE;
-    echo "<br>DBSERVER: ".DBSERVER;
-    echo "<br>DBUSERNAME: ".DBUSERNAME;
-    echo "<br>DBPASSWORD: ".DBPASSWORD;
     
 }
 
