@@ -49,7 +49,7 @@ $autofocus = ($_GET['submit_search'] == "Search") ? ' autofocus onfocus="this.se
 $search = '	<form action="'.$_SERVER['PHP_SELF'].'" method="GET">
 			<div class="row">
 				<div class="disclaimer">
-				All information is requested from the <a href="http://directory.uci.edu/index.php?uid='.$user['ucinetid'].">UCI Directory</a> based on your UCInetID for your convenience. Only public information can be requested, and no other information is collected.
+				All information is requested from the <a href="http://directory.uci.edu/index.php?uid='.$user['ucinetid'].'">UCI Directory</a> based on your UCInetID for your convenience. Only public information can be requested, and no other information is collected.
 				</div>
 			</div>
 			<div class="clear"></div>
