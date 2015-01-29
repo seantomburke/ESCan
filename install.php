@@ -19,67 +19,80 @@ echo 'Initializing Setup<br>';
 include_once 'inc/setup/_config.php';
 include_once 'inc/standard.php';
 
-echo '<br>Starting Install<br>';
+echo '<br>Checking Install<br>';
 $db = new DB();
 
 if(WEBMASTER_USERNAME && WEBMASTER_EMAIL && WEBMASTER_PASSWORD && DBDATABASE && DBUSERNAME && DBSERVER)
 {
-    // //$sql = 'SELECT COUNT(DISTINCT "table_name") FROM "information_schema"."columns" WHERE "table_schema" = "'.DBDATABASE.'";"';
-    // if($db->query($sql)===0)
-    // {
+    $sql = 'SELECT COUNT( DISTINCT table_name) FROM information_schema.columns WHERE table_schema = "'.DBDATABASE.'";';
+    $db->query($sql);
+    $result = $db->resultToSingleArray();
+    if($result[0]==0)
+    {
+        echo '<br>No tables found, creating tables...<br>';
         $sql = explode(';', file_get_contents('inc/setup/setup.sql'));
         echo 'Getting setup.sql<br>';
         foreach($sql as $row)
         {
             $short = str_split($row, 100);
             echo 'Running '.$short[0].'...<br>';
-            $db->execute($row);
+            if($row)
+                $db->execute($row);
         }
 
-        echo 'Database setup<br>';
-    // }
+        echo 'Database finished setup<br>';
+    }
+    else{
+        $message = 'Databases and tables have already been installed.<br>';
+    $message .= "If you need to reinstall ESCan go to the <a href='admin.php'>Admin page</a> and reinstall it there";
+    die($message);
 
-echo '<br>Connecting to Database<br>';
+    }
 
-$sql = "SELECT * FROM users WHERE access = ". WEBMASTER .";";
-$db->query($sql);
-$web_admins = $db->resultToArray();
+    echo '<br>Connecting to Database<br>';
 
-if(!$db->isEmpty())
-{
-    $authorized = false;
-    $emails = '';
-    foreach($web_admins as $webadmin)
+    $sql = "SELECT * FROM users WHERE access = ". WEBMASTER .";";
+    $db->query($sql);
+    $web_admins = $db->resultToArray();
+
+    if(!$db->isEmpty())
     {
-        $emails .= '<a href="mailto:'.$webadmin['email'].'">'.$webadmin['email'].'</a>, ';
-        if($_SESSION['ucinetid'] == $webadmin['ucinetid'])
+        $authorized = false;
+        $emails = '';
+        foreach($web_admins as $webadmin)
         {
-            $authorized = true;
+            $emails .= '<a href="mailto:'.$webadmin['email'].'">'.$webadmin['email'].'</a>, ';
+            if($_SESSION['ucinetid'] == $webadmin['ucinetid'])
+            {
+                $authorized = true;
+            }
         }
+        if(!$authorized)
+        {
+        $sniper = new Sniper();
+        $sniper->storeMessage("Illegall access of install.php", $_SESSION['ucinetid'], "hacker");
+        die('ESCan has already been installed. If you are the webadmin and would like to reinstall ESCan go to the 
+        <a href="admin.php">Admin Page</a>. This incident will be reported. Please contact the Web Admin at 
+        '.$emails.' or <a href="mailto:esc.uci@gmail.com">esc.uci@gmail.com</a> if you feel you received this message in error');
+        }
+        $sniper->db_close();
     }
-    if(!$authorized)
-    {
-    $sniper = new Sniper();
-    $sniper->storeMessage("Illegall access of install.php", $_SESSION['ucinetid'], "hacker");
-    die('ESCan has already been installed. If you are the webadmin and would like to reinstall ESCan go to the 
-    <a href="admin.php">Admin Page</a>. This incident will be reported. Please contact the Web Admin at 
-    '.$emails.' or <a href="mailto:esc.uci@gmail.com">esc.uci@gmail.com</a> if you feel you received this message in error');
+    else{
+
+        echo 'Creating Webmaster<br>';
+
+        echo 'Inserting Webmaster<br>';
+        $sql = 'REPLACE INTO `users` VALUES("'.WEBMASTER_USERNAME.'", "", "", "'.WEBMASTER_EMAIL.'", "", "", 1, 8, 1, "", "", "_setup.php")';
+        $db->execute($sql);
+        $sql = 'REPLACE INTO `logon` VALUES("'.WEBMASTER_USERNAME.'", "'.md5(WEBMASTER_PASSWORD).'", "", "", "")';
+        $db->execute($sql);
+        echo 'Insertion complete<br>';
+        echo 'Done<Br>';
+        $db->close();
+        echo 'Disconnecting from Database<Br>';
+        echo '<a href="index.php">Click here to start ESCan</a>';
+
     }
-    $sniper->db_close();
-}
-
-echo 'Creating Webmaster<br>';
-
-echo 'Inserting Webmaster<br>';
-$sql = 'REPLACE INTO `users` VALUES("'.WEBMASTER_USERNAME.'", "", "", "'.WEBMASTER_EMAIL.'", "", "", 1, 8, 1, "", "", "_setup.php")';
-$db->execute($sql);
-$sql = 'REPLACE INTO `logon` VALUES("'.WEBMASTER_USERNAME.'", "'.md5(WEBMASTER_PASSWORD).'", "", "", "")';
-$db->execute($sql);
-echo 'Insertion complete<br>';
-echo 'Done<Br>';
-$db->close();
-echo 'Disconnecting from Database<Br>';
-echo '<a href="index.php">Click here to start ESCan</a>';
 }
 else
 {

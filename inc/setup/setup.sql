@@ -87,10 +87,10 @@ CREATE TABLE IF NOT EXISTS `scans` (
   PRIMARY KEY (`sid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
 
-CREATE TABLE `settings` (
-  `eweekstart` date NOT NULL
+CREATE TABLE IF NOT EXISTS `settings` (
+  `eweekstart` varchar(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
+INSERT IGNORE INTO `settings` VALUES('2015-W09');
 CREATE TABLE IF NOT EXISTS `tabs` (
   `tid` mediumint(9) NOT NULL AUTO_INCREMENT,
   `page` varchar(20) COLLATE latin1_general_ci NOT NULL,
@@ -99,7 +99,6 @@ CREATE TABLE IF NOT EXISTS `tabs` (
   `public_only` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`tid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
-
 INSERT IGNORE INTO `tabs` VALUES(1, 'index', 'Home', 0, 0);
 INSERT IGNORE INTO `tabs` VALUES(2, 'events', 'Events', 0, 0);
 INSERT IGNORE INTO `tabs` VALUES(3, 'login', 'Sign In', 0, 1);
@@ -109,7 +108,6 @@ INSERT IGNORE INTO `tabs` VALUES(6, 'statistics', 'Statistics', 0, 0);
 INSERT IGNORE INTO `tabs` VALUES(7, 'admin', 'Admin', 6, 0);
 INSERT IGNORE INTO `tabs` VALUES(11, 'instructions', 'Instructions', 0, 0);
 INSERT IGNORE INTO `tabs` VALUES(12, 'webmaster', 'Webmaster', 8, 0);
-
 CREATE TABLE IF NOT EXISTS `users` (
   `ucinetid` varchar(8) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `barcode` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL COMMENT 'barcode id',
@@ -125,13 +123,3 @@ CREATE TABLE IF NOT EXISTS `users` (
   `volunteer` varchar(8) NOT NULL,
   PRIMARY KEY (`ucinetid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-ALTER TABLE `barcodes` ADD PRIMARY KEY (`barcode`), ADD KEY `ucinetid` (`ucinetid`), ADD KEY `barcode` (`barcode`);
-ALTER TABLE `errors` ADD PRIMARY KEY (`eid`);
-ALTER TABLE `events` ADD PRIMARY KEY (`eid`), ADD KEY `eid` (`eid`);
-ALTER TABLE `logon` ADD PRIMARY KEY (`ucinetid`);
-ALTER TABLE `pages` ADD PRIMARY KEY (`ID`);
-ALTER TABLE `reset` ADD PRIMARY KEY (`ucinetid`);
-ALTER TABLE `scans` ADD PRIMARY KEY (`sid`), ADD KEY `eid` (`eid`), ADD KEY `barcode` (`barcode`), ADD KEY `volunteer` (`volunteer`);
-ALTER TABLE `tabs` ADD PRIMARY KEY (`tid`);
-ALTER TABLE `users` ADD PRIMARY KEY (`ucinetid`);
