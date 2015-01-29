@@ -44,7 +44,7 @@ if($_SESSION['access'] > PARTICIPANT)
 	$page->setMessage('Hello '.$_SESSION['name'].', please ask for users UCInetID (their Email)', 'success');
 	}
 }
-
+$autofocus = ($_GET['submit_search'] == "Search") ? ' autofocus onfocus="this.select();" onmouseup="return false;"':'';
 
 $search = '	<form action="'.$_SERVER['PHP_SELF'].'" method="GET">
 			<div class="row">
@@ -58,7 +58,7 @@ $search = '	<form action="'.$_SERVER['PHP_SELF'].'" method="GET">
 			        UCInetID 
 			        <span class="require1">*</span>
 			    </label>
-			    <input id="search" class="textarea" placeholder="UCInetID" autocapitalize="off" type="search" name="ucinetid" value="'.$user['ucinetid'].'" autofocus>
+			    <input id="search" class="textarea" placeholder="UCInetID" autocapitalize="off" type="search" name="ucinetid" value="'.$user['ucinetid'].'"'.$autofocus.'>
 			</div>
 			<div class="clear"></div>
 			<div class="row">
@@ -228,6 +228,8 @@ elseif($_GET['ucinetid'])
 {
 	$errors_s = 1;
 	$person = new UCIPerson($_GET['ucinetid']);
+
+	$autofocus = "";
 	
 	$page->setMessage('Scan wristband now to register <strong>'.$person->name.'</strong>.', 'success');
 	
@@ -352,7 +354,7 @@ elseif($_GET['ucinetid'])
 					<label class="fieldname" for="barcode">
 					Barcode
 					</label>
-					<input id="barcode" type="text" class="textarea" name="barcode" autofocus> 
+					<input id="barcode" type="text" class="textarea" name="barcode" autofocus"> 
 				</div>
 				<div class="clear"></div>
 				<div class="separator"></div>
