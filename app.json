@@ -28,7 +28,7 @@
     "WEBMASTER_EMAIL": {
       "description": "The email of the webmaster",
       "value": "stburke@uci.edu"
-    },
+    }
   },
   "addons": [
     "cleardb"
