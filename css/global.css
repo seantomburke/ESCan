@@ -594,7 +594,7 @@ label {
 	text-align: left;
 }
 
-input[type=number], input[type=tel], input[type=text], input[type=password], input[type=email], textarea {
+input[type=number], input[type=tel], input[type=text], input[type=password], input[type=email],input[type=date],input[type=time], textarea {
 	display: inline;
 	border: 1px solid #bbb;
 	-webkit-border-radius: 5px;
@@ -1476,7 +1476,7 @@ img.instructions {
 		text-align: left;
 	}
 
-	input[type=number], input[type=tel], input[type=text], input[type=password], input[type=email], textarea {
+	input[type=number], input[type=tel], input[type=text], input[type=password], input[type=email],input[type=date],input[type=time], textarea {
 		display: inline;
 		border: 1px solid #bbb;
 		-webkit-border-radius: 5px;
