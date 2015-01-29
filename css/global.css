@@ -991,6 +991,29 @@ div.eweekstamp {
     text-transform: uppercase;
 }
 
+.code{
+	font-family: 'Monaco, Courier, Arial' !important;
+	border: #666 2px dotted !important;
+	color: #0F0 !important;
+	background-color: #000;
+	padding: 10px 20px;
+	height: 20px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	white-space: nowrap;
+	overflow: scroll;
+}
+
+.code .noselect{
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 @media (max-width: 800px){
 	.month{
 		width: 98.69%;

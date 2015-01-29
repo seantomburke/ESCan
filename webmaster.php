@@ -23,7 +23,41 @@ $sql = 'SELECT errors.*
 $page->DB->query($sql);
 $error_array = $page->DB->resultToArray();
 	
-$table = '<table class="error-table">';
+
+$content = '
+<h2>Database Access</h2>
+
+<h3>phpMyAdmin</h3>
+Click here to access 
+<a class="" href="phpMyAdmin/?pma_username='.DBUSERNAME.'&pma_password='.DBPASSWORD.'">phpMyAdmin</a> with the following username and password:
+<br>';
+$content .= '<br><b>Username:</b> '.DBUSERNAME;
+$content .= '<br><b>Password:</b> '.DBPASSWORD.'<br>
+
+<br>Use phpMyAdmin to view and export all the raw data. Make sure not to modify any data unless you know what you are doing. You could end up making permanent damage that would involve reinstalling ESCan and losing data permanently. This is the raw data that runs ESCan.
+To export the data, click on the database called "'.DBDATABASE.'" and then click "Export" in the tab at the top of the page. You can then chose the "Custom" option, then chose to export the data to a file in the "Output" section.
+<br><br>
+<div class="separator"></div>
+<h3>Heroku</h3>
+If you are on a <a href="http://www.heroku.com">Heroku</a> hosted application, ClearDB, the MySQL host provided by Heroku, won\'t allow you to connect with phpMyAdmin. Instead enter the credentials below into a program such as <a href="http://www.sequelpro.com/"> Sequel Pro</a> for Mac or <a href="http://www.mysql.com/products/workbench/">MySQL Workbench</a> for Windows<br><br>';
+
+$content .= '<br><b>Host:</b> '.DBSERVER;
+$content .= '<br><b>Username:</b> '.DBUSERNAME;
+$content .= '<br><b>Password:</b> '.DBPASSWORD;
+$content .= '<br><b>Database:</b> '.DBDATABASE;
+$content .= '<br><b>Port:</b> 3306<br><br>';
+$content .= '<div class="separator"></div>';
+$content .= '<h3>Command Line</h3>
+
+Or you can use the Command Line to access MySQL<br><br>';
+$content .= '<div class="code"><span class="noselect">&gt;$ </span><span class="selectable">mysql -h '.DBSERVER.' -u '.DBUSERNAME.' --password='.DBPASSWORD.' '.DBDATABASE.' -P 3306</span></div><br>';
+$content .= '<div class="code"><span class="noselect">mysql&gt; </span><span class="selectable">SELECT * FROM users LIMIT 20;</div><br><br>';
+
+
+
+$table .= '<div class="separator"></div><h2>ESCan Errors</h2>';
+
+$table .= '<table class="error-table">';
 $table .= '  <thead>
 				<tr>
 			    	<th colspan="10">Error Table</th>
@@ -61,16 +95,6 @@ foreach ($error_array as $row)
 
 $table .= '</table>';
 
-$content = 'Click here to access 
-<a class="" href="phpMyAdmin/?pma_username='.DBUSERNAME.'&pma_password='.DBPASSWORD.'">phpMyAdmin</a> with the following username and password:
-<br>';
-$content .= '<br><b>Username:</b> '.DBUSERNAME;
-$content .= '<br><b>Password:</b> '.DBPASSWORD.'<br>
-
-<br>Use phpMyAdmin to view and export all the raw data. Make sure not to modify any data unless you know what you are doing. You could end up making permanent damage that would involve reinstalling ESCan and losing data permanently. This is the raw data that runs ESCan.
-To export the data, click on the database called "'.DBDATABASE.'" and then click "Export" in the tab at the top of the page. You can then chose the "Custom" option, then chose to export the data to a file in the "Output" section.
-<br><br>';
-	
 $user_box->setContent($content.$table);
 
 
