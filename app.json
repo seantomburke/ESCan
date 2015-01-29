@@ -11,14 +11,18 @@
   "logo": "http://esc.eng.uci.edu/escan/images/logo.png",
   "success_url": "/install.php",
   "env": {
-    "BUILDPACK_URL": "https://github.com/stomita/heroku-buildpack-phantomjs",
+    "BUILDPACK_URL": "https://github.com/heroku/heroku-buildpack-php",
     "SECRET_TOKEN": {
       "description": "A secret key for verifying the integrity of signed cookies.",
       "generator": "secret"
     },
-    "WEB_CONCURRENCY": {
-      "description": "The number of processes to run.",
-      "value": "5"
+    "WEBMASTER_USERNAME": {
+      "description": "The username of the webmaster",
+      "value": "admin"
+    },
+    "WEBMASTER_PASSWORD": {
+      "description": "The password of the webmaster",
+      "value": "password"
     }
   },
   "addons": [
