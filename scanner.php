@@ -9,7 +9,7 @@ foreach ($_GET as $key => $value) {
 
 if($scan['barcode'] && $scan['eid'])
 {
-    $DB = new DB();
+	$DB = new DB();
 	$barcode = new Barcode($scan['barcode']);
 	$scanner = new Scanner();
 	$event = new Event($scan['eid']);
@@ -78,6 +78,9 @@ if($scan['barcode'] && $scan['eid'])
     	$DB->query($sql);
         $output['scan'] = $DB->resultToArray();
 	}
+	$DB->close();
+	$barcode->db_close();
+	$scanner->db_close();
 }
 else{
     $output['message']['text'] = 'Must provide barcode id and event id';
