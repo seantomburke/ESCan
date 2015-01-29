@@ -283,6 +283,34 @@ margin: 5%;
 }
 /* @end */
 
+/* @group Table */
+
+.error-table {
+	width: 650px;
+	border: #ccc 1px solid;
+	table-layout:fixed;
+}
+
+.error-table td{
+	min-width: 10px;
+	max-width: 30px;
+	overflow: scroll;
+	border: #ccc 1px solid;
+}
+
+.error-table-message{
+	width: 120px;
+}
+
+.error-table-eid{
+	width: 20px;
+}
+
+.error-table-browser{
+	white-space: nowrap;
+}
+
+/* @end */
 
 /* @group Others */
 
@@ -594,7 +622,7 @@ label {
 	text-align: left;
 }
 
-input[type=number], input[type=tel], input[type=text], input[type=password], input[type=email],input[type=date],input[type=time], textarea {
+input[type=number],input[type=search], input[type=tel], input[type=text], input[type=password], input[type=email],input[type=date],input[type=time], textarea {
 	display: inline;
 	border: 1px solid #bbb;
 	-webkit-border-radius: 5px;
@@ -643,9 +671,18 @@ input[type=submit]:hover {
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
-	background-image: url("../images/splash_bg.png");
-	background: -moz-linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(255, 255, 255, 0) 90.4%), url('../images/splash_bg.png') repeat;
-	background: -webkit-gradient(linear, left bottom, left top, from(rgba(0, 0, 0, 0.5)), color-stop(0.904, rgba(255, 255, 255, 0))), url('../images/splash_bg.png') repeat;
+	background-color: #025;
+	//background-image: url("../images/splash_bg.png");
+	//background: -moz-linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(255, 255, 255, 0) 90.4%);
+	//background: -webkit-gradient(linear, left bottom, left top, from(rgba(0, 0, 0, 0.5)), color-stop(0.904, rgba(255, 255, 255, 0)));
+
+	background-size: 10px 10px;
+	/* background-image: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, rgba(255, 255, 255, .2)), color-stop(.25, transparent), color-stop(.5, transparent), color-stop(.5, rgba(255, 255, 255, .2)), color-stop(.75, rgba(255, 255, 255, .2)), color-stop(.75, transparent), to(transparent)); */
+	/* background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent); */
+	background-image: -moz-linear-gradient(-45deg, rgba(255, 255, 255, .1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .1) 50%, rgba(255, 255, 255, .1) 75%, transparent 75%, transparent);
+	background-image: -ms-linear-gradient(-45deg, rgba(255, 255, 255, .1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .1) 50%, rgba(255, 255, 255, .1) 75%, transparent 75%, transparent);
+	background-image: -o-linear-gradient(-45deg, rgba(255, 255, 255, .1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .1) 50%, rgba(255, 255, 255, .1) 75%, transparent 75%, transparent);
+	background-image: linear-gradient(-45deg, rgba(255, 255, 255, .1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .1) 50%, rgba(255, 255, 255, .1) 75%, transparent 75%, transparent);
 }
 
 #splash_right{
@@ -704,8 +741,7 @@ input[type=submit]:hover {
 }
 
 .box .header_container {
-	background-image: url("../images/box_header.png");
-	background-repeat: repeat-x;
+	background-color: #8BD;
 	border: 1px solid #BBB;
 	
 	-moz-border-radius-topleft: 10px;
@@ -714,6 +750,15 @@ input[type=submit]:hover {
 	-webkit-border-top-right-radius: 10px;
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
+
+	background-size: 6px 6px;
+	/* background-image: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, rgba(255, 255, 255, .2)), color-stop(.25, transparent), color-stop(.5, transparent), color-stop(.5, rgba(255, 255, 255, .2)), color-stop(.75, rgba(255, 255, 255, .2)), color-stop(.75, transparent), to(transparent)); */
+	/* background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent); */
+	background-image: -moz-linear-gradient(-45deg, rgba(255, 255, 255, .1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .1) 50%, rgba(255, 255, 255, .1) 75%, transparent 75%, transparent);
+	background-image: -ms-linear-gradient(-45deg, rgba(255, 255, 255, .1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .1) 50%, rgba(255, 255, 255, .1) 75%, transparent 75%, transparent);
+	background-image: -o-linear-gradient(-45deg, rgba(255, 255, 255, .1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .1) 50%, rgba(255, 255, 255, .1) 75%, transparent 75%, transparent);
+	background-image: linear-gradient(-45deg, rgba(255, 255, 255, .1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .1) 50%, rgba(255, 255, 255, .1) 75%, transparent 75%, transparent);
+
 }
 
 .box .header_container span {
@@ -905,6 +950,13 @@ img.instructions {
 	border-bottom-width: 0px !important;
 	float: left;
 	font-size: 12px;
+	background-size: 20px 20px;
+	/* background-image: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, rgba(255, 255, 255, .2)), color-stop(.25, transparent), color-stop(.5, transparent), color-stop(.5, rgba(255, 255, 255, .2)), color-stop(.75, rgba(255, 255, 255, .2)), color-stop(.75, transparent), to(transparent)); */
+	/* background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent); */
+	background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, .1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .1) 50%, rgba(255, 255, 255, .1) 75%, transparent 75%, transparent);
+	background-image: -ms-linear-gradient(45deg, rgba(255, 255, 255, .1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .1) 50%, rgba(255, 255, 255, .1) 75%, transparent 75%, transparent);
+	background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, .1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .1) 50%, rgba(255, 255, 255, .1) 75%, transparent 75%, transparent);
+	background-image: linear-gradient(45deg, rgba(255, 255, 255, .1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .1) 50%, rgba(255, 255, 255, .1) 75%, transparent 75%, transparent);
 }
 
 .dayofweek{
@@ -912,6 +964,7 @@ img.instructions {
 	background-color: #7AD;
 	color: #fff;
 	text-align: center;
+	background-image: none !important;
 }
 
 .day.eweek{
@@ -923,6 +976,13 @@ img.instructions {
 }
 .last .day{
 	border-bottom-width: 1px !important; 
+}
+
+div.eweekstamp {
+	-ms-transform: translate(0,10px) rotate(-45deg); /* IE 9 */
+    -webkit-transform: translate(0,10px) rotate(-45deg); /* Chrome, Safari, Opera */
+    transform: translate(0,10px) rotate(-45deg);
+    text-transform: uppercase;
 }
 
 @media (max-width: 800px){
@@ -1526,7 +1586,7 @@ img.instructions {
 		text-align: left;
 	}
 
-	input[type=number], input[type=tel], input[type=text], input[type=password], input[type=email],input[type=date],input[type=time], textarea {
+	input[type=number],input[type=search], input[type=tel], input[type=text], input[type=password], input[type=email],input[type=date],input[type=time], textarea {
 		display: inline;
 		border: 1px solid #bbb;
 		-webkit-border-radius: 5px;
@@ -1575,15 +1635,6 @@ img.instructions {
 		height: 160px;
 		margin: 0px 1% 5px 1%;
 		float: left;
-		
-		-moz-border-radius: 10px;
-		-webkit-border-radius: 10px;
-		border-radius: 10px;
-		
-		background-image: url('../images/splash_bg.png');
-		
-		background: -moz-linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(255, 255, 255, 0) 90.4%), url('/images/splash_bg.png') repeat;
-		background: -webkit-gradient(linear, left bottom, left top, from(rgba(0, 0, 0, 0.5)), color-stop(0.904, rgba(255, 255, 255, 0))), url('/images/splash_bg.png') repeat;
 	}
 
 	#splash_right{
