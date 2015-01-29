@@ -11,7 +11,7 @@ class DB
 	/** Put this variable to true if you want ALL queries to be debugged by default:
 	 */
 	public $db;
-	public $defaultDebug = false;
+	public $defaultDebug = true;
 
 	/** INTERNAL: The start time, in miliseconds.
 	 */
