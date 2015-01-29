@@ -56,7 +56,7 @@ class Event{
 		$sql = 'INSERT INTO events (name, date, time, host, prize, description, volunteer)
 					VALUES ("'.$name.'", "'.$date.'", "'.$time.'", "'.$host.'", "'.$prize.'", "'.$description.'", "'.$_SESSION['ucinetid'].'")';
 
-		$this->DB->query($sql);
+		$this->db->query($sql);
 	}
 
 	function exists(){
@@ -68,6 +68,10 @@ class Event{
 		return true;
 		else
 		return false;
+	}
+
+	function db_close(){
+		$this->db->close();
 	}
 
 

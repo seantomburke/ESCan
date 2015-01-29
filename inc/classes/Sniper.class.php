@@ -79,4 +79,8 @@ class Sniper
 			$this->insert($message, $ucinetid, $status);
 		}
 	}
+
+	public function db_close(){
+		$this->db->close();
+	}
 }

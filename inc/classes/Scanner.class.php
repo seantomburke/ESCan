@@ -125,6 +125,10 @@ class Scanner{
 		
 	}
 
+	function db_close(){
+		$this->db->close();
+	}
+
 
 }
 

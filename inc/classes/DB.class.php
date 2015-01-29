@@ -34,6 +34,7 @@ class DB
 	 */
 	function DB()
 	{	
+		//echo phpversion();
 		$this->mtStart    = $this->getMicroTime();
 		$this->nbQueries  = 0;
 		$this->lastResult = NULL;
@@ -307,6 +308,7 @@ class DB
 	function close()
 	{
 		mysql_close();
+		//echo "Database Connection Closed";
 	}
 
 	/** Internal method to get the current time.

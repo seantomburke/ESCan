@@ -134,6 +134,10 @@ class Nav
 		return $this->output;
 	}
 
+	public function db_close(){
+		$this->db->close();
+	} 
+
 }
 
 ?>

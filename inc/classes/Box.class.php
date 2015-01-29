@@ -58,16 +58,16 @@ class Box
 		}
 		
 		$output = '
-		<div id="box" style="width:100%; height:'.$this->height.'">
-			<div id="header_container" style="height: '.$this->header_height.'px">
-				<h2 id="title">'.$this->title.'</h2>
-		    	<span id="box_badge">
+		<div class="box" style="width:100%; height:'.$this->height.'">
+			<div class="header_container" style="height: '.$this->header_height.'px">
+				<h2 class="title">'.$this->title.'</h2>
+		    	<span class="box_badge">
 		        	<a href="'.$this->badge_url.'">
 		        	'.$this->badge.'</a>
 		        </span>
 		    </div>            
-			<div id="box_wrapper" style="height: '.$container_height.'">
-				<div id="box_inside">';
+			<div class="box_wrapper" style="height: '.$container_height.'">
+				<div class="box_inside">';
 				
 		$output.= $this->content;
 		

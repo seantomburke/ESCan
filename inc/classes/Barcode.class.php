@@ -307,6 +307,10 @@ class Barcode{
 		}
 	}
 
+	function db_close(){
+		$this->db->close();
+	}
+
 
 
 }

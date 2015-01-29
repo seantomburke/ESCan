@@ -105,7 +105,7 @@ class Page
 		$this->description = $page['description'];
 		$this->content = $page['content'];
 		$this->title = ucfirst($page['name']);
-		$this->logo_src = WEBSITE.'images/logo200.png';
+		$this->logo_src = 'images/logo200.png';
 		
 		$this->nav = new Nav($_SESSION['access'], $page['tab']);
 	}
@@ -478,6 +478,8 @@ class Page
 		echo $this->content;
 		$this->writeSQL();
 		$this->DB->close();
+		$this->nav->db_close();
+		$this->sniper->db_close();
 		exit;
 	}
 }

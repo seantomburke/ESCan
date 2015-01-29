@@ -308,6 +308,10 @@ class UCIPerson
 		
 		}
 	}
+
+	public function db_close(){
+		$this->db->close();
+	}
 }
 
 ?>

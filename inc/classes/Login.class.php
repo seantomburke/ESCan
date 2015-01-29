@@ -273,5 +273,9 @@ class Login {
 		}
 		return $output;
 	}	
+
+	function db_close(){
+		$this->db->close();
+	}
 }
 ?>
