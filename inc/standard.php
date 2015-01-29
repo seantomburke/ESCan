@@ -11,10 +11,13 @@ date_default_timezone_set('America/Los_Angeles');
  
  
 /*Classes*/
+if(str_replace(".","0",phpversion()) <= 504000)
+	require_once 'inc/classes/DB.class.php';
+else
+	require_once 'inc/classes/DBi.class.php';
 
 require_once 'inc/classes/Page.class.php';
 require_once 'inc/classes/UCIPerson.class.php';
-require_once 'inc/classes/DB.class.php';
 require_once 'inc/classes/Sniper.class.php';
 require_once 'inc/classes/Login.class.php';
 require_once 'inc/classes/Box.class.php';
