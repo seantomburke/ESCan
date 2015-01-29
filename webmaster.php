@@ -62,10 +62,10 @@ foreach ($error_array as $row)
 $table .= '</table>';
 
 $content = 'Click here to access 
-<a class="" href="phpMyAdmin">phpMyAdmin</a>
+<a class="" href="phpMyAdmin/?pma_username='.DBUSERNAME.'&pma_password='.DBPASSWORD.'">phpMyAdmin</a> with the following username and password:
 <br>';
-$content .= '<br>Username: '.DBUSERNAME;
-$content .= '<br>Password: '.DBPASSWORD.'<br>
+$content .= '<br><b>Username:</b> '.DBUSERNAME;
+$content .= '<br><b>Password:</b> '.DBPASSWORD.'<br>
 
 <br>Use phpMyAdmin to view and export all the raw data. Make sure not to modify any data unless you know what you are doing. You could end up making permanent damage that would involve reinstalling ESCan and losing data permanently. This is the raw data that runs ESCan.
 To export the data, click on the database called "'.DBDATABASE.'" and then click "Export" in the tab at the top of the page. You can then chose the "Custom" option, then chose to export the data to a file in the "Output" section.
