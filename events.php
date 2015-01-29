@@ -5,7 +5,7 @@ require_once 'inc/standard.php';
 $page = new Page('events', ALL);
 
 
-$sql = "SELECT eweekstart FROM settings";
+$sql = "SELECT value FROM settings WHERE name='eweekstart'";
 $page->DB->query($sql);
 $eweekstart = $page->DB->resultToSingleArray();
 $eweekfriday = date('Y-m-d', strtotime($eweekstart[0]." -3 days"));

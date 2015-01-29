@@ -133,7 +133,9 @@ if($_GET['action'] == 'Set' && $_GET['eweekstart'])
 		$error_name = 'failure';
 	}
 	if($errors === 1){
-		$sql = "UPDATE settings SET eweekstart='".$_GET['eweekstart']."';";
+		$sql = "UPDATE settings SET value='".$_GET['eweekstart']."' WHERE name='eweekstart';";
+		$sql = "INSERT INTO settings (name, value) VALUES('eweekstart', '".$_GET['eweekstart']."') ON DUPLICATE KEY UPDATE    
+name='eweekstart', value='".$_GET['eweekstart']."';";
 		$page->DB->execute($sql);
 		$page->setMessage('The Monday of E-Week is: <strong>'.date('M d, Y', strtotime($_GET['eweekstart'])).'</strong>. Please update the events on the <a href="events.php">events page</a> accordingly.', 'success');
 	}
@@ -655,8 +657,9 @@ $ticker_content .= '
     *
     */
 
-$sql = 'SELECT eweekstart
-		FROM settings';
+$sql = 'SELECT value
+		FROM settings
+		WHERE name = "eweekstart"';
 	
 $page->DB->query($sql);
 $eweekstart = $page->DB->resultToSingleArray();
@@ -672,7 +675,7 @@ $event_content .= '
 					<input type="submit" name="action" value="Set" class="right">
 				</div>
 			</form>
-			
+
 			<div class="disclaimer">
 			Not sure? Check out the official E-Week dates at <a href="http://www.discovere.org/our-programs/engineers-week">http://www.discovere.org/</a>
 			</div>

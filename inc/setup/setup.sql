@@ -88,9 +88,11 @@ CREATE TABLE IF NOT EXISTS `scans` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `settings` (
-  `eweekstart` varchar(8) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-INSERT IGNORE INTO `settings` VALUES('2015-W09');
+  `name` varchar(20) NOT NULL,
+  `value` varchar(8) NOT NULL,
+  PRIMARY KEY (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci ;
+INSERT IGNORE INTO `settings` VALUES ('eweekstart', '2015-W09');
 CREATE TABLE IF NOT EXISTS `tabs` (
   `tid` mediumint(9) NOT NULL AUTO_INCREMENT,
   `page` varchar(20) COLLATE latin1_general_ci NOT NULL,
