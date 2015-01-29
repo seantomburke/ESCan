@@ -118,6 +118,7 @@ if($_GET['action'] == 'associate' && $_POST)
 			$page->setMessage($barcode->error, 'failure');
 		}
 	}
+	$barcode->db_close();
 	
 }
 
@@ -133,7 +134,7 @@ if($_GET['action'] == 'Set' && $_GET['eweekstart'])
 	}
 	if($errors === 1){
 		$sql = "UPDATE settings SET eweekstart='".$_GET['eweekstart']."';";
-		$page->DB->execute($sql, 1);
+		$page->DB->execute($sql);
 		$page->setMessage('The Monday of E-Week is: <strong>'.date('M d, Y', strtotime($_GET['eweekstart'])).'</strong>. Please update the events on the <a href="events.php">events page</a> accordingly.', 'success');
 	}
 
@@ -660,7 +661,8 @@ $sql = 'SELECT eweekstart
 $page->DB->query($sql);
 $eweekstart = $page->DB->resultToSingleArray();
 
-$event_content .= ' <div class=" ">
+$event_content .= ' 
+		<div class=" ">
 			<form id="event-form" name="event-form" method="GET">
 				<div class="row">
 					<label>When is E-Week?</label>
@@ -670,17 +672,45 @@ $event_content .= ' <div class=" ">
 					<input type="submit" name="action" value="Set" class="right">
 				</div>
 			</form>
-			<div class="calendar">
-				<div class="month">'.date('F', strtotime($eweekstart[0])).'</div>
-				<div class="week">
-					<div class="day">'.date('m/d', strtotime($eweekstart[0].'+1 days')).'</div>
-					<div class="day">'.date('m/d', strtotime($eweekstart[0].'+2 days')).'</div>
-					<div class="day">'.date('m/d', strtotime($eweekstart[0].'+3 days')).'</div>
-					<div class="day">'.date('m/d', strtotime($eweekstart[0].'+4 days')).'</div>
-					<div class="day">'.date('m/d', strtotime($eweekstart[0].'+5 days')).'</div>
-					<div class="day">'.date('m/d', strtotime($eweekstart[0].'+6 days')).'</div>
-					<div class="day">'.date('m/d', strtotime($eweekstart[0].'+7 days')).'</div>
-				</div>
+		</div>
+
+		<div class="calendar">
+			<div class="month"><span class="month-title">'.date('F Y', strtotime($eweekstart[0])).'</span></div>
+			<div class="week">
+				<div class="day dayofweek">'.date('D', strtotime($eweekstart[0].' -8 days')).'</div>
+				<div class="day dayofweek">'.date('D', strtotime($eweekstart[0].' -7 days')).'</div>
+				<div class="day dayofweek">'.date('D', strtotime($eweekstart[0].' -6 days')).'</div>
+				<div class="day dayofweek">'.date('D', strtotime($eweekstart[0].' -5 days')).'</div>
+				<div class="day dayofweek">'.date('D', strtotime($eweekstart[0].' -4 days')).'</div>
+				<div class="day dayofweek">'.date('D', strtotime($eweekstart[0].' -3 days')).'</div>
+				<div class="day dayofweek last">'.date('D', strtotime($eweekstart[0].' -2 days')).'</div>
+			</div>
+			<div class="week">
+				<div class="day">'.date('n/d', strtotime($eweekstart[0].' -8 days')).'</div>
+				<div class="day">'.date('n/d', strtotime($eweekstart[0].' -7 days')).'</div>
+				<div class="day">'.date('n/d', strtotime($eweekstart[0].' -6 days')).'</div>
+				<div class="day">'.date('n/d', strtotime($eweekstart[0].' -5 days')).'</div>
+				<div class="day">'.date('n/d', strtotime($eweekstart[0].' -4 days')).'</div>
+				<div class="day eweek">'.date('n/d', strtotime($eweekstart[0].' -3 days')).'</div>
+				<div class="last day eweek">'.date('n/d', strtotime($eweekstart[0].' -2 days')).'</div>
+			</div>
+			<div class="week">
+				<div class="day eweek">'.date('n/d', strtotime($eweekstart[0].' -1 days')).'</div>
+				<div class="day eweek">'.date('n/d', strtotime($eweekstart[0].' +0 days')).' <span class="eweekstamp">eweek</span></div>
+				<div class="day eweek">'.date('n/d', strtotime($eweekstart[0].' +1 days')).'</div>
+				<div class="day eweek">'.date('n/d', strtotime($eweekstart[0].' +2 days')).'</div>
+				<div class="day eweek">'.date('n/d', strtotime($eweekstart[0].' +3 days')).'</div>
+				<div class="day eweek">'.date('n/d', strtotime($eweekstart[0].' +4 days')).'</div>
+				<div class="last day eweek">'.date('n/d', strtotime($eweekstart[0].' +5 days')).'</div>
+			</div>
+			<div class="last week">
+				<div class="day eweek">'.date('n/d', strtotime($eweekstart[0].' +6 days')).'</div>
+				<div class="day">'.date('n/d', strtotime($eweekstart[0].' +7 days')).'</div>
+				<div class="day">'.date('n/d', strtotime($eweekstart[0].' +8 days')).'</div>
+				<div class="day">'.date('n/d', strtotime($eweekstart[0].' +9 days')).'</div>
+				<div class="day">'.date('n/d', strtotime($eweekstart[0].' +10 days')).'</div>
+				<div class="day">'.date('n/d', strtotime($eweekstart[0].' +11 days')).'</div>
+				<div class="last day">'.date('n/d', strtotime($eweekstart[0].' +12 days')).'</div>
 			</div>
 		</div>';
 
@@ -712,11 +742,8 @@ $danger_box->setContent($danger_content);
 
 $content = '<div id="container_wrapper">'.
 				$user_box->display('full').
-				'<div class="separator"></div>'.
 				$barcode_box->display('full').
-				'<div class="separator"></div>'.
 				$event_box->display('full').
-				'<div class="separator"></div>'.
 				$danger_box->display('full').
 			'</div>';
 

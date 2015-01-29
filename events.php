@@ -3,7 +3,6 @@ require_once 'inc/standard.php';
 
 //$page = new Page($name, $css);
 $page = new Page('events', ALL);
-$var = new VarArray();
 
 
 $sql = "SELECT eweekstart FROM settings";
@@ -144,6 +143,7 @@ if($_GET['action'] == 'Delete')
 		$page->setMessage('<strong>'.$delete_event->name.'</strong> Successfully deleted', 'success');
 
 	}
+	$event->db_close();
 		
 }
 

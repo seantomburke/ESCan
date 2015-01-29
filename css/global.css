@@ -677,15 +677,16 @@ input[type=submit]:hover {
 /* @override http://escan.vacau.com/css/signup.css */
 
 
-#box {
+.box {
 	text-align: left;
 	float: left;
 	background-color: #FFF;
 	color: #425f7f;
 	font-size: 14px;
+	margin-bottom: 10px;
 }
 
-#box .fieldname {
+.box .fieldname {
 	clear: none;
 	display: table;
 	float: left;
@@ -696,13 +697,13 @@ input[type=submit]:hover {
 	color: #777;
 }
 
-#box .textarea {
+.box .textarea {
 	width: 60%;
 	clear: none;
 	float: right;
 }
 
-#box #header_container {
+.box .header_container {
 	background-image: url("../images/box_header.png");
 	background-repeat: repeat-x;
 	border: 1px solid #BBB;
@@ -715,7 +716,7 @@ input[type=submit]:hover {
 	border-top-right-radius: 10px;
 }
 
-#box #header_container span {
+.box .header_container span {
 	font-family: Arial;
 	color: #f8f8f8;
 	font-weight: bold;
@@ -743,7 +744,7 @@ input[type=submit]:hover {
 	float:left;
 }
 
-#box_wrapper {
+.box_wrapper {
 	height: 100%;
 	background-color: #ececec;
 	border-bottom: 1px solid #BBB;
@@ -757,25 +758,25 @@ input[type=submit]:hover {
 	border-bottom-right-radius: 10px;
 }
 
-#box_inside{
+.box_inside{
 	margin: 20px 10%;
 	padding: 0px;
 	float: left;
 	width: 80%;
 }
 
-#box_badge a {
+.box_badge a {
 	color: #36C;
 	margin-top: 15px;
 	float: right;
 	margin-right: 25px;
 }
 
-#box_badge a:visited {
+.box_badge a:visited {
 	color: #36C;
 }
 
-#box h2#title {
+.box h2.title {
 	width: auto;
 	float: left;
 	font-size: 20px;
@@ -883,7 +884,56 @@ img.instructions {
 	display: block;
 }
 
+.month{
+	width: 377px;
+	height: 20px;
+	border: #ccc 1px solid;
+	border-bottom: 0px !important;
+	background-color: #69C;
+	text-align: center;
+}
+
+.month-title{
+	color: #fff;
+}
+
+.day{
+	width: 53px;
+	height: 70px;
+	border: #ccc 1px solid;
+	border-right-width: 0px !important;
+	border-bottom-width: 0px !important;
+	float: left;
+	font-size: 12px;
+}
+
+.dayofweek{
+	height: 20px !important;
+	background-color: #7AD;
+	color: #fff;
+	text-align: center;
+}
+
+.day.eweek{
+	background-color: #BDF;
+}
+
+.last.day {
+	border-right-width: 1px !important;
+}
+.last .day{
+	border-bottom-width: 1px !important; 
+}
+
 @media (max-width: 800px){
+	.month{
+		width: 98.69%;
+	}
+
+	.day{
+		width: 13.955799%;
+		height: 70px;
+	}
 
 	.phone {
 		display: block;
@@ -1563,17 +1613,16 @@ img.instructions {
 		border: 1px double #6d6d6d;
 	}
 
-
-
-	#box {
+	.box {
 		text-align: left;
 		float: left;
 		background-color: #FFF;
 		color: #425f7f;
 		font-size: 14px;
+		margin-bottom: 10px; 
 	}
 
-	#box .fieldname {
+	.box .fieldname {
 		clear: none;
 		display: table;
 		float: left;
@@ -1584,13 +1633,13 @@ img.instructions {
 		color: #777;
 	}
 
-	#box .textarea {
+	.box .textarea {
 		width: 60%;
 		clear: none;
 		float: right;
 	}
 
-	#box #header_container {
+	.box .header_container {
 		/*height: 65px; height found in Box class under '$header_height';*/
 		background-image: url("/images/box_header.png");
 		background-repeat: repeat-x;
@@ -1605,7 +1654,7 @@ img.instructions {
 		border-top-right-radius: 10px;
 	}
 
-	#box #header_container span {
+	.box .header_container span {
 		font-family: Arial;
 		color: #f8f8f8;
 		font-weight: bold;
@@ -1631,7 +1680,7 @@ img.instructions {
 		border-top: solid 1px #CCC;
 	}
 
-	#box_wrapper {
+	.box_wrapper {
 		height: 100%;
 		background-color: #ececec;
 		border-bottom: 1px solid #BBB;
@@ -1645,25 +1694,25 @@ img.instructions {
 		border-bottom-right-radius: 10px;
 	}
 
-	#box_inside{
+	.box_inside{
 		margin: 20px 1%;
 		padding: 0 4%;
 		float: left;
 		width: 90%;
 	}
 
-	#box_badge a {
+	.box_badge a {
 		color: #36C;
 		margin-top: 15px;
 		float: right;
 		margin-right: 20px;
 	}
 
-	#box_badge a:visited {
+	.box_badge a:visited {
 		color: #36C;
 	}
 
-	#box h2#title {
+	.box h2.title {
 		width: auto;
 		float: left;
 		text-align: left;
