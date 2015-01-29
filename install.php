@@ -16,8 +16,8 @@ echo 'Initializing Setup<br>';
  *
  **/
 
-include_once 'inc/setup/_config.php';
-include_once 'inc/standard.php';
+require_once 'inc/setup/_config.php';
+require_once 'inc/standard.php';
 
 echo '<br>Checking Install<br>';
 $db = new DB();
