@@ -24,6 +24,11 @@ $page->DB->query($sql);
 $error_array = $page->DB->resultToArray();
 	
 $table = '<table class="error-table">';
+$table .= '  <thead>
+				<tr>
+			    	<th colspan="10">Error Table</th>
+				</tr>
+			</thead>';
 $table .= '<tr>';
 $table .= '	<td class="error-table-eid">Eid</td>';
 $table .= '	<td class="error-table-message">Message</td>';
