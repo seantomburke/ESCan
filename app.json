@@ -4,7 +4,8 @@
   "keywords": [
     "uci",
     "php",
-    "escan"
+    "escan",
+    "eweek"
   ],
   "website": "http://esc.eng.uci.edu/escan",
   "repository": "https://github.com/hawaiianchimp/escan",
@@ -23,7 +24,11 @@
     "WEBMASTER_PASSWORD": {
       "description": "The password of the webmaster",
       "value": "password"
-    }
+    },
+    "WEBMASTER_EMAIL": {
+      "description": "The email of the webmaster",
+      "value": "stburke@uci.edu"
+    },
   },
   "addons": [
     "cleardb"

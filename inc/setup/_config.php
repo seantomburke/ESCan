@@ -34,9 +34,17 @@ function define_db()
 
 function define_webmaster()
 {
-    define('WEBMASTER_USERNAME', 'stburke'); 	        //Enter the username of the webmaster
-    define('WEBMASTER_PASSWORD', 'escan'); 	        //Enter the password of the webmaster
-    define('WEBMASTER_EMAIL', 'stburke@uci.edu'); 	//Enter the webmaster's email address
+		if(getenv("WEBMASTER_USERNAME") && getenv("WEBMASTER_PASSWORD") && getenv("WEBMASTER_EMAIL"){
+    	//heroku stuff
+    	define('WEBMASTER_USERNAME', getenv("WEBMASTER_USERNAME")); 	       
+    	define('WEBMASTER_PASSWORD', getenv("WEBMASTER_PASSWORD")); 	        
+    	define('WEBMASTER_EMAIL', getenv("WEBMASTER_EMAIL"));
+    }
+    else{
+    	define('WEBMASTER_USERNAME', 'stburke'); 	        //Enter the username of the webmaster
+    	define('WEBMASTER_PASSWORD', 'escan'); 	        //Enter the password of the webmaster
+    	define('WEBMASTER_EMAIL', 'stburke@uci.edu'); 	//Enter the webmaster's email address
+    }
 }
 
 define_db();
