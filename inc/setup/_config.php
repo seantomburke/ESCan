@@ -18,10 +18,9 @@ function define_db()
 {
     echo getenv("CLEARDB_DATABASE_URL");
     $url = parse_url(getenv("CLEARDB_DATABASE_URL")); //if heroku cleardb credentials are defined
-    echo $url[2];
-    var_dump($url);
+    echo "<Br><Br>size: ".count($url)." .<br><br>";
 
-    if($url[2]){
+    if(count($url) > 1){
         define('DBDATABASE', substr($url["path"], 1));        //cleardb database
         define('DBSERVER', $url["host"]); 				    //cleardb host server
         define('DBUSERNAME', $url["user"]);			//cleardb username
@@ -34,6 +33,10 @@ function define_db()
         define('DBPASSWORD', 'root'); 			            //MySQL Password. Lookup in ESC transition files
     }
     
+    echo 'DBDATABASE:'.DBDATABASE.'<br>';
+    echo 'DBDATABASE:'.DBSERVER.'<br>';
+    echo 'DBDATABASE:'.DBUSERNAME.'<br>';
+    echo 'DBDATABASE:'.DBPASSWORD.'<br>';
 }
 
 function define_webmaster()

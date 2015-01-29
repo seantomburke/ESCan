@@ -16,18 +16,18 @@
  
  function define_time()
  {
- 	define(OFFSET, 0);
- 	define(NOW_TIME, date('H:i:s', time()-(OFFSET*60*60)));
- 	define(NOW_DATE, date('Y-m-d', time()-(OFFSET*60*60)));
+ 	define('OFFSET', 0);
+ 	define('NOW_TIME', date('H:i:s', time()-(OFFSET*60*60)));
+ 	define('NOW_DATE', date('Y-m-d', time()-(OFFSET*60*60)));
  }
 
  function define_access()
  {
- define(ALL, 0);
- define(PARTICIPANT, 2);
- define(VOLUNTEER, 4);
- define(ADMINISTRATOR, 6);
- define(WEBMASTER, 8);
+ define('ALL', 0);
+ define('PARTICIPANT', 2);
+ define('VOLUNTEER', 4);
+ define('ADMINISTRATOR', 6);
+ define('WEBMASTER', 8);
  }
  
  function switchAccess($access)

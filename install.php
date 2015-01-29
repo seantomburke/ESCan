@@ -24,9 +24,11 @@ $db = new DB();
 
 if(WEBMASTER_USERNAME && WEBMASTER_EMAIL && WEBMASTER_PASSWORD && DBDATABASE && DBUSERNAME && DBSERVER)
 {
+    echo "<br>All _config.php constants set<br>";
     $sql = 'SELECT COUNT( DISTINCT table_name) FROM information_schema.columns WHERE table_schema = "'.DBDATABASE.'";';
     $db->query($sql);
     $result = $db->resultToSingleArray();
+    echo "<br>table count: ".$result[0]."<br>";
     if($result[0]==0)
     {
         echo '<br>No tables found, creating tables...<br>';

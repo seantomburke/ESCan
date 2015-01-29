@@ -38,7 +38,7 @@ class DB
 		$this->mtStart    = $this->getMicroTime();
 		$this->nbQueries  = 0;
 		$this->lastResult = NULL;
-		include_once 'inc/setup/_config.php';
+		require_once 'inc/setup/_config.php';
 		mysql_connect(DBSERVER,  DBUSERNAME, DBPASSWORD) or die('You must first provide your MySQL Credentials in the _config.php and then run install.php. Please read the README.md file before proceeding');
         mysql_select_db(DBDATABASE) or mysql_query("CREATE DATABASE ".DBDATABASE.";") or die('Cannot connect to database: '.DBDATABASE.'. Try creating database');
         mysql_select_db(DBDATABASE);
