@@ -34,7 +34,7 @@ function define_db()
 
 function define_webmaster()
 {
-		if(getenv("WEBMASTER_USERNAME") && getenv("WEBMASTER_PASSWORD") && getenv("WEBMASTER_EMAIL"){
+	if(getenv("WEBMASTER_USERNAME") && getenv("WEBMASTER_PASSWORD") && getenv("WEBMASTER_EMAIL")){
     	//heroku stuff
     	define('WEBMASTER_USERNAME', getenv("WEBMASTER_USERNAME")); 	       
     	define('WEBMASTER_PASSWORD', getenv("WEBMASTER_PASSWORD")); 	        
