@@ -672,7 +672,12 @@ $event_content .= '
 					<input type="submit" name="action" value="Set" class="right">
 				</div>
 			</form>
+			
+			<div class="disclaimer">
+			Not sure? Check out the official E-Week dates at <a href="http://www.discovere.org/our-programs/engineers-week">http://www.discovere.org/</a>
+			</div>
 		</div>
+
 
 		<div class="calendar">
 			<div class="month"><span class="month-title">'.date('F Y', strtotime($eweekstart[0])).'</span></div>
@@ -696,7 +701,7 @@ $event_content .= '
 			</div>
 			<div class="week">
 				<div class="day eweek">'.date('n/d', strtotime($eweekstart[0].' -1 days')).'</div>
-				<div class="day eweek">'.date('n/d', strtotime($eweekstart[0].' +0 days')).' <span class="eweekstamp">eweek</span></div>
+				<div class="day eweek">'.date('n/d', strtotime($eweekstart[0].' +0 days')).' <div class="eweekstamp">eweek</div></div>
 				<div class="day eweek">'.date('n/d', strtotime($eweekstart[0].' +1 days')).'</div>
 				<div class="day eweek">'.date('n/d', strtotime($eweekstart[0].' +2 days')).'</div>
 				<div class="day eweek">'.date('n/d', strtotime($eweekstart[0].' +3 days')).'</div>
