@@ -25,11 +25,9 @@ date_default_timezone_set('America/Los_Angeles');
  }
 /*Classes*/
 if(addZero(str_replace(".","0",phpversion()),6) <= 504000){
-	echo 'DB.class.php';
 	require_once 'inc/classes/DB.class.php';
 }
 else{
-	echo 'DBi.class.php';
 	require_once 'inc/classes/DBi.class.php';
 }
 
