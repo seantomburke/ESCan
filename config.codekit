@@ -473,6 +473,28 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/javascript\/jquery.sparkline.min.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/javascript\/jquery.sparkline.min.js",
+		"outputAbbreviatedPath": "\/javascript\/min\/jquery.sparkline.min-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/javascript\/min\/jquery-min.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/javascript\/min\/jquery-min.js",
+		"outputAbbreviatedPath": "\/javascript\/min\/min\/jquery-min-min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/javascript\/moment.js": {
 		"fileType": 64,
 		"ignore": 0,
