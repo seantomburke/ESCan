@@ -11,6 +11,7 @@ date_default_timezone_set('America/Los_Angeles');
  
  
 /*Classes*/
+echo phpversion();
 if(str_replace(".","0",phpversion()) <= 504000)
 	require_once 'inc/classes/DB.class.php';
 else
