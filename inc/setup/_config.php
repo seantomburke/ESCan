@@ -7,7 +7,7 @@ function define_basic()
     define(PRODUCT,'ESCan');									//Name of Product
     define(ORGANIZATION, 'The Engineering Student Council');	//Name of Organization or Company
     define(EMAIL, 'esc.uci@email.com');							//Email seen by users when notified
-    define(DESCRIPTION, 'ESCan is a system developed by Sean Burke in 2012 which keeps track of participation at National Engineers week. Register today and experience the celebration of National Engineers Week!');	                //Description of the system
+    define(DESCRIPTION, 'ESCan is a system developed by Sean Burke in 2012 which keeps track of participation at UC Irvine\'s National Engineers week. Register today and experience the celebration of National Engineers Week!');	                //Description of the system
 
     $scriptname=end(explode('/',$_SERVER['PHP_SELF']));         //Defines the web url
     $scriptpath=str_replace($scriptname,'',$_SERVER['PHP_SELF']);
