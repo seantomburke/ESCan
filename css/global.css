@@ -291,11 +291,16 @@ margin: 5%;
 	table-layout:fixed;
 }
 
-.error-table td{
+.error-table td, .error-table th{
 	min-width: 10px;
 	max-width: 30px;
 	overflow: scroll;
 	border: #ccc 1px solid;
+}
+
+.error-table th{
+	text-align: center;
+	background-color: #ccc; 
 }
 
 .error-table-message{
@@ -307,6 +312,7 @@ margin: 5%;
 }
 
 .error-table-browser{
+	overflow: hidden;
 	white-space: nowrap;
 }
 
