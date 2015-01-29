@@ -5,6 +5,7 @@ $page = new Page('admin', ADMINISTRATOR);
 $page->setTab('admin');
 $user_box = new Box('User Administration');
 $barcode_box = new Box('Barcode Administration');
+$event_box = new Box('Event Administration');
 $danger_box = new Box('Danger');
 $js_slide_down = false;
 $barcode_focus = false;
@@ -120,6 +121,23 @@ if($_GET['action'] == 'associate' && $_POST)
 	
 }
 
+if($_GET['action'] == 'Set' && $_GET['eweekstart'])
+{
+	$errors = 1;
+	if(!strtotime($_GET['eweekstart']))
+	{
+		echo date('Y-m-d h:i:s', strtotime($_GET['eweekstart']));
+		$error_message[$errors] = "This is not a valid date";
+		$errors++;
+		$error_name = 'failure';
+	}
+	if($errors === 1){
+		$sql = "UPDATE settings SET eweekstart='".$_GET['eweekstart']."';";
+		$page->DB->execute($sql, 1);
+		$page->setMessage('The Monday of E-Week is: <strong>'.date('M d, Y', strtotime($_GET['eweekstart'])).'</strong>. Please update the events on the <a href="events.php">events page</a> accordingly.', 'success');
+	}
+
+}
 
 
 if($_GET['action'] == 'update' && $_POST)
@@ -564,7 +582,6 @@ if($user['ucinetid'])
  */
 
 $ticker_content .=	' <div class=" ">
-			<div class="separator"></div>
 			<form id="barcode-form" method="GET">
 				<div class="row">
 					<label>Barcode</label>
@@ -630,6 +647,44 @@ $ticker_content .= '
     </script>';
 
 
+   /* 
+    *
+    *    Event Section
+    *
+    *
+    */
+
+$sql = 'SELECT eweekstart
+		FROM settings';
+	
+$page->DB->query($sql);
+$eweekstart = $page->DB->resultToSingleArray();
+
+$event_content .= ' <div class=" ">
+			<form id="event-form" name="event-form" method="GET">
+				<div class="row">
+					<label>When is E-Week?</label>
+					<input type="week" name="eweekstart" id="eweekstart" class="textarea" value="'.$eweekstart[0].'">
+				</div>
+				<div class="row">
+					<input type="submit" name="action" value="Set" class="right">
+				</div>
+			</form>
+			<div class="calendar">
+				<div class="month">'.date('F', strtotime($eweekstart[0])).'</div>
+				<div class="week">
+					<div class="day">'.date('m/d', strtotime($eweekstart[0].'+1 days')).'</div>
+					<div class="day">'.date('m/d', strtotime($eweekstart[0].'+2 days')).'</div>
+					<div class="day">'.date('m/d', strtotime($eweekstart[0].'+3 days')).'</div>
+					<div class="day">'.date('m/d', strtotime($eweekstart[0].'+4 days')).'</div>
+					<div class="day">'.date('m/d', strtotime($eweekstart[0].'+5 days')).'</div>
+					<div class="day">'.date('m/d', strtotime($eweekstart[0].'+6 days')).'</div>
+					<div class="day">'.date('m/d', strtotime($eweekstart[0].'+7 days')).'</div>
+				</div>
+			</div>
+		</div>';
+
+
 //$slot = new Vegas($page,$users);
 //$slot_content = $slot->build();
 
@@ -651,16 +706,19 @@ $danger_content .= '
 
 $user_box->setContent($bottom.$slot_content);
 $barcode_box->setContent($ticker_content);
+$event_box->setContent($event_content);
 $danger_box->setContent($danger_content);
 
 
 $content = '<div id="container_wrapper">'.
-				$user_box->display('full')
-				.'<div class="separator"></div>'.
-				$barcode_box->display('full')
-				.'<div class="separator"></div>'.
-				$danger_box->display('full')
-			.'</div>';
+				$user_box->display('full').
+				'<div class="separator"></div>'.
+				$barcode_box->display('full').
+				'<div class="separator"></div>'.
+				$event_box->display('full').
+				'<div class="separator"></div>'.
+				$danger_box->display('full').
+			'</div>';
 
 $page->setContent($content);
 $page->buildPage();

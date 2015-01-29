@@ -4,6 +4,14 @@ require_once 'inc/standard.php';
 //$page = new Page($name, $css);
 $page = new Page('events', ALL);
 $var = new VarArray();
+
+
+$sql = "SELECT eweekstart FROM settings";
+$page->DB->query($sql);
+$eweekstart = $page->DB->resultToSingleArray();
+$eweekfriday = date('Y-m-d', strtotime($eweekstart[0]." -3 days"));
+$eweeksunday = date('Y-m-d', strtotime($eweekstart[0]." +6 days"));
+
 //clean each $_POST value of dangerous inputs
 //example $newsettings['email'] = 'stburke@uci.edu';
 foreach ($_POST as $key => $value) {
@@ -37,26 +45,11 @@ if($_GET['action'] == 'add')
 			$errors++;
 			$error_date = 'error';
 		}
-		if(($event['hour'] == '--') || ($event['minute'] == '--') || ($event['ampm'] == '--'))
-		{
-			$error_message[$errors] = 'Event must have a valid time';
-			$errors++;
-			$error_time = 'error';
-		}
+		if(!($event['time'])){
 
+		}
 		if($errors == 1)
 		{
-			if($event['hour'] == 12)
-			{
-				$ampm_push = 0;
-			}
-			else
-			{
-				$ampm_push = ($event['ampm'] == 'pm') ? 12:0;
-			}
-			
-			$event['time'] = (($event['hour']+$ampm_push) % 24).':'.$event['minute'].':00';
-
 			$sql = 'INSERT INTO events (name, date, time, host, prize, description, volunteer)
 								VALUES ("'.$event['name'].'", "'.$event['date'].'", "'.$event['time'].'", "'.$event['host'].'", "'.$event['prize'].'", "'.$event['description'].'", "'.$_SESSION['ucinetid'].'")';
 			
@@ -73,14 +66,6 @@ if($_GET['action'] == 'add')
 			$page->setMessage($error_message, 'failure');
 		}
 	}
-
-	$var = new VarArray();
-	$offset = 3;
-	$now = time()-($offset*60*60);
-	$hours = new DropMenu('hour', $var->getHours(), $event['hour']);
-	$minutes = new DropMenu('minute', $var->getMinutes(), $event['minute']);
-	$ampms = new DropMenu('ampm', $var->getAMPM(), $event['ampm']);
-	$dates = new DropMenu('date', $var->getDates(), $event['date']);
 
 	if(!$page->login->checkValidAccess($page, $_SERVER['PHP_SELF']))
 	{
@@ -101,15 +86,11 @@ if($_GET['action'] == 'add')
 					</div>
 					<div class="row '.$error_date.'">
 						<label class="fieldname">Date</label>
-						<div class="textarea">
-						'.$dates->display().'
-						</div>
+						<input name="date" type="date" class="textarea" value="'.$event['date'].'" min="'.$eweekfriday.'" max="'.$eweeksunday.'">
 					</div>
 					<div class="row '.$error_time.'">
 						<label class="fieldname">Time</label>
-						<div class="textarea">
-						'.$hours->display().':'.$minutes->display().' '.$ampms->display().'
-						</div>
+						<input name="time" type="time" class="textarea" value="'.$event['time'].'">
 					</div>
 					<div class="row">
 						<label class="fieldname">Host</label>
@@ -174,15 +155,15 @@ $bottom = '<h2>List of Events</h2>';
 
 
 
-foreach($var->getDates() as $key => $value)
+for($i=0;$i<10;$i++)
 {
 	//echo date('l', strtotime($key)).' - '.$value.'<br>';
-	
+	$keys[$i] = strtotime($eweekfriday."+".$i." days");
 	$sql = 'SELECT * FROM events
-			WHERE date = "'.$key.'"
+			WHERE date = "'.date('Y-m-d', $keys[$i]).'"
 			ORDER BY date, time';
 	$page->DB->query($sql);
-	$events[$value] = $page->DB->resultToArray();
+	$events[$i] = $page->DB->resultToArray();
 }
 
 
@@ -197,18 +178,18 @@ $page->setJSInitial('$(".dropdown").hide();'.
 					'$(".today").slideToggle()');	
 foreach ($events as $day => $value)
 {
-	$j++;
+	//echo $day.' - '.$value.'<br>';
 	
 	
-	if(date('l') == date('l', strtotime($day)))
+	if(date('l') == date('l',$keys[$j]))
 	{
-		//echo $day;
+		//echo date('l')." - ".date('l',$keys[$j]).'<br>';
 		$today = ' today';
 	}
 	
 	$bottom .= ' 
 	<div id="day'.$j.'" class="day_class">
-		<h3>'.$day.'</h3>
+		<h3>'.date('l m/d', $keys[$j]).'</h3>
 		<script>
 			'.$today_script.'
 			$("#day'.$j.'").click(
@@ -293,6 +274,7 @@ foreach ($events as $day => $value)
 	}
 	$bottom .= '
 	</div>';
+	$j++;
 }
 $bottom .= '
 </div>';
