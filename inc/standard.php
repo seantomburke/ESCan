@@ -9,10 +9,22 @@ date_default_timezone_set('America/Los_Angeles');
  * @author Sean Burke, http://www.seantburke.com
  */
  
- 
+ function addZero($number, $length)
+ {
+ 	if(strlen($number) === $length)
+ 	{
+ 		return $number;
+ 	}
+ 	elseif(strlen($number) > $length)
+ 	{
+ 		return addZero(substr($number,0, -1),$length);
+ 	}
+ 	elseif (strlen($number) < $length){
+ 		return addZero($number.'0',$length);
+ 	}
+ }
 /*Classes*/
-echo phpversion();
-if(str_replace(".","0",phpversion()) <= 504000)
+if(addZero(str_replace(".","0",phpversion()),6) <= 504000)
 	require_once 'inc/classes/DB.class.php';
 else
 	require_once 'inc/classes/DBi.class.php';
