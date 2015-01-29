@@ -65,6 +65,7 @@ if(!$db->isEmpty())
     <a href="admin.php">Admin Page</a>. This incident will be reported. Please contact the Web Admin at 
     '.$emails.' or <a href="mailto:esc.uci@gmail.com">esc.uci@gmail.com</a> if you feel you received this message in error');
     }
+    $sniper->db_close();
 }
 
 echo 'Creating Webmaster<br>';
@@ -76,6 +77,8 @@ $sql = 'REPLACE INTO `logon` VALUES("'.WEBMASTER_USERNAME.'", "'.md5(WEBMASTER_P
 $db->execute($sql);
 echo 'Insertion complete<br>';
 echo 'Done<Br>';
+$db->close();
+echo 'Disconnecting from Database<Br>';
 echo '<a href="index.php">Click here to start ESCan</a>';
 }
 else

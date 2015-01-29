@@ -18,6 +18,7 @@ $sql = 'SELECT barcodes.*, users.name, users.ucinetid, users.major, users.level
     		
 $DB->query($sql);
 $output['scans'] = $DB->resultToArray();
+$DB->close();
 
 echo json_encode($output);
 ?>

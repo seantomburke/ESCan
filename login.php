@@ -33,8 +33,9 @@ if($_POST['action'] == 'login' && isset($_POST['ucinetid']))
 	
 	if($errors == 1)
 	{
-		if($redirect)
+		if($redirect){
 			header('Location:'.$redirect);
+		}
 		else
 		{
 			header('Location: settings.php');

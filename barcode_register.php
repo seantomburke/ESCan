@@ -35,6 +35,9 @@ if($scan['barcode'])
     				WHERE barcode = "'.$barcode->code.'"';
     		$DB->query($sql);
             $output['scan'] = $DB->resultToArray();
+            $DB->close();
+            $barcode->db_close();
+            $scanner->db_close();
             
             //remove the 'undefined' in the ticker
             $output['scan'][0]['name'] = ' ';

@@ -29,6 +29,7 @@ else
    $output['message']['text'] = "No Event Id Provided";
    $output['message']['status'] = "error";
 }
+$DB->close();
 
 echo json_encode($output);
 ?>
