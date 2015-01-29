@@ -2,7 +2,7 @@
 
 require_once 'inc/standard.php';
 $page = new Page('webmaster', WEBMASTER);
-$user_box = new Box('Errors');
+$user_box = new Box('Webmaster');
 
 //check for valid access
 if(!$page->login->checkValidAccess($page, $_SERVER['PHP_SELF']))
@@ -55,8 +55,17 @@ foreach ($error_array as $row)
 }
 
 $table .= '</table>';
+
+$content = 'Use phpMyAdmin to view and export all the raw data. Make sure not to modify any data unless you know what you are doing. You could end up making permanent damage that would involve reinstalling ESCan and losing data permanently. This is the raw data that runs ESCan.
+To export the data, click on the database called "'.DBDATABASE.'" and then click "Export" in the tab at the top of the page. You can then chose the "Custom" option, then chose to export the data to a file in the "Output" section.
+<br><br>
+Click below access phpMyAdmin.
+<br><br>
+<a class="" href="phpMyAdmin">phpMyAdmin</a>';
+$content .= '<br>Username: '.DBUSERNAME;
+$content .= '<br>Password: '.DBPASSWORD."<br>";
 	
-$user_box->setContent($table);
+$user_box->setContent($content.$table);
 
 
 $content = $user_box->display('full');
