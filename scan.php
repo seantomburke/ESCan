@@ -176,7 +176,7 @@ $ticker_content .= '
           url: "scanner.php",
           dataType: "json",
           data: { 
-            eid: '.$scan['eid'].',
+            eid: "'.$scan['eid'].'",
             barcode: code,
             ucinetid: "'.$_SESSION['ucinetid'].'"},
           success: function(data) {
@@ -245,8 +245,30 @@ if($scan['eid'] != 0)
 $box_stat = new Box('Statistics', $bottom_stats);
 $stat_display = $box_stat->display("full");
 }
+
+$box->setIntroStep(8);
+$box->setIntroText("This page is where Voluneers will scan users in 
+	for the event. Users must have already registered their wristbands 
+		at the registration booth in order to get scanned.<br><br>
+	If the event hasn't started yet, you will see a red box indicating this.");
+
+$intro_scripts = '<script src="javascript/intro.min.js"></script>
+	<script type="text/javascript">
+	$(".box_inside").css("min-height", "200px");
+	if(window.location.hash) {
+		var hash = window.location.hash.substring(1);
+		if(hash == "intro"){
+			introJs().setOption("doneLabel", "Finish Tour").start();
+		}
+	}
+</script>';
+
+
+
+
+
 $content = $box->display().$stat_display;
-$page->setContent($content);
+$page->setContent($content.$intro_scripts);
 $page->buildPage();
 $event->db_close();
 ?>

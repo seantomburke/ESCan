@@ -22,6 +22,20 @@ $js = ' if($("#major").val() != "Other")
 $page->setJSInitial($js);
 
 
+$intro1 = "This section is used to register participants. Enter their 
+8 digit UCInetID (their email handle) and ESCan will search for them in the
+UCI Directory. If they are an engineering major, they will be sent to the next
+page. Scan their wristband and instruct them to head to the event booth. If they
+are not an engineering major, or they are a double major, grad student or faculty member,
+you will be presented with a pop up explaining this, then click continue.";
+
+$intro2 = "Here the UCInetID <b>stburke</b> is entered";
+
+$intro3 = "This is the information for <b>stburke</b> pulled from the UCI Directory. Make sure it is correct, then
+scan the users barcode wristband. This will associate their UCInetID to their Barcode. Make sure
+to remind them to keep the wristband on all week for a change to win prizes.";
+
+
 //clean each $_POST value of dangerous inputs
 //example $user['email'] = 'stburke@uci.edu';
 foreach ($_POST as $key => $value) {
@@ -44,7 +58,23 @@ if($_SESSION['access'] > PARTICIPANT)
 	$page->setMessage('Hello '.$_SESSION['name'].', please ask for users UCInetID (their Email)', 'success');
 	}
 }
-$autofocus = ($_GET['submit_search'] == "Search") ? ' autofocus onfocus="this.select();" onmouseup="return false;"':'';
+if($_GET['submit_search'] == "Search"){
+	$autofocus = ' autofocus onfocus="this.select();" onmouseup="return false;"';
+}
+$introfirst = ($_GET['ucinetid']) ? $intro2: $intro1;
+
+$introtext = ' data-step="5" data-intro="'.$introfirst.'" data-position="right"';
+$intro_scripts = '<script src="javascript/intro.min.js"></script>
+		<script type="text/javascript">
+		if(window.location.hash) {
+			var hash = window.location.hash.substring(1);
+			if(hash == "intro"){
+				introJs().setOption("doneLabel", "Next page").start().oncomplete(function() {
+					window.location.href = "events.php?#intro";
+				});
+			}
+		}
+    </script>';
 
 $search = '	<form action="'.$_SERVER['PHP_SELF'].'" method="GET">
 			<div class="row">
@@ -53,7 +83,7 @@ $search = '	<form action="'.$_SERVER['PHP_SELF'].'" method="GET">
 				</div>
 			</div>
 			<div class="clear"></div>
-			<div class="row">
+			<div class="row"'.$introtext.'>
 			    <label class="fieldname" for="ucinetid">
 			        UCInetID 
 			        <span class="require1">*</span>
@@ -228,8 +258,6 @@ elseif($_GET['ucinetid'])
 {
 	$errors_s = 1;
 	$person = new UCIPerson($_GET['ucinetid']);
-
-	$autofocus = "";
 	
 	$page->setMessage('Scan wristband now to register <strong>'.$person->name.'</strong>.', 'success');
 	
@@ -284,7 +312,7 @@ elseif($_GET['ucinetid'])
 		
 		$signup .= '
 		<div class="separator"></div>
-		<form action="'.$_SERVER['PHP_SELF'].'?submit_search=Search&ucinetid='.$person->ucinetid.'" method="POST">
+			<form class="form" action="'.$_SERVER['PHP_SELF'].'?submit_search=Search&ucinetid='.$person->ucinetid.'" method="POST">
 				<div class="disclaimer">
 				    For security purposes, your UCInetID must match up with your UCI email. This security measure is to prevent users from using a UCInetID that does not belong to them. By using your UCI email, this will ensure that you have control over your account under all circumstances.
 				</div>
@@ -391,7 +419,7 @@ elseif($_GET['ucinetid'])
 	}
 }
 			
-$bottom = $search.$signup;
+$bottom = $search.$signup.$intro_scripts;
 
 $box = new Box('Register', $bottom);
 $box->setBadge('Sign in', 'login.php');

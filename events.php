@@ -107,8 +107,22 @@ if($_GET['action'] == 'add')
 						<input name="event_submit" type="submit" value="Add Event">
 					</div>
 					</form>';
+		$box->setIntroStep(7);
+		$box->setIntroText("Here is where you'll enter all the information. Only Eweek dates are valid input for the date. The host is usually ESC, but if another ESO is hosting competitions, you will want to put them as the host. The prize refers to competition prizes. If there is no prize, just put 0.");
+		$intro_scripts = '<script src="javascript/intro.min.js"></script>
+				<script type="text/javascript">
+				if(window.location.hash) {
+					var hash = window.location.hash.substring(1);
+					if(hash == "intro"){
+						introJs().setOption("doneLabel", "Next page").start().oncomplete(function() {
+							window.location.href = "scan.php#intro";
+						});
+					}
+				}
+		    </script>';
+
 		$box->setContent($bottom);
-		$page->setContent($box->display('half'));
+		$page->setContent($box->display('half').$intro_scripts);
 		$page->buildPage();
 	}
 }
@@ -276,15 +290,24 @@ foreach ($events as $day => $value)
 	</div>';
 	$j++;
 }
-$bottom .= '
-</div>';
-
+$bottom .= '</div>';
+$intro_text = "This is the events page which shows a list of all the events. Click here to add an event.";
+$intro_scripts = '<script src="javascript/intro.min.js"></script>
+		<script type="text/javascript">
+		if(window.location.hash) {
+			var hash = window.location.hash.substring(1);
+			if(hash == "intro"){
+				introJs().setOption("doneLabel", "Next page").start().oncomplete(function() {
+					window.location.href = "events.php?action=add#intro";
+				});
+			}
+		}
+    </script>';
 
 $box = new Box('Events', $bottom);
 if($_SESSION['access'] >= ADMINISTRATOR)
-$box->setBadge('Add Event', $_SERVER['PHP_SELF'].'?action=add');
+$box->setBadge('<div data-step="6" data-position="right" data-intro="'.$intro_text.'">Add Event</div>', $_SERVER['PHP_SELF'].'?action=add');
 
-$content = 
-$page->setContent($box->display('half'));
+$page->setContent($box->display('half').$intro_scripts);
 $page->buildPage();
 ?>

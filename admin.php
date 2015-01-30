@@ -12,6 +12,40 @@ $barcode_focus = false;
 $select_from_post = false;
 $var_array = new VarArray();
 
+//Intro JS Stuff for tutorial purposes
+$user_box->setBadge("<a class='startButton' href='#intro'>Start Tutorial</a>");
+$user_box->setIntroStep(1);
+$user_box->setIntroText("This section is used for user administration. 
+	You will mostly use it for changing a person's access level. 
+	If you need to make a <b>Participant</b> into a <b>Volunteer</b>, 
+	choose 'Participant' from the dropdown menu, then find their name 
+	in the second dropdown. Lastly, change their <strong>Access Level</strong> 
+	to <b>Volunteer</b> and push submit. If you cannot find their name on the list
+	that means they aren't registered, and they will need to go to the 
+	<a href='register.php'>Registration Page</a> to register for an account.");
+
+$barcode_box->setIntroStep(2);
+$barcode_box->setIntroText("This section is used for barcode administration. 
+	This is where you will need to register the barcodes before you can use them. 
+	Have a few volunteers scan in all of the barcodes before they are distributed. 
+	The scan ticker will show the last 5 barcodes that were scanned in, 
+	and if they are registered to anyone, you can click on the barcode for 
+	more information.");
+
+$event_box->setIntroStep(3);
+$event_box->setIntroText("This will be the first step to setting up ESCan 
+	for E-week. Select the week in which E-week takes place. You will need 
+		to do this from a desktop computer. Once you've selected the date, 
+	make sure to double check the calendar to ensure you chose the right week.
+	the 'EWEEK' icon should fall on the President's Day Monday");
+
+$danger_box->setIntroStep(4);
+$danger_box->setIntroText("This section is used to clean the database for ESCan. Make sure 
+	to backup the previous year's data before deleting any data. This will
+	permanently delete any data from the database. If you need to delete
+	everything, click the reinstall button which will run all of the commands
+	to delete, barcodes, events, users and scans");
+
 //check for valid access
 if(!$page->login->checkValidAccess($page, $_SERVER['PHP_SELF']))
 {
@@ -755,7 +789,16 @@ $content = '<div id="container_wrapper">'.
 				$danger_box->display('full').
 			'</div>';
 
-$page->setContent($content);
+$endjs = '<script src="javascript/intro.min.js"></script>
+		<script type="text/javascript">
+      $(".startButton").on("click", function() {
+      	introJs().setOption("doneLabel", "Next page").start().oncomplete(function() {
+          window.location.href = "register.php#intro";
+        });
+      });
+    </script>';
+
+$page->setContent($content.$endjs);
 $page->buildPage();
 
 ?>

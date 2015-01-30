@@ -19,6 +19,8 @@ class Box
 	public $width;
 	public $height;
 	public $header_height;
+	public $intro_step;
+	public $intro_text;
 
 	function __construct($title, $content = '', $width = 500, $height = 'auto')
 	{
@@ -44,6 +46,14 @@ class Box
 		$this->badge = $badge;
 		$this->badge_url = $url;
 	}
+	public function setIntroText($text)
+	{
+		$this->intro_text = $text;
+	}
+	public function setIntroStep($step)
+	{
+		$this->intro_step = $step;
+	}
 
 	public function display($type = 'half')
 	{
@@ -58,7 +68,7 @@ class Box
 		}
 		
 		$output = '
-		<div class="box" style="width:100%; height:'.$this->height.'">
+		<div class="box" style="width:100%; height:'.$this->height.'" data-step="'.$this->intro_step.'" data-intro="'.$this->intro_text.'" data-position="right">
 			<div class="header_container" style="height: '.$this->header_height.'px">
 				<h2 class="title">'.$this->title.'</h2>
 		    	<span class="box_badge">
