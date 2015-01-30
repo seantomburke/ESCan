@@ -28,6 +28,18 @@
     "WEBMASTER_EMAIL": {
       "description": "The email of the webmaster",
       "value": "stburke@uci.edu"
+    },
+    "APP_NAME": {
+        "description": "The name of the application",
+        "value": "ESCan"
+    },
+    "ORGANIZATION":{
+        "description": "The name of the organization",
+        "value": "The Engineering Student Council"  
+    },
+    "ORG_EMAIL":{
+      "description": "The email which will be displayed when sent out",
+      "value": "esc.uci@gmail.com"
     }
   },
   "addons": [
