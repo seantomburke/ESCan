@@ -68,26 +68,26 @@ function loadTicker(eid){
               dataType: "json",
               data: { 
                 eid: eid},
-              success: function(data) {
-                console.log(data); 
-                	
-                if(data.scans.length > 0)
-                {
-                	//reverse order
-                	for(var i=data.scans.length-1;i>=0; i--)
-                	{
-                	    appendBarcode(data.scans[i]);
-                	};
-                	
+                success: function(data) {
+                    console.log(data); 
+                    	
+                    if(data.scans)
+                    {
+                        if(data.scans.length > 0){
+                        	//reverse order
+                        	for(var i=data.scans.length-1;i>=0; i--)
+                        	{
+                        	    appendBarcode(data.scans[i]);
+                        	}
+                        }
+                    }
+                    else {
+                    	$("#ticker .list").append(
+                    	'<div class="item">'+
+                    	'	<label>No Scans Yet</label>'+
+                    	'</div>');
+                    }
                 }
-                else {
-                	$("#ticker .list").append(
-                	'<div class="item">'+
-                	'	<label>No Scans Yet</label>'+
-                	'</div>');
-                }
-                
-              }
     	    });
     
 }
