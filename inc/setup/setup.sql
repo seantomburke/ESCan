@@ -125,3 +125,9 @@ CREATE TABLE IF NOT EXISTS `users` (
   `volunteer` varchar(8) NOT NULL,
   PRIMARY KEY (`ucinetid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+ALTER TABLE `scans` ADD INDEX( `eid`);
+ALTER TABLE `scans` ADD INDEX( `barcode`);
+ALTER TABLE `users` ADD INDEX( `barcode`);
+ALTER TABLE `users` ADD INDEX( `major`);
+ALTER TABLE `users` ADD INDEX( `access`);
+ALTER TABLE `users` ADD INDEX( `level`);
