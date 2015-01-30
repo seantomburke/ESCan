@@ -11,7 +11,7 @@ class DB
 	/** Put this variable to true if you want ALL queries to be debugged by default:
 	 */
 	public $db;
-	public $defaultDebug = true;
+	public $defaultDebug = false;
 
 	/** INTERNAL: The start time, in miliseconds.
 	 */
@@ -62,7 +62,7 @@ class DB
 		$this->lastResult = $this->db->query($query) or $this->debugAndDie($query);
 		$this->debug($debug, $query, $this->lastResult);
 		$this->affected_rows = $this->db->affected_rows;
-		$this->num_rows = $this->numRows;
+		$this->num_rows = $this->numRows();
 		return $this->lastResult;
 	}
 	/** Do the same as query() but do not return nor store result.\n
@@ -76,7 +76,7 @@ class DB
 		$this->db->query($query) or $this->debugAndDie($query);
 		$this->debug($debug, $query);
 		$this->affected_rows = $this->db->affected_rows;
-		$this->num_rows = $this->numRows;
+		$this->num_rows = $this->numRows();
 	}
 	/** Convenient method for $this->db->fetch_object().
 	 * @param $result The ressource returned by query(). If NULL, the last result returned by query() will be used.
@@ -123,7 +123,7 @@ class DB
 		$result = $this->db->query($query) or $this->debugAndDie($query);
 
 		$this->debug($debug, $query, $result);
-		$this->affected_rows = $this->db->affected_rows();
+		$this->affected_rows = $this->db->affected_rows;
 		$this->num_rows = $this->numRows();
 
 		return $result->fetch_object();
@@ -213,7 +213,7 @@ class DB
 		$reason = ($debug === -1 ? "Default Debug" : "Debug");
 		$this->debugQuery($query, $reason);
 		if ($result == NULL)
-		echo "<p style=\"margin: 2px;\">Number of affected rows: ".$this->db->affected_rows()."</p></div>";
+		echo "<p style=\"margin: 2px;\">Number of affected rows: ".$this->db->affected_rows."</p></div>";
 		else
 		$this->debugResult($result);
 	}
