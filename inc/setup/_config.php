@@ -4,10 +4,29 @@ date_default_timezone_set('America/Los_Angeles');
 
 function define_basic()
 {
-    define('PRODUCT','ESCan');									//Name of Product
-    define('ORGANIZATION', 'The Engineering Student Council');	//Name of Organization or Company
-    define('EMAIL', 'esc.uci@email.com');							//Email seen by users when notified
-    define('DESCRIPTION', 'ESCan is a system developed by Sean Burke in 2012 which keeps track of participation at UC Irvine\'s National Engineers week. Register today and experience the celebration of National Engineers Week!');	                //Description of the system
+    //Name of APP
+    if(getenv("APP_NAME"))
+        define('PRODUCT',getenv("APP_NAME")); 
+    else                 
+        define('PRODUCT','ESCan');                  
+
+    //Name of Organization or Company
+    if(getenv("ORGANIZATION"))
+        define('ORGANIZATION',getenv("ORGANIZATION")); 
+    else                 
+        define('ORGANIZATION', 'The Engineering Student Council');  
+
+    //Email seen by users when notified
+    if(getenv("ORG_EMAIL"))
+        define('EMAIL', getenv('ORG_EMAIL'));                           
+    else
+        define('EMAIL', 'esc.uci@email.com');                           
+
+    //Description of the app
+    if(getenv("DESCRIPTION"))
+        define('DESCRIPTION', getenv("DESCRIPTION"));
+    else
+        define('DESCRIPTION', 'ESCan is a system developed by Sean Burke in 2012 which keeps track of participation at UC Irvine\'s National Engineers week. Register today and experience the celebration of National Engineers Week!');                   //Description of the system
 
     $scriptname=end(explode('/',$_SERVER['PHP_SELF']));         //Defines the web url
     $scriptpath=str_replace($scriptname,'',$_SERVER['PHP_SELF']);
