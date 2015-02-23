@@ -157,7 +157,6 @@ if($_GET['action'] == 'Delete')
 		$page->setMessage('<strong>'.$delete_event->name.'</strong> Successfully deleted', 'success');
 
 	}
-	$event->db_close();
 		
 }
 
