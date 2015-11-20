@@ -22,7 +22,11 @@ $sql = 'SELECT errors.*
 		
 $page->DB->query($sql);
 $error_array = $page->DB->resultToArray();
-	
+
+if(strpos($_SERVER['HTTP_HOST'], 'heroku') != false){
+	$hostnames = explode('.', $_SERVER['HTTP_HOST']);
+	$heroku_link = 'To get to the Heroku Dashboard click on this link: <a href="https://dashboard.heroku.com/apps/'.$hostnames[0].'/">https://dashboard.heroku.com/apps/'.$hostnames[0].'/</a>"';
+}
 
 $content = '
 <h2>Database Access</h2>
@@ -39,6 +43,9 @@ To export the data, click on the database called "'.DBDATABASE.'" and then click
 <br><br>
 <div class="separator"></div>
 <h3>Heroku</h3>
+
+'.$heroku_link.'
+
 If you are on a <a href="http://www.heroku.com">Heroku</a> hosted application, ClearDB, the MySQL host provided by Heroku, won\'t allow you to connect with phpMyAdmin. Instead enter the credentials below into a program such as <a href="http://www.sequelpro.com/"> Sequel Pro</a> for Mac or <a href="http://www.mysql.com/products/workbench/">MySQL Workbench</a> for Windows<br><br>';
 
 $content .= '<br><b>Host:</b> '.DBSERVER;
