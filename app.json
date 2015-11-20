@@ -11,8 +11,15 @@
   "repository": "https://github.com/hawaiianchimp/escan",
   "logo": "http://esc.eng.uci.edu/escan/images/logo.png",
   "success_url": "/install.php",
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-php"
+    }
+  ],
+  "addons": [
+    "cleardb"
+  ],
   "env": {
-    "BUILDPACK_URL": "https://github.com/heroku/heroku-buildpack-php",
     "SECRET_TOKEN": {
       "description": "A secret key for verifying the integrity of signed cookies.",
       "generator": "secret"
@@ -41,8 +48,5 @@
       "description": "The email which will be displayed when emails are sent out",
       "value": "esc.uci@gmail.com"
     }
-  },
-  "addons": [
-    "cleardb"
-  ]
+  }
 }
