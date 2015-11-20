@@ -28,6 +28,11 @@ function define_basic()
     else
         define('DESCRIPTION', 'ESCan is a system developed by Sean Burke in 2012 which keeps track of participation at UC Irvine\'s National Engineers week. Register today and experience the celebration of National Engineers Week!');                   //Description of the system
 
+    if(getenv("EWEEKSTART"))
+        define('EWEEKSTART', getenv("EWEEKSTART"));
+    else
+        define('EWEEKSTART', '2015-W09');
+
     $scriptname=end(explode('/',$_SERVER['PHP_SELF']));         //Defines the web url
     $scriptpath=str_replace($scriptname,'',$_SERVER['PHP_SELF']);
     define('WEBSITE', 'http://'.$_SERVER['SERVER_NAME'].$scriptpath);

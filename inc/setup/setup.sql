@@ -55,19 +55,19 @@ CREATE TABLE IF NOT EXISTS `pages` (
   PRIMARY KEY (`ID`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
 INSERT IGNORE INTO `pages` VALUES(1, 'index', 'Home', '0', 'index.php', 0, 0, 'index', 'ESCan-Electronic tracking system for E-Week. In order to win prizes, attend events, and compete in competitions, you must register your UCInetID with a wristband.');
-INSERT IGNORE INTO `pages` VALUES(2, 'error', 'Error', '0', 'error.php', 0, 0, 'index', '');
-INSERT IGNORE INTO `pages` VALUES(3, 'scan', 'Scan', '', 'scan.php', 0, 4, 'Scan', '');
-INSERT IGNORE INTO `pages` VALUES(4, 'webmaster', 'Webmaster', '', 'webmaster.php', 0, 8, 'WebMaster', '');
+INSERT IGNORE INTO `pages` VALUES(2, 'error', 'Error', '0', 'error.php', 0, 0, '', '');
+INSERT IGNORE INTO `pages` VALUES(3, 'scan', 'Scan', '', 'scan.php', 0, 4, 'scan', '');
+INSERT IGNORE INTO `pages` VALUES(4, 'webmaster', 'Webmaster', '', 'webmaster.php', 0, 8, 'webmaster', '');
 INSERT IGNORE INTO `pages` VALUES(5, 'login', 'Sign In', '0', 'login.php', 0, 0, 'login', '');
-INSERT IGNORE INTO `pages` VALUES(6, 'signup', 'Sign Up', '0', 'signup.php', 0, 0, 'Sign Up', '');
+INSERT IGNORE INTO `pages` VALUES(6, 'signup', 'Sign Up', '0', 'signup.php', 0, 0, 'signup', '');
 INSERT IGNORE INTO `pages` VALUES(7, 'logout', 'Logout', '0', 'logout.php', 0, 2, '', '');
 INSERT IGNORE INTO `pages` VALUES(8, 'events', 'Events', '0', 'events.php', 0, 0, 'events', '');
 INSERT IGNORE INTO `pages` VALUES(9, 'iforgot', 'Forgot Password', '0', 'iforgot.php', 0, 0, '', '');
 INSERT IGNORE INTO `pages` VALUES(10, 'recover', 'Recover', '0', 'recover.php', 0, 2, '', '');
 INSERT IGNORE INTO `pages` VALUES(11, 'settings', 'Settings', '0', 'settings.php', 0, 2, '', '');
-INSERT IGNORE INTO `pages` VALUES(12, 'register', 'Register', '', 'register.php', 0, 0, 'Register', '');
+INSERT IGNORE INTO `pages` VALUES(12, 'register', 'Register', '', 'register.php', 0, 0, 'register', '');
 INSERT IGNORE INTO `pages` VALUES(13, 'admin', 'Admin', '0', 'admin.php', 0, 6, 'admin', '');
-INSERT IGNORE INTO `pages` VALUES(14, 'statistics', 'Statistics', '', 'statistics.php', 0, 0, 'Statistics', '');
+INSERT IGNORE INTO `pages` VALUES(14, 'statistics', 'Statistics', '', 'statistics.php', 0, 0, 'statistics', '');
 INSERT IGNORE INTO `pages` VALUES(15, 'instructions', 'Instructions', '', 'instructions.php', 0, 0, 'instructions', '');
 
 CREATE TABLE IF NOT EXISTS `reset` (

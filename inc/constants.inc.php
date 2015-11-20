@@ -13,7 +13,10 @@
  * 
  */
  date_default_timezone_set('America/Los_Angeles');
- 
+
+/**
+ * Defines the date for NOW_TIME and NOW_DATE if an offset is defined.
+ */
  function define_time()
  {
  	define('OFFSET', 0);
@@ -21,6 +24,9 @@
  	define('NOW_DATE', date('Y-m-d', time()-(OFFSET*60*60)));
  }
 
+/**
+ * Defines the access types for users
+ */
  function define_access()
  {
  define('ALL', 0);
@@ -29,7 +35,13 @@
  define('ADMINISTRATOR', 6);
  define('WEBMASTER', 8);
  }
- 
+
+/**
+ * Function for getting the correct access string
+ *
+ * @param $access [Integer] from the definitions above
+ * @return string
+ */
  function switchAccess($access)
  {
  	switch($access)
@@ -54,9 +66,7 @@
  	}
  	return $output;
  }
- 
- 
+
 define_access();
 define_time();
- 
  ?>

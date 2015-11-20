@@ -8,7 +8,11 @@ date_default_timezone_set('America/Los_Angeles');
  *
  * @author Sean Burke, http://www.seantburke.com
  */
- 
+
+/**
+ * Used to compare the version number of PHP
+ *
+ */
  function addZero($number, $length)
  {
  	if(strlen($number) === $length)
@@ -23,7 +27,11 @@ date_default_timezone_set('America/Los_Angeles');
  		return addZero($number.'0',$length);
  	}
  }
-/*Classes*/
+
+/**
+ * check the current version of php and if it's less than 5.4 then use a different DB class.
+ */
+
 if(addZero(str_replace(".","0",phpversion()),6) <= 504000){
 	require_once 'inc/classes/DB.class.php';
 }
@@ -31,6 +39,7 @@ else{
 	require_once 'inc/classes/DBi.class.php';
 }
 
+/*Classes*/
 require_once 'inc/classes/Page.class.php';
 require_once 'inc/classes/UCIPerson.class.php';
 require_once 'inc/classes/Sniper.class.php';
@@ -50,6 +59,5 @@ require_once 'inc/classes/Vegas.class.php';
 /*incs*/
 
 require_once 'inc/constants.inc.php';
-
 
 ?>

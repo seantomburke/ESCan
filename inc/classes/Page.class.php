@@ -76,16 +76,16 @@ class Page
 				WHERE name = '$name'";
 
 		if(!($this->DB->query($sql)))
-		die('Could not get page: '.$this->DB->getError());
+			die('Could not get page: '.$this->DB->getError());
 			
-		$page = $this->DB->resultToSingleArray($result);
+		$page = $this->DB->resultToSingleArray();
 
 		if ($page == '')
 		{
 			$sql = "INSERT INTO pages (name, access)
 					VALUES ('$name', '$access')";
 			if(!($this->DB->query($sql)))
-			die('Could not insert page: '.$this->DB->getError());
+				die('Could not insert page: '.$this->DB->getError());
 		}
 		
 		if(strstr($_SERVER['HTTP_USER_AGENT'], 'iPhone'))
@@ -353,6 +353,13 @@ class Page
 
 	private function buildHeader()
 	{
+		$sql = 'SELECT value
+		FROM settings
+		WHERE name = "eweekstart"';
+
+		$this->DB->query($sql);
+		$eweekstart = $this->DB->resultToSingleArray();
+
 		$this->buildMessage();
 		
 		$this->header = ' <body>
@@ -364,7 +371,7 @@ class Page
 			<div id="logo">
 				<a href="index.php?r=logo">
 				<img src="'.$this->logo_src.'" alt="'.PRODUCT.'">
-				<div id="logoname"><h2>'.PRODUCT.' '.date('Y').'</h2></div>
+				<div id="logoname"><h2>'.PRODUCT.' '.date('Y', strtotime($eweekstart)).'</h2></div>
 				</a>
 			</div>
 			'.$this->login->loginFormMini('login','login.php','loginmini', $this->isPhone).'

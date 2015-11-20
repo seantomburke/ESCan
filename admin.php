@@ -791,12 +791,20 @@ $content = '<div id="container_wrapper">'.
 
 $endjs = '<script src="javascript/intro.min.js"></script>
 		<script type="text/javascript">
-      $(".startButton").on("click", function() {
-      	introJs().setOption("doneLabel", "Next page").start().oncomplete(function() {
-          window.location.href = "register.php#intro";
-        });
-      });
-    </script>';
+			if(window.location.hash) {
+				var hash = window.location.hash.substring(1);
+				if(hash == "intro"){
+					introJs().setOption("doneLabel", "Next page").start().oncomplete(function() {
+					window.location.href = "register.php#intro";
+				});
+				}
+			}
+			$(".startButton").on("click", function() {
+				introJs().setOption("doneLabel", "Next page").start().oncomplete(function() {
+					window.location.href = "register.php#intro";
+				});
+			});
+		</script>';
 
 $page->setContent($content.$endjs);
 $page->buildPage();

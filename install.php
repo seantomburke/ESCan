@@ -25,6 +25,7 @@ $db = new DB();
 if(WEBMASTER_USERNAME && WEBMASTER_EMAIL && WEBMASTER_PASSWORD && DBDATABASE && DBUSERNAME && DBSERVER)
 {
     echo "<br>All _config.php constants set<br>";
+
     $sql = 'SELECT COUNT( DISTINCT table_name) FROM information_schema.columns WHERE table_schema = "'.DBDATABASE.'";';
     $db->query($sql);
     $result = $db->resultToSingleArray();
@@ -46,12 +47,17 @@ if(WEBMASTER_USERNAME && WEBMASTER_EMAIL && WEBMASTER_PASSWORD && DBDATABASE && 
     }
     else{
         $message = 'Databases and tables have already been installed.<br>';
-    $message .= "If you need to reinstall ESCan go to the <a href='admin.php'>Admin page</a> and reinstall it there";
-    die($message);
-
+        $message .= "If you need to reinstall ESCan go to the <a href='admin.php'>Admin page</a> and reinstall it there";
+        die($message);
     }
 
     echo '<br>Connecting to Database<br>';
+
+
+    $sql = 'REPLACE INTO `settings` VALUES ("eweekstart", "'.EWEEKSTART.'")';
+    $db->execute($sql);
+
+    echo "<br>Eweek Start Week set<br>";
 
     $sql = "SELECT * FROM users WHERE access = ". WEBMASTER .";";
     $db->query($sql);
@@ -75,7 +81,7 @@ if(WEBMASTER_USERNAME && WEBMASTER_EMAIL && WEBMASTER_PASSWORD && DBDATABASE && 
         $sniper->storeMessage("Illegall access of install.php", $_SESSION['ucinetid'], "hacker");
         die('ESCan has already been installed. If you are the webadmin and would like to reinstall ESCan go to the 
         <a href="admin.php">Admin Page</a>. This incident will be reported. Please contact the Web Admin at 
-        '.$emails.' or <a href="mailto:esc.uci@gmail.com">esc.uci@gmail.com</a> if you feel you received this message in error');
+        '.$emails.' or <a href="mailto:'.ORG_EMAIL.'">'.ORG_EMAIL.'</a> if you feel you received this message in error');
         }
         $sniper->db_close();
     }
@@ -92,7 +98,7 @@ if(WEBMASTER_USERNAME && WEBMASTER_EMAIL && WEBMASTER_PASSWORD && DBDATABASE && 
         echo 'Done<Br>';
         $db->close();
         echo 'Disconnecting from Database<Br>';
-        echo '<a href="index.php">Click here to start ESCan</a>';
+        echo '<a href="admin.php#intro">Click here to login and setup ESCan</a>';
 
     }
 }

@@ -20,9 +20,9 @@
     "cleardb"
   ],
   "env": {
-    "SECRET_TOKEN": {
-      "description": "A secret key for verifying the integrity of signed cookies.",
-      "generator": "secret"
+    "EWEEKSTART": {
+      "description": "The week that Eweek starts presented in the week number and year. This can be changed later.",
+      "value": "2015-W09"
     },
     "WEBMASTER_USERNAME": {
       "description": "The username of the webmaster",
