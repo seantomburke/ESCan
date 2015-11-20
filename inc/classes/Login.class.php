@@ -70,7 +70,7 @@ class Login {
 		if($this->db->numRows() == 0)
 		{
 			$this->is_error = true;
-			$this->error = $ucinetid.'is not registered with '.PRODUCT.'. Please register here at the <a href="register.php">Registration Page</a>';
+			$this->error = $ucinetid.' is not registered with '.PRODUCT.'. Please register here at the <a href="register.php">Registration Page</a>';
 			return false;
 		}
 		$query = "SELECT l.*, u.*
