@@ -357,7 +357,7 @@ class Page
 		FROM settings
 		WHERE name = "eweekstart"';
 
-		$this->DB->query($sql);
+		$this->DB->query($sql, 1);
 		$eweekstart = $this->DB->resultToSingleArray();
 
 		$this->buildMessage();
