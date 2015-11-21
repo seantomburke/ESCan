@@ -357,7 +357,7 @@ class Page
 		FROM settings
 		WHERE name = "eweekstart"';
 
-		$this->DB->query($sql, 1);
+		$this->DB->query($sql);
 		$eweekstart = $this->DB->resultToSingleArray();
 
 		$this->buildMessage();
@@ -371,7 +371,7 @@ class Page
 			<div id="logo">
 				<a href="index.php?r=logo">
 				<img src="'.$this->logo_src.'" alt="'.PRODUCT.'">
-				<div id="logoname"><h2>'.PRODUCT.' '.date('Y', strtotime($eweekstart)).'</h2></div>
+				<div id="logoname"><h2>'.PRODUCT.' '.date('Y', strtotime($eweekstart[0])).'</h2></div>
 				</a>
 			</div>
 			'.$this->login->loginFormMini('login','login.php','loginmini', $this->isPhone).'
