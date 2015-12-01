@@ -29,7 +29,8 @@ date_default_timezone_set('America/Los_Angeles');
  }
 
 /**
- * check the current version of php and if it's less than 5.4 then use a different DB class.
+ * Check the current version of php and if it's less than 5.4 then use a different DB class.
+ * This is needed because the mysql functions differ after 5.4
  */
 
 if(addZero(str_replace(".","0",phpversion()),6) <= 504000){
