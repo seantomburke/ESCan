@@ -49,7 +49,7 @@ class Barcode{
 	}
 	
 	/**
-	 * determine whether a barcode exists or not
+	 * determine whether a barcode is valid or not
 	 * OLD METHOD, NEW METHOD IS validate()
 	 * @param string $barcode
 	 * @return boolean
@@ -75,19 +75,20 @@ class Barcode{
 		return true;
 	}
 	/**
-	 * determine whether a barcode exists or not
+	 * determine whether a barcode is valid or not
 	 * NEW METHOD! USES REGEX PATTERN
 	 * @param string $barcode
 	 * @return boolean
 	 */
 	function validate(){
+		return true; //use this to bypass barcode validation
+
 		$value = preg_match($this->REGEX, $this->code);
 		if($value != 1)
 		{
 			$this->error = 'The barcode <strong>'.$this->code.'</strong> is not valid';
 		}
-		
-		//return true; //use this to bypass barcode validation
+
 		return $value;
 	}
 
