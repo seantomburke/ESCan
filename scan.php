@@ -197,56 +197,54 @@ $ticker_content .= '
  * 		start Statistics display
  */
 
-/*
-  * Commenting out for speed improvements
-  *
-$box = new Box('Scanning for '.$event->name, $bottom.$ticker_content);
-$box->setBadge('Return to Events', 'events.php');
-$var_array = new VarArray();
-
-
-foreach ($var_array->getMajors() as $major) {
-	$sql = 'SELECT *
-			FROM scans
-			LEFT JOIN users 
-			ON scans.barcode = users.barcode
-			WHERE scans.eid = "'.$scan['eid'].'"
-			AND users.major = "'.$major.'"';
-	$page->DB->query($sql);
-	$temp = $page->DB->numRows();
-	//echo '<br>value:'.$temp;
-	
-	$where .= 'major NOT LIKE \''.$major.'\' AND ';
-	if($major != "Other")
-	{
-		$majors[$major] = $temp;
-	}
-	else
-	{
-		$where = substr($where, 0, strlen($where)-5);
-		$sql = 'SELECT COUNT(*)
-				FROM scans
-				LEFT JOIN users 
-				ON scans.barcode = users.barcode
-				WHERE scans.eid = "'.$scan['eid'].'"
-				AND '.$where;
-		//echo "where: ".$where;
-		//$majors["other"] = $page->DB->countOf('users', $where_majors_not_like, 1);
-		$majors["Other"] = $page->DB->queryUniqueValue($sql);
-	}
-	
-}
-
-$majors_stat = new Statistic('pie', 'user_majors', 'Registered Users - Major', $majors, 0);
-
-$bottom_stats = $majors_stat->display();
-
-if($scan['eid'] != 0)
-{
-	$box_stat = new Box('Statistics', $bottom_stats);
-	$stat_display = $box_stat->display("full");
-}
-*/
+// commenting out for speed improvements
+//
+//$box = new Box('Scanning for '.$event->name, $bottom.$ticker_content);
+//$box->setBadge('Return to Events', 'events.php');
+//$var_array = new VarArray();
+//
+//
+//foreach ($var_array->getMajors() as $major) {
+//	$sql = 'SELECT *
+//			FROM scans
+//			LEFT JOIN users
+//			ON scans.barcode = users.barcode
+//			WHERE scans.eid = "'.$scan['eid'].'"
+//			AND users.major = "'.$major.'"';
+//	$page->DB->query($sql);
+//	$temp = $page->DB->numRows();
+//	//echo '<br>value:'.$temp;
+//
+//	$where .= 'major NOT LIKE \''.$major.'\' AND ';
+//	if($major != "Other")
+//	{
+//		$majors[$major] = $temp;
+//	}
+//	else
+//	{
+//		$where = substr($where, 0, strlen($where)-5);
+//		$sql = 'SELECT COUNT(*)
+//				FROM scans
+//				LEFT JOIN users
+//				ON scans.barcode = users.barcode
+//				WHERE scans.eid = "'.$scan['eid'].'"
+//				AND '.$where;
+//		//echo "where: ".$where;
+//		//$majors["other"] = $page->DB->countOf('users', $where_majors_not_like, 1);
+//		$majors["Other"] = $page->DB->queryUniqueValue($sql);
+//	}
+//
+//}
+//
+//$majors_stat = new Statistic('pie', 'user_majors', 'Registered Users - Major', $majors, 0);
+//
+//$bottom_stats = $majors_stat->display();
+//
+//if($scan['eid'] != 0)
+//{
+//	$box_stat = new Box('Statistics', $bottom_stats);
+//	$stat_display = $box_stat->display("full");
+//}
 
 $box->setIntroStep(8);
 $box->setIntroText("This page is where Voluneers will scan users in 
