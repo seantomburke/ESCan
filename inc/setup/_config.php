@@ -32,8 +32,9 @@ function define_basic()
         define('EWEEKSTART', getenv("EWEEKSTART"));
     else
         define('EWEEKSTART', '2015-W09');
-
-    $scriptname=end(explode('/',$_SERVER['PHP_SELF']));         //Defines the web url
+    
+    $weburl = explode('/',$_SERVER['PHP_SELF']);
+    $scriptname=end($weburl);         //Defines the web url
     $scriptpath=str_replace($scriptname,'',$_SERVER['PHP_SELF']);
     define('WEBSITE', 'http://'.$_SERVER['SERVER_NAME'].$scriptpath);
 }
@@ -42,16 +43,20 @@ function define_db()
 {
     $url = parse_url(getenv("CLEARDB_DATABASE_URL")); //if heroku cleardb credentials are defined
 
-    if(count($url) > 1){
-        define('DBDATABASE', substr($url["path"], 1));        //cleardb database
+    if(count($url) > 1) {
+        define('DBDATABASE', substr($url["path"], 1));      //cleardb database
         define('DBSERVER', $url["host"]); 				    //cleardb host server
-        define('DBUSERNAME', $url["user"]);			//cleardb username
-        define('DBPASSWORD', $url["pass"]);           //cleardb password
-    }
-    else{
-        define('DBDATABASE', 'escan');  			            //MySQL Database Name. try 'escan'
+        define('DBUSERNAME', $url["user"]);			        //cleardb username
+        define('DBPASSWORD', $url["pass"]);                 //cleardb password
+    } else if( getenv('C9_USER') ) {
+        define('DBDATABASE', 'c9');  			            //c9 Database Name. try 'escan'
+        define('DBSERVER', getenv('IP')); 				    //c9 Server. Try 'localhost' or '127.0.0.1'
+        define('DBUSERNAME', getenv('C9_USER'));			//c9 Username. Try 'escan'
+        define('DBPASSWORD', ''); 			                //c9 Password. Lookup in ESC transition files
+    } else {
+        define('DBDATABASE', 'escan');  			        //MySQL Database Name. try 'escan'
         define('DBSERVER', '127.0.0.1'); 				    //MySQL Server. Try 'localhost' or '127.0.0.1'
-        define('DBUSERNAME', 'root');			//MySQL Username. Try 'escan'
+        define('DBUSERNAME', 'root');			            //MySQL Username. Try 'escan'
         define('DBPASSWORD', 'root'); 			            //MySQL Password. Lookup in ESC transition files
     }
 }

@@ -33,7 +33,7 @@ date_default_timezone_set('America/Los_Angeles');
  * This is needed because the mysql functions differ after 5.4
  */
 
-if(addZero(str_replace(".","0",phpversion()),6) <= 504000){
+if(addZero(preg_replace("/[\.\-a-zA-Z]/i","0",phpversion()),6) <= 504000){
 	require_once 'inc/classes/DB.class.php';
 }
 else{
