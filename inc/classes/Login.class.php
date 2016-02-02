@@ -148,7 +148,7 @@ class Login {
 
 	function exists($ucinetid)
 	{
-		$query = "SELECT *
+		$query = "SELECT ucinetid
 				FROM logon
 				WHERE ucinetid = '$ucinetid'";
 

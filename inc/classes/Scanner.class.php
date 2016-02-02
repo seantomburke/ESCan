@@ -22,7 +22,7 @@ class Scanner{
 	 * @return boolean
 	 */
 	function exists($barcode, $eid){
-		$sql = 'SELECT * FROM scans
+		$sql = 'SELECT sid FROM scans
 				WHERE barcode = "'.$barcode.'" 
 				AND eid = "'.$eid.'"';
 
@@ -48,7 +48,7 @@ class Scanner{
 	   {
 	       return false;
 	   }
-		$sql = 'SELECT * FROM scans
+		$sql = 'SELECT barcode FROM scans
 	            LEFT JOIN barcodes
 	            ON scans.barcode = barcodes.barcode
 				WHERE ucinetid = "'.$ucinetid.'" 

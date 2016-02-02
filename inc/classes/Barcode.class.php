@@ -97,7 +97,7 @@ class Barcode{
 	 * @return boolean
 	 */
 	function exists(){
-		$sql = 'SELECT * FROM barcodes
+		$sql = 'SELECT barcode FROM barcodes
 				WHERE barcode = "'.$this->code.'"';
 		$this->db->query($sql);
 		if(!$this->db->isEmpty())

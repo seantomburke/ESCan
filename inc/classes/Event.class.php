@@ -60,14 +60,15 @@ class Event{
 	}
 
 	function exists(){
-		$sql = 'SELECT * FROM events
+		$sql = 'SELECT eid FROM events
 				WHERE eid = "'.$this->eid.'"';
 
 		$this->db->query($sql);
-		if(!$this->db->isEmpty())
-		return true;
-		else
-		return false;
+		if(!$this->db->isEmpty()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	function db_close(){
