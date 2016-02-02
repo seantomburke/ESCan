@@ -194,11 +194,12 @@ $ticker_content .= '
     </script>';
 
 /*
- * 		start Statistics display 
- *
- *  
+ * 		start Statistics display
  */
- 
+
+/*
+  * Commenting out for speed improvements
+  *
 $box = new Box('Scanning for '.$event->name, $bottom.$ticker_content);
 $box->setBadge('Return to Events', 'events.php');
 $var_array = new VarArray();
@@ -242,9 +243,10 @@ $bottom_stats = $majors_stat->display();
 
 if($scan['eid'] != 0)
 {
-$box_stat = new Box('Statistics', $bottom_stats);
-$stat_display = $box_stat->display("full");
+	$box_stat = new Box('Statistics', $bottom_stats);
+	$stat_display = $box_stat->display("full");
 }
+*/
 
 $box->setIntroStep(8);
 $box->setIntroText("This page is where Voluneers will scan users in 
