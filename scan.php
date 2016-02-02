@@ -193,16 +193,20 @@ $ticker_content .= '
     });
     </script>';
 
+$box = new Box('Scanning for '.$event->name, $bottom.$ticker_content);
+$box->setBadge('Return to Events', 'events.php');
+$var_array = new VarArray();
+
+
 /*
  * 		start Statistics display
  *
  *
  */
 
-$box = new Box('Scanning for '.$event->name, $bottom.$ticker_content);
-$box->setBadge('Return to Events', 'events.php');
-$var_array = new VarArray();
-
+/*
+ * Commenting out for speed improvements
+ *
 
 foreach ($var_array->getMajors() as $major) {
 	$sql = 'SELECT *
@@ -245,6 +249,7 @@ if($scan['eid'] != 0)
 $box_stat = new Box('Statistics', $bottom_stats);
 $stat_display = $box_stat->display("full");
 }
+*/
 
 $box->setIntroStep(8);
 $box->setIntroText("This page is where Voluneers will scan users in 
