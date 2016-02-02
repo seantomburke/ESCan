@@ -30,6 +30,7 @@ class Event{
 				$sql = 'SELECT * FROM events
 			WHERE eid = "'.$this->eid.'"';
 
+				$this->db->query($sql);
 				$result = $this->db->resultToSingleArray();
 
 				$this->name = $result['name'];
