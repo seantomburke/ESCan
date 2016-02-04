@@ -14,26 +14,14 @@ $eweeksunday = date('Y-m-d', strtotime($eweekstart[0]." +6 days"));
 //clean each $_POST value of dangerous inputs
 //example $newsettings['email'] = 'stburke@uci.edu';
 foreach ($_POST as $key => $value) {
+	//echo '$newsettings[\''.$key.'\'] = '.$value.';<br>';
 	$event[$key] = trim(strip_tags($value));
 }
 
-$post = [
-	'event_submit' => isset($_POST['event_submit']) ? $_POST['event_submit']:''
-	];
-	
-$get = [
-	'action'			=> isset($_GET['action']) ? $_GET['action'] : '',
-	'eid'	 			=> isset($_GET['eid']) ? $_GET['eid'] : '',
-	'continue_delete'	=> isset($_GET['continue_delete']) ? $_GET['continue_delete'] : ''
-	];
-	
-$session = [
-	'access' => isset($_SESSION['access']) ? $_SESSION['access'] : ''
-	];
+if($_GET['action'] == 'add')
+{
 
-if($get['action'] == 'add') {
-
-	if($post['event_submit'] == 'Add Event')
+	if($_POST['event_submit'] == 'Add Event')
 	{
 		$errors = 1;
 		if(strlen($event['name']) < 2)
@@ -121,7 +109,7 @@ if($get['action'] == 'add') {
 					</form>';
 		$box->setIntroStep(7);
 		$box->setIntroText("Here is where you'll enter all the information. Only Eweek dates are valid input for the date. The host is usually ESC, but if another ESO is hosting competitions, you will want to put them as the host. The prize refers to competition prizes. If there is no prize, just put 0.");
-		$intro_scripts = '<script src="js/intro.min.js"></script>
+		$intro_scripts = '<script src="javascript/intro.min.js"></script>
 				<script type="text/javascript">
 				if(window.location.hash) {
 					var hash = window.location.hash.substring(1);
@@ -139,19 +127,19 @@ if($get['action'] == 'add') {
 	}
 }
 
-if($get['action'] == 'Delete')
+if($_GET['action'] == 'Delete')
 {
-	$delete_event = new Event($get['eid']);
+	$delete_event = new Event($_GET['eid']);
 	$errors = 1;
 
-	if($get['continue_delete'] != "Continue")
+	if($_GET['continue_delete'] != "Continue")
 	{
 		$errors++;
 		$message  = '<form action="'.$_SERVER['PHP_SELF'].'" method="GET">
 						Are you sure you want to delete the event: <strong>'.$delete_event->name.'</strong>
 						<input type="submit" name="continue_delete" value="Continue">
 						<input type="hidden" name="action" value="Delete">
-						<input type="hidden" name="eid" value="'.$get['eid'].'"></form>';
+						<input type="hidden" name="eid" value="'.$_GET['eid'].'"></form>';
 		$page->setMessage($message, 'error');
 	}
 	if(!$delete_event->exists())
@@ -163,7 +151,7 @@ if($get['action'] == 'Delete')
 	
 	if($errors == 1)
 	{
-		$sql = 'DELETE FROM events WHERE eid = '.$get['eid'].';';
+		$sql = 'DELETE FROM events WHERE eid = '.$_GET['eid'].';';
 		
 		$page->DB->query($sql);
 		$page->setMessage('<strong>'.$delete_event->name.'</strong> Successfully deleted', 'success');
@@ -204,7 +192,7 @@ $page->setJSInitial('$(".dropdown").hide();'.
 foreach ($events as $day => $value)
 {
 	//echo $day.' - '.$value.'<br>';
-	$today = '';
+	
 	
 	if(date('l') == date('l',$keys[$j]))
 	{
@@ -216,6 +204,7 @@ foreach ($events as $day => $value)
 	<div id="day'.$j.'" class="day_class">
 		<h3>'.date('l m/d', $keys[$j]).'</h3>
 		<script>
+			'.$today_script.'
 			$("#day'.$j.'").click(
 			function () 
 			{
@@ -266,7 +255,7 @@ foreach ($events as $day => $value)
 										<input type="hidden" name="eid" value="'.$row['eid'].'">
 									</form>';
 					
-						if($session['access'] >= VOLUNTEER)
+						if($_SESSION['access'] >= VOLUNTEER)
 						{
 						$bottom .= '<form action="scan.php" method="GET">
 										<input class="right" type="submit" value="Scan">
@@ -302,7 +291,7 @@ foreach ($events as $day => $value)
 }
 $bottom .= '</div>';
 $intro_text = "This is the events page which shows a list of all the events. Click here to add an event.";
-$intro_scripts = '<script src="js/intro.min.js"></script>
+$intro_scripts = '<script src="javascript/intro.min.js"></script>
 		<script type="text/javascript">
 		if(window.location.hash) {
 			var hash = window.location.hash.substring(1);
@@ -315,7 +304,7 @@ $intro_scripts = '<script src="js/intro.min.js"></script>
     </script>';
 
 $box = new Box('Events', $bottom);
-if($session['access'] >= ADMINISTRATOR)
+if($_SESSION['access'] >= ADMINISTRATOR)
 $box->setBadge('<div data-step="6" data-position="right" data-intro="'.$intro_text.'">Add Event</div>', $_SERVER['PHP_SELF'].'?action=add');
 
 $page->setContent($box->display('half').$intro_scripts);

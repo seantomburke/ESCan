@@ -30,6 +30,8 @@ function __construct($type, $class, $title, $array, $color_offset = 0)
 	$this->class= $class;
 	$this->title = $title;
 	$this->array = $array;
+	$this->table = $table;
+	$this->row = $row;
 	$this->color_offset = $color_offset;
 	$this->color = new Color();
 	
@@ -61,11 +63,10 @@ function buildPie()
 {
 	$stat_colors = $this->color->getColorArray(count($this->array), $this->color_offset); //play with this number to change the colors of the graph
 	$i=0;
-	$total_count = 0;
 	foreach($this->array as $key => $value)
 	{
 		//echo $key.' => '.$value;
-		$stat_legend = '
+		$stat_legend .= '
 					<div class="row">
 						<font color="'.$stat_colors[$i].'">
 						<span class="left">'.$key.'</span>
@@ -81,8 +82,8 @@ function buildPie()
 					<span class="left">Total</span>
 					<span class="right">'.$total_count.'</span>
 				</div>';
-	$this->html = '';
-	$this->html .= '
+	
+	 $this->html .= '
 	 		<div class="row">
 	 			<h2><span id="'.$this->class.'">'.$this->title.'</span></h2>
 	 			<div id="'.$this->class.'_drop">
@@ -111,8 +112,6 @@ function buildBar()
 	$bar_width = 35;
 	$stat_colors = $this->color->getColorArray(count($this->array), $this->color_offset); //play with this number to change the colors of the graph
 	$i=0;
-	$stat_legend = '';
-	$total_count = 0;
 	foreach($this->array as $key => $value)
 	{
 		//echo $key.' => '.$value;
@@ -124,7 +123,7 @@ function buildBar()
 		$total_count += $value;
 	}
 					
-	$this->html = '
+	$this->html .= '
 			<div class="row">
 				<h2><span id="'.$this->class.'">'.$this->title.'</span></h2>
 				<div id="'.$this->class.'_drop">

@@ -33,7 +33,7 @@ $bottom = '<form action="register.php" method="GET">
 			    <label class="fieldname" for="ucinetid">
 			        UCInetID
 			    </label>
-			    <input class="textarea" autocapitalize="off" type="search" name="ucinetid">
+			    <input class="textarea" autocapitalize="off" type="search" name="ucinetid" value="'.$person->ucinetid.'">
 			</div>
 			<div class="row">
 			    <input type="submit" value="Register" name="submit_search">

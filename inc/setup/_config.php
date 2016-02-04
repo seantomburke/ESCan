@@ -36,7 +36,7 @@ function define_basic()
     $weburl = explode('/',$_SERVER['PHP_SELF']);
     $scriptname=end($weburl);         //Defines the web url
     $scriptpath=str_replace($scriptname,'',$_SERVER['PHP_SELF']);
-    define('WEBSITE', $_SERVER['HTTP_X_FORWARDED_PROTO'].'://'.$_SERVER['SERVER_NAME'].$scriptpath);
+    define('WEBSITE', 'http://'.$_SERVER['SERVER_NAME'].$scriptpath);
 }
 
 function define_db()

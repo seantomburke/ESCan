@@ -231,38 +231,45 @@ class Login {
 
 	function loginFormMini($formname, $formaction, $formclass = '', $isPhone)
 	{
-		$loggedin = isset($_SESSION['loggedin']) ? $_SESSION['loggedin'] : 0;
-		$name = 	isset($_SESSION['name']) ? $_SESSION['name'] : '';
-		$access = 	isset($_SESSION['access']) ? $_SESSION['access'] : '';
-		
-		if($loggedin == 1)
+		if($_SESSION['loggedin'] == 1)
 		{
 			$output ='
-			<div class="phone '.$formclass.'">
-				<span>'.$name.'</span> | <a href="settings.php">Settings</a> | <a href="logout.php">Logout</a>
-			</div>
-			<div class="'.$formclass.'">
-				<span><strong>'.$name.'</strong>: '.switchAccess($access).'</span> | <a href="settings.php">Settings</a> | <a href="logout.php">Logout</a>
+			<div  class="phone '.$formclass.'">
+				<span>'.$_SESSION['name'].'</span> | <a href="settings.php">Settings</a> | <a href="logout.php">Logout</a>
 			</div>';
-		} else {
-			$output = '
-			<div class="phone '.$formclass.'">
+		}
+		else
+		{
+			$output ='
+			<div  class="phone '.$formclass.'">
 				<span><a href="login.php">Login</a>
-			</div>
-			<div class="nophone '.$formclass.'">
-			<form name="'.$formname.'" method="post" id="'.$formname.'"
-			 enctype="application/x-www-form-urlencoded" action="'.$formaction.'">
-				<div class="row">
-					<input name="ucinetid" id="ucinetid" type="text" placeholder="UCInetID">
-					<input name="password" id="password" type="password" placeholder="Password">
-					<input name="action" id="action" value="login" type="hidden">
-					<input name="submit" id="submit" value="Login" type="submit">
-				</div>
-				<div class="row">
-					<span class="forgot"><a href="register.php">Register</a> | <a href="iforgot.php">Forgot your password?</a></span>
-				</div>
-			</form>
 			</div>';
+		}
+
+		if($_SESSION['loggedin'] == 1)
+		{
+			$output .='
+			<div  class="'.$formclass.'">
+				<span><strong>'.$_SESSION['name'].'</strong>: '.switchAccess($_SESSION['access']).'</span> | <a href="settings.php">Settings</a> | <a href="logout.php">Logout</a>
+			</div>';
+		}
+		else
+		{
+			$output .= '
+		<div  class="nophone '.$formclass.'">
+		<form name="'.$formname.'" method="post" id="'.$formname.'"
+		 enctype="application/x-www-form-urlencoded" action="'.$formaction.'">
+			<div class="row">
+				<input name="ucinetid" id="ucinetid" type="text" placeholder="UCInetID">
+				<input name="password" id="password" type="password" placeholder="Password">
+				<input name="action" id="action" value="login" type="hidden">
+				<input name="submit" id="submit" value="Login" type="submit">
+			</div>
+			<div class="row">
+				<span class="forgot"><a href="register.php">Register</a> | <a href="iforgot.php">Forgot your password?</a></span>
+			</div>
+		</form>
+		</div>';
 		}
 		return $output;
 	}	

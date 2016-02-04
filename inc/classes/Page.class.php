@@ -103,12 +103,11 @@ class Page
 		$this->tab = $page['tab'];
 		$this->pageviews = $page['views'];
 		$this->description = $page['description'];
+		$this->content = $page['content'];
 		$this->title = ucfirst($page['name']);
 		$this->logo_src = 'images/logo200.png';
 		
-		$access = isset($_SESSION['access']) ? $_SESSION['access'] : 0;
-		
-		$this->nav = new Nav($access, $page['tab']);
+		$this->nav = new Nav($_SESSION['access'], $page['tab']);
 	}
 
 
@@ -226,7 +225,7 @@ class Page
 	
 	public function startGraph()
 	{
-		$this->graph = '<script type="text/javascript" src="js/jquery.sparkline.min.js"></script>';
+		$this->graph = '<script type="text/javascript" src="javascript/jquery.sparkline.min.js"></script>';
 	}
 	
 	public function setGoogleAnalytics()
@@ -319,14 +318,15 @@ class Page
 			<meta name="description" content="'.$this->description.'">
 			<meta name="keywords" content="'.$this->keywords.'">'
 		    .$css.'
-		    <script type="text/javascript" src="js/jquery-2.1.3.min.js"></script>
-		    <link rel=stylesheet type="text/css" href="js/introjs.min.css">
-	    	<script type="text/javascript" src="js/moment.min.js"></script>
+		    <link rel=stylesheet type="text/css" href="javascript/introjs.min.css">
+		    <script src="javascript/jquery-2.1.3.min.js"></script>
+	    	<script type="text/javascript" src="javascript/moment.min.js"></script>
 	    	<script type="text/javascript" src="//www.google.com/jsapi"></script>
+	    	<script src="javascript/jquery-2.1.3.min.js"></script>
 		    <script type="text/javascript">
 			    google.load(\'visualization\', \'1\', {packages: [\'corechart\']});
 		    </script>
-		    <script type="text/javascript" src="js/escan.min.js?t='.time().'"></script>'
+		    <script type="text/javascript" src="javascript/escan.min.js?t='.time().'"></script>'
 	        .$this->graph
 	    
 		.'</head>';

@@ -789,7 +789,7 @@ $content = '<div id="container_wrapper">'.
 				$danger_box->display('full').
 			'</div>';
 
-$endjs = '<script src="js/intro.min.js"></script>
+$endjs = '<script src="javascript/intro.min.js"></script>
 		<script type="text/javascript">
 			if(window.location.hash) {
 				var hash = window.location.hash.substring(1);
