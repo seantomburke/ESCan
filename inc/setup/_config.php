@@ -1,5 +1,6 @@
 <?php
-error_reporting(-1);
+error_reporting(E_WARNING);
+
 date_default_timezone_set('America/Los_Angeles');
 
 function define_basic()
