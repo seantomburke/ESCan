@@ -345,8 +345,10 @@ class DB
 	}
 	
 	function resultToArray(){
-		for ($count=0; $row = @$this->lastResult->fetch_array(); $count++)
-		$res_array[$count] = $row;
+		$res_array = [];
+		for ($count=0; $row = @$this->lastResult->fetch_array(); $count++){
+			$res_array[$count] = $row;
+		}
 			
 		$this->lastResultArray = $res_array;
 		return $this->lastResultArray;

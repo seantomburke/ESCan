@@ -63,9 +63,12 @@ $access_stat = new Statistic('pie', 'user_access', 'Registered Users - Access', 
 
 /*end Major Statistics*/	
  
- /*
-  * Major Statistics
-  */
+/*
+* Major Statistics
+*
+*/
+
+$where = '';
 foreach ($var_array->getMajors() as $major) {
 	$where .= 'major NOT LIKE \''.$major.'\' AND ';
 	if($major != "Other")
@@ -128,7 +131,7 @@ $participation_stat = new Statistic('bar', 'scans_week', 'Participation on Each 
 
 /* end Events Statistic */
 
-$bottom .= $top_participants;
+$bottom = $top_participants;
 $bottom .= '<div class="separator"></div>';
 $bottom .= $access_stat->display();
 $bottom .= '<div class="separator"></div>';
@@ -143,7 +146,7 @@ $bottom .= $participation_stat->display();
 
 /*
 $bottom .= '<div id="chart"></div>
-			<script src="javascript/chart.js"></script>';
+			<script src="js/chart.js"></script>';
 			
 */
 
