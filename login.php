@@ -4,12 +4,19 @@ require_once 'inc/standard.php';
 $page = new Page('login', ALL);
 
 $page->setTitle('Sign In');
+$post = [
+	'ucinetid' 	=> isset($_POST['ucinetid']) ? $_POST['ucinetid']: '',
+	'action' 	=> isset($_POST['action']) ? $_POST['action']: ''
+	];
+$get = [
+	'ucinetid' 	=> isset($_GET['ucinetid']) ? $_GET['ucinetid']: '',
+	'redirect' 	=> isset($_GET['redirect']) ? $_GET['redirect']: ''
+	];
 
-$ucinetid = $_POST['ucinetid'] or $_GET['ucinetid'];
+$ucinetid = $post['ucinetid'] or $get['ucinetid'];
 $person = new UCIPerson($ucinetid);
 $ucinetid = $person->ucinetid;
 
-$redirect = $_GET['redirect'];
 $login = new Login();
 
 if(isset($_SESSION['name']))
@@ -22,7 +29,7 @@ if(isset($_SESSION['name']))
 	$page->buildPage();
 }
 
-if($_POST['action'] == 'login' && isset($_POST['ucinetid']))
+if( $post['action'] == 'login' && $post['ucinetid'])
 {
 	$errors=1;	
 	if(!($login->login($ucinetid, $_POST['password'])))
@@ -33,8 +40,8 @@ if($_POST['action'] == 'login' && isset($_POST['ucinetid']))
 	
 	if($errors == 1)
 	{
-		if($redirect){
-			header('Location:'.$redirect);
+		if($get['redirect']){
+			header('Location:'.$get['redirect']);
 		}
 		else
 		{

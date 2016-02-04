@@ -18,7 +18,7 @@ class Sniper
 	private $timestamp;
 	private $snipe;
 	private $db;
-	private $self;
+	private $phpself;
 	
 	/**
 	*	Creates the Sniper
@@ -27,12 +27,19 @@ class Sniper
 
 	function Sniper()
 	{
+		$server = [
+			'REMOTE_ADDR' 		=> isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 0,
+			'PHP_SELF' 			=> isset($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'] : 0,
+			'HTTP_REFERER' 		=> isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 0,
+			'HTTP_USER_AGENT' 	=> isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 0,
+		];
+		
 		$this->db = new DB();
-		$this->ip = $_SERVER['REMOTE_ADDR'];
-		$this->referer = $_SERVER['HTTP_REFERER'];
-		$this->browser = $_SERVER['HTTP_USER_AGENT'];
-		$this->snipe = $_GET['s'];
-		$this->self = $_SERVER['PHP_SELF'];
+		$this->ip = $server['REMOTE_ADDR'];
+		$this->phpself = $server['PHP_SELF'];
+		$this->referer = $server['HTTP_REFERER'];
+		$this->browser = $server['HTTP_USER_AGENT'];
+		$this->snipe = isset($_GET['s']) ? $_GET['s']:'';
 	}
 	
 	public function getIP()
@@ -57,7 +64,7 @@ class Sniper
 		$message = strip_tags(trim(addslashes($message)));
 		
 		$sql = 'INSERT INTO errors (ucinetid, message, page, referer, browser, ip, status, date, time)
-				VALUES ("'.$ucinetid.'", "'.$message.'", "'.$this->self.'", "'.$this->referer.'", "'.$this->browser.'", "'.$this->ip.'", "'.$status.'", "'.NOW_DATE.'", "'.NOW_TIME.'")';
+				VALUES ("'.$ucinetid.'", "'.$message.'", "'.$this->phpself.'", "'.$this->referer.'", "'.$this->browser.'", "'.$this->ip.'", "'.$status.'", "'.NOW_DATE.'", "'.NOW_TIME.'")';
 		$this->db->execute($sql);
 	}
 	

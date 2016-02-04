@@ -257,7 +257,7 @@ $box->setIntroText("This page is where Voluneers will scan users in
 		at the registration booth in order to get scanned.<br><br>
 	If the event hasn't started yet, you will see a red box indicating this.");
 
-$intro_scripts = '<script src="javascript/intro.min.js"></script>
+$intro_scripts = '<script src="js/intro.min.js"></script>
 	<script type="text/javascript">
 	$(".box_inside").css("min-height", "200px");
 	if(window.location.hash) {
