@@ -1721,7 +1721,7 @@ div.eweekstamp {
 
 	.box .header_container {
 		/*height: 65px; height found in Box class under '$header_height';*/
-		background-image: url("/images/box_header.png");
+		/*background-image: url("/images/box_header.png");*/
 		background-repeat: repeat-x;
 		border: 1px solid #BBB;
 		
