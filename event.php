@@ -203,6 +203,7 @@ else
 	$stat_display = '<div class="separator"></div>'.$box_stat->display("full");
 	$content = $box->display().$stat_display;
 	
+	$page->startGraph();
 	$page->setContent($content);
 	$page->buildPage();
 }
