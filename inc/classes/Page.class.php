@@ -225,7 +225,7 @@ class Page
 	
 	public function startGraph()
 	{
-		$this->graph = '<script type="text/javascript" src="javascript/jquery.sparkline.min.js"></script>';
+		$this->graph = '<script type="text/javascript" src="js/jquery.sparkline.min.js"></script>';
 	}
 	
 	public function setGoogleAnalytics()
@@ -296,7 +296,7 @@ class Page
 	{
 		$css = 'global';
 			
-		$css = ($css) ? '<link rel=stylesheet type="text/css" href="css/'.$css.'.css?t='.time().'"  >' : '';
+		$css = ($css) ? '<link rel=stylesheet type="text/css" href="css/'.$css.'.css"  >' : '';
 
 		$this->html =
 		'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -318,15 +318,15 @@ class Page
 			<meta name="description" content="'.$this->description.'">
 			<meta name="keywords" content="'.$this->keywords.'">'
 		    .$css.'
-		    <link rel=stylesheet type="text/css" href="javascript/introjs.min.css">
-		    <script src="javascript/jquery-2.1.3.min.js"></script>
-	    	<script type="text/javascript" src="javascript/moment.min.js"></script>
+		    <link rel=stylesheet type="text/css" href="js/introjs.min.css">
+		    <script src="js/jquery-2.1.3.min.js"></script>
+	    	<script type="text/javascript" src="js/moment.min.js"></script>
 	    	<script type="text/javascript" src="//www.google.com/jsapi"></script>
-	    	<script src="javascript/jquery-2.1.3.min.js"></script>
+	    	<script src="js/jquery-2.1.3.min.js"></script>
 		    <script type="text/javascript">
 			    google.load(\'visualization\', \'1\', {packages: [\'corechart\']});
 		    </script>
-		    <script type="text/javascript" src="javascript/escan.min.js?t='.time().'"></script>'
+		    <script type="text/javascript" src="js/escan.min.js"></script>'
 	        .$this->graph
 	    
 		.'</head>';

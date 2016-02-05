@@ -143,7 +143,7 @@ $bottom .= $participation_stat->display();
 
 /*
 $bottom .= '<div id="chart"></div>
-			<script src="javascript/chart.js"></script>';
+			<script src="js/chart.js"></script>';
 			
 */
 

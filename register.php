@@ -64,7 +64,7 @@ if($_GET['submit_search'] == "Search"){
 $introfirst = ($_GET['ucinetid']) ? $intro2: $intro1;
 
 $introtext = ' data-step="5" data-intro="'.$introfirst.'" data-position="right"';
-$intro_scripts = '<script src="javascript/intro.min.js"></script>
+$intro_scripts = '<script src="js/intro.min.js"></script>
 		<script type="text/javascript">
 		if(window.location.hash) {
 			var hash = window.location.hash.substring(1);

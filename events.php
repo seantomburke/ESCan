@@ -109,7 +109,7 @@ if($_GET['action'] == 'add')
 					</form>';
 		$box->setIntroStep(7);
 		$box->setIntroText("Here is where you'll enter all the information. Only Eweek dates are valid input for the date. The host is usually ESC, but if another ESO is hosting competitions, you will want to put them as the host. The prize refers to competition prizes. If there is no prize, just put 0.");
-		$intro_scripts = '<script src="javascript/intro.min.js"></script>
+		$intro_scripts = '<script src="js/intro.min.js"></script>
 				<script type="text/javascript">
 				if(window.location.hash) {
 					var hash = window.location.hash.substring(1);
@@ -291,7 +291,7 @@ foreach ($events as $day => $value)
 }
 $bottom .= '</div>';
 $intro_text = "This is the events page which shows a list of all the events. Click here to add an event.";
-$intro_scripts = '<script src="javascript/intro.min.js"></script>
+$intro_scripts = '<script src="js/intro.min.js"></script>
 		<script type="text/javascript">
 		if(window.location.hash) {
 			var hash = window.location.hash.substring(1);
