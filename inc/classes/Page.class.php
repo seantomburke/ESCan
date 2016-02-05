@@ -296,7 +296,7 @@ class Page
 	{
 		$css = 'global';
 			
-		$css = ($css) ? '<link rel=stylesheet type="text/css" href="css/'.$css.'.css"  >' : '';
+		$css = ($css) ? '<link rel=stylesheet type="text/css" href="css/'.$css.'.css?t='.time().'"  >' : '';
 
 		$this->html =
 		'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -326,7 +326,7 @@ class Page
 		    <script type="text/javascript">
 			    google.load(\'visualization\', \'1\', {packages: [\'corechart\']});
 		    </script>
-		    <script type="text/javascript" src="javascript/escan.min.js"></script>'
+		    <script type="text/javascript" src="javascript/escan.min.js?t='.time().'"></script>'
 	        .$this->graph
 	    
 		.'</head>';

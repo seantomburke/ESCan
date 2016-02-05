@@ -41,7 +41,7 @@ class Box
 	{
 		$this->title = $title;
 	}
-	public function setBadge($badge, $url)
+	public function setBadge($badge, $url = '')
 	{
 		$this->badge = $badge;
 		$this->badge_url = $url;

@@ -79,8 +79,6 @@ if($scan['barcode'] && $scan['eid'])
         $output['scan'] = $DB->resultToArray();
 	}
 	$DB->close();
-	$barcode->db_close();
-	$scanner->db_close();
 }
 else{
     $output['message']['text'] = 'Must provide barcode id and event id';

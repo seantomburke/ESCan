@@ -185,6 +185,9 @@ $ticker_content .= '
                 appendBarcode(data.scan[0]);
             }
             setMessage(data.message.text, data.message.status);
+          },
+          error: function(data, error, errorMessage) {
+			setMessage(errorMessage, "error");
           }
 	    });
 	    $("#barcode").val(" ");
