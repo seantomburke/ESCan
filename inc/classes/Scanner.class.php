@@ -48,7 +48,7 @@ class Scanner{
 	   {
 	       return false;
 	   }
-		$sql = 'SELECT barcode FROM scans
+		$sql = 'SELECT scans.barcode FROM scans
 	            LEFT JOIN barcodes
 	            ON scans.barcode = barcodes.barcode
 				WHERE ucinetid = "'.$ucinetid.'" 
