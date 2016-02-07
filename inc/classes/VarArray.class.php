@@ -17,51 +17,41 @@ class VarArray
 	public $hours;
 	public $minutes;
 	public $access;
+	private $DB;
 
 	function __construct()
 	{
-		
+		$this->DB = new DB();
 	}
 	
 	function getDates($initial = false, $debug = false)
 	{
-		if($initial)
+		if($initial) {
 			$temp = array('--' 	=> 	'Select Date');
+		}
 			
-		$debug_dates = array (
-		'2014-02-14'	=> 	'2/14 Friday',	
-		'2014-02-15'	=> 	'2/15 Saturday',
-		'2014-02-16' 	=> 	'2/16 Sunday',
-		'2014-02-17'  	=> 	'2/17 Monday',
-		'2014-02-18' 	=> 	'2/18 Tuesday',	
-		'2014-02-19' 	=>	'2/19 Wednesday', 
-		'2014-02-20' 	=>	'2/20 Thursday', 
-		'2014-02-21'	=>	'2/21 Friday', 
-		'2014-02-22'	=>	'2/22 Saturday',
-		'2014-02-23' 	=>	'2/23 Sunday');
+		$sql = 'SELECT value
+				FROM settings
+				WHERE name = "eweekstart"';
+				
+		$this->DB->query($sql);
 		
-		$dates = array (
-		'2014-02-14'	=> 	'2/14 Friday',	
-		'2014-02-15'	=> 	'2/15 Saturday',
-		'2014-02-16' 	=> 	'2/16 Sunday',
-		'2014-02-17'  	=> 	'2/17 Monday',
-		'2014-02-18' 	=> 	'2/18 Tuesday',	
-		'2014-02-19' 	=>	'2/19 Wednesday', 
-		'2014-02-20' 	=>	'2/20 Thursday', 
-		'2014-02-21'	=>	'2/21 Friday', 
-		'2014-02-22'	=>	'2/22 Saturday',
-		'2014-02-23' 	=>	'2/23 Sunday');
+		$eweekstart = $this->DB->resultToSingleArray();
 		
-		//for debugging purposes
-		if($debug)
-			$dates = $debug_dates;
-			
-			
-		if($initial)
+		$dates = [];
+		for($i=0; $i< 10;$i++){
+			$index = $i - 3;
+			$key = date('Y-m-d', strtotime($eweekstart[0]." ".$index." days"));
+			$value = date('m/d l', strtotime($eweekstart[0]." ".$index." days"));
+			$dates[$key] = $value;
+		}
+		
+		if($initial) {
 			$this->dates = ($temp + $dates);
-		else 
+		} else {
 			$this->dates = $dates;
-			
+		}
+		
 		return $this->dates;
 	}
 
