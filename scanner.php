@@ -54,7 +54,7 @@ if($scan['barcode'] && $scan['eid'])
 		$scanner->scan($barcode->code, $scan['eid'], $_SESSION['ucinetid']);
 		$form = '<form action="register.php" method="GET"><input type="text" name="ucinetid" placeholder="UCInetID"><input type="submit"></form>'; //todo associate barcode if they took one with out registering.
 		$name = ($barcode->getName()) ? 'The user <strong>'.$barcode->getName().'</strong>':'The barcode <strong>#'.$barcode->code.'</strong>';
-		$extra = ($barcode->getName()) ? 'Welcome.':'Please register this user\'s UCInetID below: '.$form;
+		$welcome = ($barcode->getName()) ? 'Welcome.':'Please register this user\'s UCInetID below: '.$form;
 		$output['message']['text'] = $name.' has been scanned in'.$welcome;
 		$output['message']['status'] = 'success';
 		
