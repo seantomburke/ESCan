@@ -8,11 +8,11 @@
 
 class Scanner{
 
-	public $db;
+	public $DB;
 	public $error;
 
 	function __construct(){
-		$this->db = new DB();
+		$this->DB = new DB();
 	}
 
 	/**
@@ -26,8 +26,8 @@ class Scanner{
 				WHERE barcode = "'.$barcode.'" 
 				AND eid = "'.$eid.'"';
 
-		$this->db->query($sql);
-		if(!$this->db->isEmpty())
+		$this->DB->query($sql);
+		if(!$this->DB->isEmpty())
 		return true;
 		else
 		{
@@ -54,8 +54,8 @@ class Scanner{
 				WHERE ucinetid = "'.$ucinetid.'" 
 				AND eid = "'.$eid.'"';
 
-		$this->db->query($sql);
-		if(!$this->db->isEmpty())
+		$this->DB->query($sql);
+		if(!$this->DB->isEmpty())
 		{
     		$this->error = 'The scan for this event already exists';
     		return true;
@@ -96,7 +96,7 @@ class Scanner{
 					date = "'.NOW_DATE.'",
 					time = "'.NOW_TIME.'"';
 					
-			$this->db->execute($sql);
+			$this->DB->execute($sql);
 			return true;
 		}
 
@@ -124,12 +124,6 @@ class Scanner{
 	
 		
 	}
-
-	function db_close(){
-		$this->db->close();
-	}
-
-
 }
 
 

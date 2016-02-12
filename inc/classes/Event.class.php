@@ -11,7 +11,7 @@ class Event{
 	*
 	**/
 
-	private $db;
+	private $DB;
 	public $eid;
 	public $name;
 	public $host;
@@ -21,7 +21,8 @@ class Event{
 	public $description;
 
 	function __construct($eid = ''){
-		$this->db = new DB();
+		$this->DB = $GLOBALS['DB'];
+		
 		if($eid != '')
 		{
 			$this->eid = $eid;
@@ -29,10 +30,10 @@ class Event{
 			{
 				$sql = 'SELECT * FROM events
 			WHERE eid = "'.$this->eid.'"';
-
-				$this->db->query($sql);
-				$result = $this->db->resultToSingleArray();
-
+	
+				$this->DB->query($sql);
+				$result = $this->DB->resultToSingleArray();
+	
 				$this->name = $result['name'];
 				$this->host = $result['host'];
 				$this->prize = $result['prize'];
@@ -46,7 +47,6 @@ class Event{
 				return false;
 			}
 		}
-
 	}
 
 	function addEvent($name, $date, $hour, $minute, $ampm, $host, $prize, $description)
@@ -57,23 +57,19 @@ class Event{
 		$sql = 'INSERT INTO events (name, date, time, host, prize, description, volunteer)
 					VALUES ("'.$name.'", "'.$date.'", "'.$time.'", "'.$host.'", "'.$prize.'", "'.$description.'", "'.$_SESSION['ucinetid'].'")';
 
-		$this->db->query($sql);
+		$this->DB->query($sql);
 	}
 
 	function exists(){
 		$sql = 'SELECT eid FROM events
 				WHERE eid = "'.$this->eid.'"';
 
-		$this->db->query($sql);
-		if(!$this->db->isEmpty()) {
+		$this->DB->query($sql);
+		if(!$this->DB->isEmpty()) {
 			return true;
 		} else {
 			return false;
 		}
-	}
-
-	function db_close(){
-		$this->db->close();
 	}
 
 

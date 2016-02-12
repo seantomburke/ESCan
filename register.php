@@ -207,7 +207,7 @@ if($_POST['submit_signup'] == 'Register')
 		
 		$sql = 'REPLACE INTO reset (ucinetid, secret, date)
 				VALUES ("'.$user['ucinetid'].'", "'.$secret.'", NOW())';
-		$result = $page->DB->query($sql);
+		$result = $DB->query($sql);
 		
 		//associate barcode
 		if($barcode->exists())

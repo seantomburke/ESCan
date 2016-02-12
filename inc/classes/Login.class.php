@@ -2,7 +2,7 @@
 
 class Login {
 
-	public $db;
+	public $DB;
 	public $session;
 
 	//table fields
@@ -16,35 +16,27 @@ class Login {
 	//encryption
 	public $encrypt = true;		//set to true to use md5 encryption for the password
 
-	function __construct()
-	{
-		$this->db = new DB();
-		//$this->session = new Session();
+	function __construct() {
+		$this->DB = $GLOBALS['DB'];
 		$is_error = false;
 	}
 
-	function isLoggedIn()
-	{
+	function isLoggedIn() {
 		return (isset($_SESSION['loggedin']));
 	}
 
-	function checkValidAccess($page, $redirect = 'settings.php', $ucinetid = '')
-	{
+	function checkValidAccess($page, $redirect = 'settings.php', $ucinetid = '') {
 		//echo $_SESSION['access'].' >= '.$page->access.'<br>';
-		if(!(isset($_SESSION['ucinetid'])))
-		{
+		if(!(isset($_SESSION['ucinetid']))) {
 			$box = new Box('Verify Access');
 			$bottom = $this->loginForm('login', 'login', $redirect, $ucinetid);
 			$box->setContent($bottom);
 			$page->setContent($box->display('half'));
 			$page->buildPage();
 		}
-		elseif($_SESSION['access'] >= $page->access)
-		{
+		elseif($_SESSION['access'] >= $page->access) {
 			return true;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}
@@ -67,7 +59,7 @@ class Login {
 				 LIMIT 1";
 		$result = $this->qry($query);
 
-		if($this->db->numRows() == 0)
+		if($this->DB->numRows() == 0)
 		{
 			$this->is_error = true;
 			$this->error = $ucinetid.' is not registered with '.PRODUCT.'. Please register here at the <a href="register.php">Registration Page</a>';
@@ -82,14 +74,14 @@ class Login {
 
 		$result = $this->qry($query);
 
-		if($this->db->numRows() == 0)
+		if($this->DB->numRows() == 0)
 		{
 			$this->is_error = true;
 			$this->error = 'The UCInetID and password do not match. If you forgot your password, you can reset your password by clicking <a href="iforgot.php?ucinetid='.$ucinetid.'">here</a>.';
 			return false;
 		}
 
-		$row=$this->db->resultToSingleArray();
+		$row=$this->DB->resultToSingleArray();
 		if($row){
 			if($row['ucinetid'] !="" && $row['password'] != ""){
 				//register sessions
@@ -102,7 +94,7 @@ class Login {
 				$sql = 'UPDATE logon
 						SET last_login = "'.$date.' '.$time.'"
 						WHERE ucinetid = "'.$row['ucinetid'].'"';
-				$this->db->execute($sql);
+				$this->DB->execute($sql);
 				
 				$_SESSION['loggedin'] = true;
 				$_SESSION['ucinetid'] = $row['ucinetid'];
@@ -131,7 +123,7 @@ class Login {
 		$args  = array_map('mysqli_real_escape_string', $args);
 		array_unshift($args,$query);
 		$query = call_user_func_array('sprintf',$args);
-		$result = $this->db->query($query) or die(mysqli_error());
+		$result = $this->DB->query($query) or die(mysqli_error());
 		if($result){
 			return $result;
 		}else{
@@ -152,8 +144,8 @@ class Login {
 				FROM logon
 				WHERE ucinetid = '$ucinetid'";
 
-		$this->db->query($query);
-		if($this->db->num_rows == 0)
+		$this->DB->query($query);
+		if($this->DB->num_rows == 0)
 		{
 			$this->error = 'The UCInetID, '.$ucinetid.', is not registered with '.PRODUCT.'. Please register by going to the <a href="register.php?ucinetid='.$ucinetid.'">Registration Page</a>.';
 			return false;
@@ -273,9 +265,5 @@ class Login {
 		}
 		return $output;
 	}	
-
-	function db_close(){
-		$this->db->close();
-	}
 }
 ?>

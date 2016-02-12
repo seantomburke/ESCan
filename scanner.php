@@ -2,6 +2,8 @@
 
 require_once 'inc/standard.php';
 
+$DB = $GLOBALS['DB'];
+
 foreach ($_GET as $key => $value) {
 	//echo '$user[\''.$key.'\'] = '.$value.';<br>';
 	$scan[$key] = trim(strip_tags($value));
@@ -9,7 +11,6 @@ foreach ($_GET as $key => $value) {
 
 if($scan['barcode'] && $scan['eid'])
 {
-	$DB = new DB();
 	$barcode = new Barcode($scan['barcode']);
 	$scanner = new Scanner();
 	$event = new Event($scan['eid']);
@@ -78,7 +79,9 @@ if($scan['barcode'] && $scan['eid'])
     	$DB->query($sql);
         $output['scan'] = $DB->resultToArray();
 	}
-	$DB->close();
+	unset($scanner);
+	unset($barcode);
+	unset($event);
 }
 else{
     $output['message']['text'] = 'Must provide barcode id and event id';
@@ -86,6 +89,5 @@ else{
 }
 
 echo json_encode($output);
-
 
 ?>

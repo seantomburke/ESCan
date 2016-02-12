@@ -20,15 +20,14 @@ require_once 'inc/setup/_config.php';
 require_once 'inc/standard.php';
 
 echo '<br>Checking Install<br>';
-$db = new DB();
 
 if(WEBMASTER_USERNAME && WEBMASTER_EMAIL && WEBMASTER_PASSWORD && DBDATABASE && DBUSERNAME && DBSERVER)
 {
     echo "<br>All _config.php constants set<br>";
 
     $sql = 'SELECT COUNT( DISTINCT table_name) FROM information_schema.columns WHERE table_schema = "'.DBDATABASE.'";';
-    $db->query($sql);
-    $result = $db->resultToSingleArray();
+    $DB->query($sql);
+    $result = $DB->resultToSingleArray();
     echo "<br>table count: ".$result[0]."<br>";
     if($result[0]==0)
     {
@@ -40,7 +39,7 @@ if(WEBMASTER_USERNAME && WEBMASTER_EMAIL && WEBMASTER_PASSWORD && DBDATABASE && 
             $short = str_split($row, 100);
             echo 'Running '.$short[0].'...<br>';
             if($row)
-                $db->execute($row);
+                $DB->execute($row);
         }
 
         echo 'Database finished setup<br>';
@@ -55,15 +54,15 @@ if(WEBMASTER_USERNAME && WEBMASTER_EMAIL && WEBMASTER_PASSWORD && DBDATABASE && 
 
 
     $sql = 'REPLACE INTO `settings` VALUES ("eweekstart", "'.EWEEKSTART.'")';
-    $db->execute($sql);
+    $DB->execute($sql);
 
     echo "<br>Eweek Start Week set<br>";
 
     $sql = "SELECT * FROM users WHERE access = ". WEBMASTER .";";
-    $db->query($sql);
-    $web_admins = $db->resultToArray();
+    $DB->query($sql);
+    $web_admins = $DB->resultToArray();
 
-    if(!$db->isEmpty())
+    if(!$DB->isEmpty())
     {
         $authorized = false;
         $emails = '';
@@ -83,7 +82,6 @@ if(WEBMASTER_USERNAME && WEBMASTER_EMAIL && WEBMASTER_PASSWORD && DBDATABASE && 
         <a href="admin.php">Admin Page</a>. This incident will be reported. Please contact the Web Admin at 
         '.$emails.' or <a href="mailto:'.ORG_EMAIL.'">'.ORG_EMAIL.'</a> if you feel you received this message in error');
         }
-        $sniper->db_close();
     }
     else{
 
@@ -91,12 +89,12 @@ if(WEBMASTER_USERNAME && WEBMASTER_EMAIL && WEBMASTER_PASSWORD && DBDATABASE && 
 
         echo 'Inserting Webmaster<br>';
         $sql = 'REPLACE INTO `users` VALUES("'.WEBMASTER_USERNAME.'", "", "", "'.WEBMASTER_EMAIL.'", "", "", 1, 8, 1, "", "", "_setup.php")';
-        $db->execute($sql);
+        $DB->execute($sql);
         $sql = 'REPLACE INTO `logon` VALUES("'.WEBMASTER_USERNAME.'", "'.md5(WEBMASTER_PASSWORD).'", "", "", "")';
-        $db->execute($sql);
+        $DB->execute($sql);
         echo 'Insertion complete<br>';
         echo 'Done<Br>';
-        $db->close();
+        $DB->close();
         echo 'Disconnecting from Database<Br>';
         echo '<a href="admin.php#intro">Click here to login and setup ESCan</a>';
 

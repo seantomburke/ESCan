@@ -25,10 +25,10 @@ else
 {
 	$sql = 'SELECT * FROM events
 			WHERE eid ="'.$eid.'"';
-	$page->DB->query($sql);
-	$event = $page->DB->resultToSingleArray();
+	$DB->query($sql);
+	$event = $DB->resultToSingleArray();
 	
-	$total_count = $page->DB->countOf('scans', 'eid = "'.$eid.'"');
+	$total_count = $DB->countOf('scans', 'eid = "'.$eid.'"');
 	
 	$box = new Box($event['name']);
 	$box->setBadge('Return to Events', 'events.php');
@@ -86,8 +86,8 @@ else
 			ORDER BY date DESC, time DESC
 			'.$limit;
 			
-	$page->DB->query($sql);
-	$ticker_array = $page->DB->resultToArray();
+	$DB->query($sql);
+	$ticker_array = $DB->resultToArray();
 	$ticker_content .= '<div class="separator"></div>';
 	$ticker_content .= '<div class="row center">
 							<h3>Scan Ticker</h3>
@@ -180,6 +180,7 @@ else
 	 
 	$box->setContent( $bottom.$ticker_content);
 	$box->setBadge('Return to Events', 'events.php');
+	$majors = [];
 	
 	foreach ($var->getMajors() as $major) {
 		
@@ -189,8 +190,8 @@ else
 				ON scans.barcode = users.barcode
 				WHERE scans.eid = "'.$eid.'"
 				AND users.major = "'.$major.'"';
-		$page->DB->query($sql);
-		$temp = $page->DB->numRows();
+		$DB->query($sql);
+		$temp = $DB->numRows();
 		//echo '<br>value:'.$temp;
 	
 		$majors[$major] = $temp;

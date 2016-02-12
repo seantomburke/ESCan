@@ -14,9 +14,9 @@ class Nav
 	public $tabs;
 	public $access;
 	public $output;
-	public $db;
 	public $tab;
 	public $title;
+	private $DB;
 
 	/**
 	 * Constructor for creating the Navigation Object
@@ -25,7 +25,7 @@ class Nav
 	 */
 	function __construct($access, $tab)
 	{	
-		$this->db = new DB();
+		$this->DB = $GLOBALS['DB'];
 		$this->tab = $tab;
 		$this->access = ($access == '') ? 0:$access;
 		
@@ -48,9 +48,9 @@ class Nav
 			ORDER BY tid ASC';
 		}
 
-		$result = $this->db->query($sql);
+		$result = $this->DB->query($sql);
 			
-		$tabs = $this->db->resultToArray($result);
+		$tabs = $this->DB->resultToArray($result);
 
 		$highlight = ' id="highlight"';
 
@@ -88,7 +88,7 @@ class Nav
 						title = "'.$title.'",
 						public_only = "'.$only.'"';
 	
-				$result = $this->db->query($sql);
+				$result = $this->DB->query($sql);
 			}
 			else
 			{
@@ -99,7 +99,7 @@ class Nav
 						public_only = "'.$only.'"
 						WHERE page = "'.$this->tab.'"';
 	
-				$result = $this->db->query($sql);
+				$result = $this->DB->query($sql);
 	
 			}
 		}
@@ -108,8 +108,8 @@ class Nav
 		{
 			$sql = "SELECT t.page FROM tabs AS t";
 				
-			$result = $this->db->query($sql);
-			$tabs_array = $this->db->resultToArray();
+			$result = $this->DB->query($sql);
+			$tabs_array = $this->DB->resultToArray();
 	
 			if(count($tabs_array) > 0)
 			{
@@ -133,10 +133,6 @@ class Nav
 	{
 		return $this->output;
 	}
-
-	public function db_close(){
-		$this->db->close();
-	} 
 
 }
 

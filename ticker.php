@@ -1,7 +1,6 @@
 <?php
 
 require_once 'inc/standard.php';
-$DB = new DB();
 
 foreach ($_GET as $key => $value) {
 	//echo '$user[\''.$key.'\'] = '.$value.';<br>';

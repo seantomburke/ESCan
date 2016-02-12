@@ -11,7 +11,6 @@ foreach ($_GET as $key => $value) {
 
 if($scan['barcode'])
 {
-    $DB = new DB();
 	$barcode = new Barcode($scan['barcode']);
 	$scanner = new Scanner();
 	$errors = 1;

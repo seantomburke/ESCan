@@ -40,6 +40,8 @@ else{
 	require_once 'inc/classes/DBi.class.php';
 }
 
+$GLOBALS['DB'] = new DB();
+
 /*Classes*/
 require_once 'inc/classes/Page.class.php';
 require_once 'inc/classes/UCIPerson.class.php';

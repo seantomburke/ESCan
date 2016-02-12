@@ -20,8 +20,8 @@ $sql = 'SELECT errors.*
 		ORDER BY date DESC, time DESC
 		LIMIT 100';
 		
-$page->DB->query($sql);
-$error_array = $page->DB->resultToArray();
+$DB->query($sql);
+$error_array = $DB->resultToArray();
 
 if(strpos($_SERVER['HTTP_HOST'], 'heroku') != false){
 	$hostnames = explode('.', $_SERVER['HTTP_HOST']);

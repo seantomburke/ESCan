@@ -25,10 +25,10 @@ $sql = 'SELECT users.*, logon.*
  		ON users.ucinetid = logon.ucinetid
  		WHERE users.ucinetid = "'.$ucinetid.'"
  		LIMIT 1';
-$page->DB->query($sql);
+$DB->query($sql);
 
 //set users settings to $user
-$user = $page->DB->resultToSingleArray();
+$user = $DB->resultToSingleArray();
 
 
 //if the action is update then do this

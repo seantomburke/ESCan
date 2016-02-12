@@ -8,7 +8,7 @@
 
 class Barcode{
 
-	public $db;
+	public $DB;
 	public $code;
 	public $error;
 	public $login;
@@ -18,7 +18,7 @@ class Barcode{
 
 	function __construct($code){
 		$this->code = $code;
-		$this->db = new DB();
+		$this->DB = $GLOBALS['DB'];
 		$this->login = new Login();
 	}
 	
@@ -100,8 +100,8 @@ class Barcode{
 	function exists(){
 		$sql = 'SELECT barcode FROM barcodes
 				WHERE barcode = "'.$this->code.'"';
-		$this->db->query($sql);
-		if(!$this->db->isEmpty())
+		$this->DB->query($sql);
+		if(!$this->DB->isEmpty())
 		{
 			return true;
 		}
@@ -141,7 +141,7 @@ class Barcode{
 							date = "'.NOW_DATE.'",
 							time = "'.NOW_TIME.'",
 							volunteer = "'.$_SESSION['ucinetid'].'"';
-					$this->db->execute($sql);
+					$this->DB->execute($sql);
 					return true;
 				}
 				else 
@@ -167,10 +167,10 @@ class Barcode{
 		$sql = 'SELECT ucinetid
 				FROM users
 				WHERE barcode = "'.$this->code.'"';
-		$this->db->query($sql);
-		$user = $this->db->resultToSingleArray();
+		$this->DB->query($sql);
+		$user = $this->DB->resultToSingleArray();
 		
-		if($this->db->isEmpty())
+		if($this->DB->isEmpty())
 		{
 		return true;
 		}
@@ -202,12 +202,12 @@ class Barcode{
 					$sql = 'UPDATE barcodes
 						SET ucinetid = "'.$ucinetid.'"
 						WHERE barcode = "'.$this->code.'"';
-					$this->db->query($sql);
+					$this->DB->query($sql);
 
 					$sql = 'UPDATE users
 						SET barcode = "'.$this->code.'"
 						WHERE ucinetid = "'.$ucinetid.'"';
-					$this->db->query($sql);
+					$this->DB->query($sql);
 					return true;
 				}
 				else
@@ -230,12 +230,12 @@ class Barcode{
 			$sql = 'UPDATE barcodes
 				SET ucinetid = ""
 				WHERE ucinetid = "'.$ucinetid.'"';
-			$this->db->query($sql);
+			$this->DB->query($sql);
 
 			$sql = 'UPDATE users
 				SET barcode = ""
 				WHERE ucinetid = "'.$ucinetid.'"';
-			$this->db->query($sql);
+			$this->DB->query($sql);
 			return true;
 		}
 		else
@@ -257,9 +257,9 @@ class Barcode{
 				FROM users
 				WHERE barcode = "'.$code.'"';
 
-		$this->db->query($sql);
-		$userArray = $this->db->resultToSingleArray();
-		if($this->db->isEmpty())
+		$this->DB->query($sql);
+		$userArray = $this->DB->resultToSingleArray();
+		if($this->DB->isEmpty())
 		{
 			$this->error = 'The barcode <strong>'.$this->barcode.'</strong> is not associated with a UCInetID';
 			return false;
@@ -276,9 +276,9 @@ class Barcode{
 				FROM barcodes as b
 				WHERE barcode = "'.$this->code.'"';
 	
-		$this->db->query($sql);
-		$result = $this->db->resultToSingleArray();
-		if($this->db->isEmpty())
+		$this->DB->query($sql);
+		$result = $this->DB->resultToSingleArray();
+		if($this->DB->isEmpty())
 		{
 			$this->error = 'The barcode <strong>'.$this->barcode.'</strong> is not associated with a UCInetID';
 			return false;
@@ -295,9 +295,9 @@ class Barcode{
 				FROM users
 				WHERE barcode = "'.$this->code.'"';
 	
-		$this->db->query($sql);
-		$result = $this->db->resultToSingleArray();
-		if($this->db->isEmpty())
+		$this->DB->query($sql);
+		$result = $this->DB->resultToSingleArray();
+		if($this->DB->isEmpty())
 		{
 			$this->error = 'The <strong>'.$this->barcode.'</strong> is not associated with a UCInetID';
 			return false;
@@ -306,10 +306,6 @@ class Barcode{
 		{
 			return $result['name'];
 		}
-	}
-
-	function db_close(){
-		$this->db->close();
 	}
 
 

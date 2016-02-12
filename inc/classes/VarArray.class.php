@@ -19,13 +19,13 @@ class VarArray
 	public $access;
 	private $DB;
 
-	function __construct()
-	{
-		$this->DB = new DB();
+	function __construct() {
+		$this->DB = $GLOBALS['DB'];
 	}
 	
 	function getDates($initial = false, $debug = false)
-	{
+	{	
+		
 		if($initial) {
 			$temp = array('--' 	=> 	'Select Date');
 		}

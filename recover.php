@@ -32,11 +32,11 @@ if($_GET['action'] == 'change' && isset($_GET['ucinetid']) && $_POST)
 				SET password = '$e_password'
 				WHERE ucinetid = '$ucinetid'
 				LIMIT 1";
-		$page->DB->query($sql);
+		$DB->query($sql);
 		
 		$sql = "DELETE FROM reset
 				WHERE ucinetid = '$ucinetid'";
-		$page->DB->query($sql);
+		$DB->query($sql);
 		
 		$page->setMessage('Your password has been successfully changed', 'success');
 		$display_login = true;
@@ -63,10 +63,10 @@ if($_GET['ucinetid'] && $_GET['secret'])
 {
 	$errors = 1;
 	$sql = "SELECT * FROM reset WHERE ucinetid = '$ucinetid' AND secret = '$secret'";
-	$result = $page->DB->query($sql);
-	$user = $page->DB->resultToSingleArray();
+	$result = $DB->query($sql);
+	$user = $DB->resultToSingleArray();
 	
-	if($page->DB->isEmpty())
+	if($DB->isEmpty())
 	{
 		$errors++;
 		$error_message = 'Sorry, there was an error with reseting your password please visit the <a href="iforgot.php">Forgot Password</a> page to reset your password again.';

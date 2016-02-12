@@ -101,8 +101,8 @@ if($_GET['select_access'])
 			WHERE access = "'.$_GET['select_access'].'"
 			ORDER BY name ASC';
 	
-	$page->DB->query($sql);
-	$users = $page->DB->resultToMakeArray('ucinetid','name', 'Select User');
+	$DB->query($sql);
+	$users = $DB->resultToMakeArray('ucinetid','name', 'Select User');
 	$user_menu = new DropMenu('ucinetid', $users, $_GET['ucinetid'], 'textarea');
 	
 	$bottom .= ' 
@@ -152,7 +152,6 @@ if($_GET['action'] == 'associate' && $_POST)
 			$page->setMessage($barcode->error, 'failure');
 		}
 	}
-	$barcode->db_close();
 	
 }
 
@@ -170,7 +169,7 @@ if($_GET['action'] == 'Set' && $_GET['eweekstart'])
 		$sql = "UPDATE settings SET value='".$_GET['eweekstart']."' WHERE name='eweekstart';";
 		$sql = "INSERT INTO settings (name, value) VALUES('eweekstart', '".$_GET['eweekstart']."') ON DUPLICATE KEY UPDATE    
 name='eweekstart', value='".$_GET['eweekstart']."';";
-		$page->DB->execute($sql);
+		$DB->execute($sql);
 		$page->setMessage('The Monday of E-Week is: <strong>'.date('M d, Y', strtotime($_GET['eweekstart'])).'</strong>. Please update the events on the <a href="events.php">events page</a> accordingly.', 'success');
 	}
 
@@ -256,7 +255,7 @@ if($_GET['action'] == 'update' && $_POST)
 				WHERE ucinetid = "'.$user['ucinetid'].'"
 				LIMIT 1';
 		
-		$page->DB->execute($sql);
+		$DB->execute($sql);
 		$page->setMessage('Settings updated for user: <strong>'.$user['ucinetid'].'</strong>', 'success');	
 		$select_from_post = false;	
 	}
@@ -288,7 +287,7 @@ if($_GET['action'] == "DELETE EVENTS" || $_GET['action'] == "REINSTALL")
 		
 		$sql = 'TRUNCATE TABLE events';
 		
-		$page->DB->execute($sql);
+		$DB->execute($sql);
 		$page->setMessage('All events have been deleted', 'failure');	
 	}
 	else
@@ -320,9 +319,9 @@ if($_GET['action'] == "DELETE PAGES")
 	if($errors == 1)
 	{
 		$sql = 'TRUNCATE TABLE pages';
-		$page->DB->execute($sql);
+		$DB->execute($sql);
 		$sql = 'TRUNCATE TABLE tabs';
-		$page->DB->execute($sql);
+		$DB->execute($sql);
 		
 		$page->setMessage('All pages have been deleted', 'failure');	
 	}
@@ -352,11 +351,11 @@ if($_GET['action'] == "DELETE USERS"  || $_GET['action'] == "REINSTALL")
 	    //delete all but webmasters
 	    
 		$sql = 'DELETE FROM users WHERE access != '.WEBMASTER.';';
-		$page->DB->execute($sql);
+		$DB->execute($sql);
 		$sql = 'DELETE FROM logon WHERE ucinetid NOT IN (SELECT users.ucinetid FROM users)'; 
-		$page->DB->execute($sql);
+		$DB->execute($sql);
 		$sql = 'TRUNCATE TABLE reset';
-		$page->DB->execute($sql);
+		$DB->execute($sql);
 			
 		$page->setMessage('All users (except Webmasters) have been deleted', 'failure');
 	}
@@ -385,7 +384,7 @@ if($_GET['action'] == "DELETE SCANS"  || $_GET['action'] == "REINSTALL")
 	{
 		
 		$sql = 'TRUNCATE TABLE scans'; 
-		$page->DB->execute($sql);
+		$DB->execute($sql);
 			
 		$page->setMessage('All scans have been deleted', 'failure');
 	}
@@ -415,9 +414,9 @@ if($_GET['action'] == "DELETE BARCODES"  || $_GET['action'] == "REINSTALL")
 	{
 		
 		$sql = 'TRUNCATE TABLE barcodes'; 
-		$page->DB->execute($sql);
+		$DB->execute($sql);
 		$sql = 'UPDATE users SET barcode=""';
-		$page->DB->execute($sql);
+		$DB->execute($sql);
 		$page->setMessage('All barcodes have been deleted', 'failure');
 	}
 	else
@@ -472,8 +471,8 @@ if($user['ucinetid'])
 			WHERE ucinetid = "'.$user['ucinetid'].'"
 			ORDER BY name ASC';
 	
-	$page->DB->query($sql);
-	$user = $page->DB->resultToSingleArray();
+	$DB->query($sql);
+	$user = $DB->resultToSingleArray();
 	
 	//clean each $_POST value of dangerous inputs
 	//example $user['email'] = 'stburke@uci.edu';
@@ -640,8 +639,8 @@ $sql = 'SELECT barcodes.barcode, scans.*, users.name, users.ucinetid, users.majo
     		ORDER BY scans.date DESC, scans.time DESC
     		'.$limit;
 		
-$page->DB->query($sql);
-$ticker_array = $page->DB->resultToArray();
+$DB->query($sql);
+$ticker_array = $DB->resultToArray();
 $ticker_content .= '<div class="separator"></div>';
 $ticker_content .= '<div id="ticker" class="ticker"></div>';
 
@@ -695,8 +694,8 @@ $sql = 'SELECT value
 		FROM settings
 		WHERE name = "eweekstart"';
 	
-$page->DB->query($sql);
-$eweekstart = $page->DB->resultToSingleArray();
+$DB->query($sql);
+$eweekstart = $DB->resultToSingleArray();
 
 $event_content .= ' 
 		<div class=" ">

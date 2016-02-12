@@ -14,7 +14,6 @@
 
 class UCIPerson
 {
-	public $db;
 	public $login;
 	public $name;
 	public $nickname;
@@ -37,7 +36,7 @@ class UCIPerson
 	function __construct($id)
 	{
 		$id = $this->clean($id);
-		$this->db = new DB();
+		
 		$this->login = new Login();
 		$this->engineer_array = array('Engr AE','Engr BM','EngrBMP','EngrChm','Engr CE','EngrCpE','CSE','Engr EE','EngrEnv','Enr MSE','Engr ME');
 		//have this set in the VarArray class instead
@@ -134,9 +133,9 @@ class UCIPerson
 				FROM users
 				WHERE ucinetid = "'.$this->ucinetid.'"';
 	
-		$this->db->query($sql);
-		$result = $this->db->resultToSingleArray();
-		if($this->db->isEmpty())
+		$DB->query($sql);
+		$result = $DB->resultToSingleArray();
+		if($DB->isEmpty())
 		{
 			$this->error = 'The user <strong>'.$this->ucinetid.'</strong> does not have a barcode';
 			return false;
@@ -307,10 +306,6 @@ class UCIPerson
 				break;
 		
 		}
-	}
-
-	public function db_close(){
-		$this->db->close();
 	}
 }
 

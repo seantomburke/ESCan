@@ -41,9 +41,9 @@ if(!$event->exists())
 $sql = 'SELECT e.name, e.eid
 		FROM events AS e
 		ORDER BY date ASC, time ASC';
-$page->DB->query($sql);
+$DB->query($sql);
 
-$event_menu_array = $page->DB->resultToMakeArray('eid','name', 'Select Event');
+$event_menu_array = $DB->resultToMakeArray('eid','name', 'Select Event');
 
 $event_menu = new DropMenu('eid', $event_menu_array, $scan['eid'], 'textarea');
 
@@ -70,7 +70,7 @@ if($scan['eid'] != 0)
 				</div>';
 	}
 }
-$total_count = $page->DB->countOf('scans', 'eid = "'.$_GET['eid'].'"');
+$total_count = $DB->countOf('scans', 'eid = "'.$_GET['eid'].'"');
 
 $bottom .= ' 
 		<form id="select_event" action="'.$_SERVER['PHP_SELF'].'" method="GET">
@@ -149,8 +149,8 @@ $limit = ($_GET['view'] == 'all') ? '':'LIMIT 5';
     		ORDER BY scans.date DESC, scans.time DESC
     		'.$limit;
 		
-$page->DB->query($sql);
-$ticker_array = $page->DB->resultToArray();
+$DB->query($sql);
+$ticker_array = $DB->resultToArray();
 $ticker_content .= '<div class="separator"></div>';
 $ticker_content .= '<div id="ticker" class="ticker"></div>';
 
@@ -218,8 +218,8 @@ foreach ($var_array->getMajors() as $major) {
 			ON scans.barcode = users.barcode
 			WHERE scans.eid = "'.$scan['eid'].'"
 			AND users.major = "'.$major.'"';
-	$page->DB->query($sql);
-	$temp = $page->DB->numRows();
+	$DB->query($sql);
+	$temp = $DB->numRows();
 	//echo '<br>value:'.$temp;
 
 	$where .= 'major NOT LIKE \''.$major.'\' AND ';
@@ -237,8 +237,8 @@ foreach ($var_array->getMajors() as $major) {
 				WHERE scans.eid = "'.$scan['eid'].'"
 				AND '.$where;
 		//echo "where: ".$where;
-		//$majors["other"] = $page->DB->countOf('users', $where_majors_not_like, 1);
-		$majors["Other"] = $page->DB->queryUniqueValue($sql);
+		//$majors["other"] = $DB->countOf('users', $where_majors_not_like, 1);
+		$majors["Other"] = $DB->queryUniqueValue($sql);
 	}
 
 }
@@ -278,5 +278,4 @@ $intro_scripts = '<script src="js/intro.min.js"></script>
 $content = $box->display().$stat_display;
 $page->setContent($content.$intro_scripts);
 $page->buildPage();
-$event->db_close();
 ?>

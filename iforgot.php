@@ -35,12 +35,12 @@ if($_POST['action'] == 'resetlogin')
 				FROM users AS u, logon AS l
 		 		WHERE u.ucinetid = "'.$ucinetid.'"
 		 		LIMIT 1';
-		$page->DB->query($sql);
-		$user = $page->DB->resultToSingleArray();
+		$DB->query($sql);
+		$user = $DB->resultToSingleArray();
 
 		$sql = "REPLACE INTO reset (ucinetid, secret, date)
 				VALUES ('$ucinetid', '$secret', NOW())";
-		$result = $page->DB->query($sql);
+		$result = $DB->query($sql);
 
 		$message = 'An email was sent to <a href="https://webmail.uci.edu/rcm/?_user='.$ucinetid.'">'.$user['email'].'</a> with instructions on how to reset your password. Visit <a href="https://webmail.uci.edu/rcm/?_user='.$ucinetid.'">WebMail</a>';
 		$page->setMessage($message, 'success');

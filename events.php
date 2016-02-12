@@ -6,8 +6,8 @@ $page = new Page('events', ALL);
 
 
 $sql = "SELECT value FROM settings WHERE name='eweekstart'";
-$page->DB->query($sql);
-$eweekstart = $page->DB->resultToSingleArray();
+$DB->query($sql);
+$eweekstart = $DB->resultToSingleArray();
 $eweekfriday = date('Y-m-d', strtotime($eweekstart[0]." -3 days"));
 $eweeksunday = date('Y-m-d', strtotime($eweekstart[0]." +6 days"));
 
@@ -52,7 +52,7 @@ if($_GET['action'] == 'add')
 			$sql = 'INSERT INTO events (name, date, time, host, prize, description, volunteer)
 								VALUES ("'.$event['name'].'", "'.$event['date'].'", "'.$event['time'].'", "'.$event['host'].'", "'.$event['prize'].'", "'.$event['description'].'", "'.$_SESSION['ucinetid'].'")';
 			
-			$page->DB->query($sql);
+			$DB->query($sql);
 			$page->setMessage('Event Successfully Added', 'success');
 			unset($event);
 
@@ -153,7 +153,7 @@ if($_GET['action'] == 'Delete')
 	{
 		$sql = 'DELETE FROM events WHERE eid = '.$_GET['eid'].';';
 		
-		$page->DB->query($sql);
+		$DB->query($sql);
 		$page->setMessage('<strong>'.$delete_event->name.'</strong> Successfully deleted', 'success');
 
 	}
@@ -175,8 +175,8 @@ for($i=0;$i<10;$i++)
 	$sql = 'SELECT * FROM events
 			WHERE date = "'.date('Y-m-d', $keys[$i]).'"
 			ORDER BY date, time';
-	$page->DB->query($sql);
-	$events[$i] = $page->DB->resultToArray();
+	$DB->query($sql);
+	$events[$i] = $DB->resultToArray();
 }
 
 

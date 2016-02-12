@@ -17,7 +17,6 @@ class Sniper
 	private $browser;
 	private $timestamp;
 	private $snipe;
-	private $db;
 	private $self;
 	
 	/**
@@ -27,7 +26,7 @@ class Sniper
 
 	function Sniper()
 	{
-		$this->db = new DB();
+		
 		$this->ip = $_SERVER['REMOTE_ADDR'];
 		$this->referer = $_SERVER['HTTP_REFERER'];
 		$this->browser = $_SERVER['HTTP_USER_AGENT'];
@@ -54,11 +53,12 @@ class Sniper
 	*/
 	private function insert($message, $ucinetid, $status)
 	{
+		$DB = $GLOBALS['DB'];
 		$message = strip_tags(trim(addslashes($message)));
 		
 		$sql = 'INSERT INTO errors (ucinetid, message, page, referer, browser, ip, status, date, time)
 				VALUES ("'.$ucinetid.'", "'.$message.'", "'.$this->self.'", "'.$this->referer.'", "'.$this->browser.'", "'.$this->ip.'", "'.$status.'", "'.NOW_DATE.'", "'.NOW_TIME.'")';
-		$this->db->execute($sql);
+		$DB->execute($sql);
 	}
 	
 	/**
@@ -78,9 +78,5 @@ class Sniper
 		{
 			$this->insert($message, $ucinetid, $status);
 		}
-	}
-
-	public function db_close(){
-		$this->db->close();
 	}
 }

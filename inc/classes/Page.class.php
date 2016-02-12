@@ -19,6 +19,7 @@ class Page
 {
 
 	public $ID; 				//MySQL unique identifier
+	public $DB;					//Database Object
 	public $access; 			//access of each page. See 'inc/constants.inc.php' for access constants
 	public $alert;				//class for the $message (e.g. 'failure' , 'success')
 	public $banner; 			//html for the $message
@@ -47,12 +48,10 @@ class Page
 	public $url;				//url of the page
 
 	//objects
-	public $DB;					// DB Object from 'inc/classes/DB.class.php'
 	//public $session;			// Session Object from 'inc/classes/Session.class.php'
 	public $login;				// Login Object from 'inc/classes/Login.class.php'
 	public $nav;				//the NavBar object
 	public $sniper;				// Stores all error messages and/or hackers
-
 
 	/**
 	 * Constructs page object
@@ -64,8 +63,9 @@ class Page
 	 */
 	function __construct($name, $access = ALL)
 	{
-		$this->DB = new DB();
+		
 		//$this->session = new Session();
+		$this->DB = $GLOBALS['DB'];
 		$this->login = new Login();
 		$this->sniper = new Sniper();
 		$this->name = $name;
@@ -485,7 +485,7 @@ class Page
 		$this->buildFooter();
 		$this->content = $this->html.$this->header.$this->navigation.$this->content.$this->footer;
 		echo $this->content;
-		$this->writeSQL();
+		//$this->writeSQL();
 		$this->DB->close();
 		exit;
 	}
