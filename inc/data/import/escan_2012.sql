@@ -4081,8 +4081,8 @@ INSERT INTO `users` VALUES('jayk2', 'E32368', 'Jay Kao', 'jayk2@uci.edu', 'EngrE
 INSERT INTO `users` VALUES('shangg', 'E33154', 'Shang Gao', 'shangg@uci.edu', 'EngrEnv', 'Graduate', 1, 2, 1, '2012-02-21', '11:05:13', 'csamaras');
 INSERT INTO `users` VALUES('stevenb1', 'E35314', 'Steven Bui', 'stevenb1@uci.edu', 'Engr EE', 'Junior', 1, 2, 1, '2012-02-21', '11:05:29', 'csamaras');
 INSERT INTO `users` VALUES('amnavarr', 'E18646', 'Andrea Marquez Navarro', 'amnavarr@uci.edu', 'Engr BM', 'Junior', 1, 2, 1, '2012-02-21', '11:05:58', 'csamaras');
-INSERT INTO `users` VALUES('amliao', 'E18652', 'Albert Michael Liao', 'amliao@uci.edu', 'Material Science Engineering', 'Senior', 1, 2, 1, '2012-02-21', '11:06:12', 'csamaras');
-INSERT INTO `users` VALUES('jjukl', 'E18658', 'Jennifer Marie Jukl', 'jjukl@uci.edu', 'Material Science Engineering', 'Graduate', 1, 2, 1, '2012-02-21', '11:07:40', 'stburke');
+INSERT INTO `users` VALUES('amliao', 'E18652', 'Albert Michael Liao', 'amliao@uci.edu', 'Enr MSE', 'Senior', 1, 2, 1, '2012-02-21', '11:06:12', 'csamaras');
+INSERT INTO `users` VALUES('jjukl', 'E18658', 'Jennifer Marie Jukl', 'jjukl@uci.edu', 'Enr MSE', 'Graduate', 1, 2, 1, '2012-02-21', '11:07:40', 'stburke');
 INSERT INTO `users` VALUES('sbumatay', 'E18664', 'Sherilyn Rose Bumatay', 'sbumatay@uci.edu', 'Engr ME', 'Freshman', 1, 2, 1, '2012-02-21', '11:08:13', 'stburke');
 INSERT INTO `users` VALUES('sthongsu', 'E18670', 'Soh Mike Thongsuk', 'sthongsu@uci.edu', 'Other', 'Senior', 1, 2, 1, '2012-02-21', '11:08:57', 'stburke');
 INSERT INTO `users` VALUES('kvmai', 'E18676', 'Kevin Vinh Mai', 'kvmai@uci.edu', 'EngrChm', 'Senior', 1, 2, 1, '2012-02-21', '11:10:21', 'stburke');
@@ -4108,7 +4108,7 @@ INSERT INTO `users` VALUES('vismaily', 'E23734', 'Violeta Ismailyan', 'vismaily@
 INSERT INTO `users` VALUES('rshafer', 'E18010', 'Rebecca Hanh Shafer', 'rshafer@uci.edu', 'Engr CE', 'Senior', 1, 2, 1, '2012-02-21', '11:27:08', 'stburke');
 INSERT INTO `users` VALUES('dnguye58', 'E18016', 'Dung Huy Nguyen', 'dnguye58@uci.edu', 'Engr CE', 'Senior', 1, 2, 1, '2012-02-21', '11:28:13', 'stburke');
 INSERT INTO `users` VALUES('lij10', 'E33148', 'Jian Li', 'lij10@uci.edu', 'EngrEnv', 'Graduate', 1, 2, 1, '2012-02-21', '11:31:20', 'stburke');
-INSERT INTO `users` VALUES('rttruong', 'E18028', 'Ronald To Truong', 'rttruong@uci.edu', 'Material Science Engineering', 'Senior', 1, 2, 1, '2012-02-21', '11:32:06', 'stburke');
+INSERT INTO `users` VALUES('rttruong', 'E18028', 'Ronald To Truong', 'rttruong@uci.edu', 'Enr MSE', 'Senior', 1, 2, 1, '2012-02-21', '11:32:06', 'stburke');
 INSERT INTO `users` VALUES('jonathmg', 'E17920', 'Jonathan Michael Gonzalez', 'jonathmg@uci.edu', 'Engr EE', 'Senior', 1, 2, 1, '2012-02-21', '11:32:28', 'stburke');
 INSERT INTO `users` VALUES('rmoder', 'E17926', 'Roland Patrick Moder', 'rmoder@uci.edu', 'Engr BM', 'Senior', 1, 2, 1, '2012-02-21', '11:32:49', 'stburke');
 INSERT INTO `users` VALUES('jyih', 'E17932', 'Johnway Chang-whay Yih', 'jyih@uci.edu', 'Engr BM', 'Senior', 1, 2, 1, '2012-02-21', '11:33:11', 'stburke');
@@ -4261,7 +4261,7 @@ INSERT INTO `users` VALUES('vpulla', '', 'Venkata Sri Krishnakanth Pulla', 'vpul
 INSERT INTO `users` VALUES('mkarlen', 'E12946', 'Michelle Kaye Alexis Karlen', 'mkarlen@uci.edu', 'Engr CE', 'Senior', 1, 2, 1, '2012-02-22', '10:08:08', 'stburke');
 INSERT INTO `users` VALUES('cfavaret', 'E15046', 'Camilla Favaretti', 'cfavaret@uci.edu', 'Engr CE', 'Graduate', 1, 2, 1, '2012-02-22', '10:09:09', 'stburke');
 INSERT INTO `users` VALUES('jsanjose', 'E12940', 'Jason Samera San Jose', 'jsanjose@uci.edu', 'Engr BM', 'Junior', 1, 2, 1, '2012-02-22', '10:09:14', 'stburke');
-INSERT INTO `users` VALUES('adamss', 'E12892', 'Sarah Marie Adams', 'adamss@uci.edu', 'Material Science Engineering', 'Graduate', 1, 2, 1, '2012-02-22', '10:09:54', 'stburke');
+INSERT INTO `users` VALUES('adamss', 'E12892', 'Sarah Marie Adams', 'adamss@uci.edu', 'Enr MSE', 'Graduate', 1, 2, 1, '2012-02-22', '10:09:54', 'stburke');
 INSERT INTO `users` VALUES('mrsulliv', 'E12934', 'Michael Ryan Sullivan', 'mrsulliv@uci.edu', 'Engr ME', 'Senior', 1, 2, 1, '2012-02-22', '10:10:38', 'stburke');
 INSERT INTO `users` VALUES('zhaox4', '', 'Xin Zhao', 'zhaox4@uci.edu', 'Engr EE', 'Graduate', 1, 2, 1, '2012-02-22', '10:11:10', 'stburke');
 INSERT INTO `users` VALUES('ssevugan', '', 'Senthil Kumar Sevugan', 'ssevugan@uci.edu', 'Engr EE', 'Graduate', 1, 2, 1, '2012-02-22', '10:13:19', 'stburke');
@@ -4550,9 +4550,9 @@ INSERT INTO `users` VALUES('solorzac', 'E33856', 'Carlos Benito Solorzano', 'sol
 INSERT INTO `users` VALUES('kalamolh', 'E33760', 'Kevin Alamolhoda', 'kalamolh@uci.edu', 'Engr CE', 'Senior', 1, 2, 1, '2012-02-23', '11:05:08', 'camato');
 INSERT INTO `users` VALUES('kristeag', 'E33850', 'Kristen Aileen Gordon', 'kristeag@uci.edu', 'Engr CE', 'Sophomore', 1, 2, 1, '2012-02-23', '11:05:38', 'stburke');
 INSERT INTO `users` VALUES('ahabtema', 'E33838', 'Azaria M. Habtemariam', 'ahabtema@uci.edu', 'EngrEnv', 'Junior', 1, 2, 1, '2012-02-23', '11:08:09', 'stburke');
-INSERT INTO `users` VALUES('adesinai', 'E33832', 'Ikeoluwa K. Adesina', 'adesinai@uci.edu', 'Material Science Engineering', 'Junior', 1, 2, 1, '2012-02-23', '11:09:20', 'stburke');
+INSERT INTO `users` VALUES('adesinai', 'E33832', 'Ikeoluwa K. Adesina', 'adesinai@uci.edu', 'Enr MSE', 'Junior', 1, 2, 1, '2012-02-23', '11:09:20', 'stburke');
 INSERT INTO `users` VALUES('daparikh', 'E33820', 'Dhairya Ashwinkumar Parikh', 'daparikh@uci.edu', 'Engr ME', 'Senior', 1, 2, 1, '2012-02-23', '11:10:32', 'stburke');
-INSERT INTO `users` VALUES('bcacanin', 'E48226', 'Benjamin Charles Cacanindin', 'bcacanin@uci.edu', 'Material Science Engineering', 'Senior', 1, 2, 1, '2012-02-23', '11:12:36', 'jpazzi');
+INSERT INTO `users` VALUES('bcacanin', 'E48226', 'Benjamin Charles Cacanindin', 'bcacanin@uci.edu', 'Enr MSE', 'Senior', 1, 2, 1, '2012-02-23', '11:12:36', 'jpazzi');
 INSERT INTO `users` VALUES('soroushm', 'E33808', 'Soroush Mohammadmirzaeizarandi', 'soroushm@uci.edu', 'Engr BM', 'Graduate', 1, 2, 1, '2012-02-23', '11:12:45', 'stburke');
 INSERT INTO `users` VALUES('ksamaan', 'E33766', 'Kamil Samaan', 'ksamaan@uci.edu', 'Mechanical Engr AE', 'Graduate', 1, 2, 1, '2012-02-23', '11:13:36', 'stburke');
 INSERT INTO `users` VALUES('desilvap', 'E33772', 'Praveen De Silva', 'desilvap@uci.edu', 'Mechanical Engr AE', 'Graduate', 1, 2, 1, '2012-02-23', '11:14:05', 'stburke');
@@ -4690,7 +4690,7 @@ INSERT INTO `users` VALUES('nlmendoz', 'E30964', 'Nicole Leigh Mendoza', 'nlmend
 INSERT INTO `users` VALUES('cmarkega', 'E30982', 'Cade Bryant Markegard', 'cmarkega@uci.edu', 'EngrChm', 'Graduate', 1, 2, 1, '2012-02-23', '12:37:19', 'mathewb');
 INSERT INTO `users` VALUES('ifu', 'E30976', 'Iris Wing Yin Fu', 'ifu@uci.edu', 'EngrChm', 'Graduate', 1, 2, 1, '2012-02-23', '12:37:29', 'mathewb');
 INSERT INTO `users` VALUES('hkchan', 'E30970', 'Hubert Kenneth Chan', 'hkchan@uci.edu', 'EngrChm', 'Graduate', 1, 2, 1, '2012-02-23', '12:37:39', 'mathewb');
-INSERT INTO `users` VALUES('ekarshal', 'E30958', 'Emil Mario Karshalev', 'ekarshal@uci.edu', 'Material Science Engineering', 'Senior', 1, 2, 1, '2012-02-23', '12:37:51', 'mathewb');
+INSERT INTO `users` VALUES('ekarshal', 'E30958', 'Emil Mario Karshalev', 'ekarshal@uci.edu', 'Enr MSE', 'Senior', 1, 2, 1, '2012-02-23', '12:37:51', 'mathewb');
 INSERT INTO `users` VALUES('tdunham', 'E40306', 'Troy Robert Dunham', 'tdunham@uci.edu', 'Engr ME', 'Senior', 1, 2, 1, '2012-02-23', '12:37:58', 'stburke');
 INSERT INTO `users` VALUES('smurali', 'E30160', 'Shruthi Vijayalakshmi', 'smurali@uci.edu', 'EngrBMP', 'Senior', 1, 2, 1, '2012-02-23', '12:38:27', 'stburke');
 INSERT INTO `users` VALUES('sholmber', '', 'Sunshine Holmberg', 'sholmber@uci.edu', 'Engr EE', 'Graduate', 1, 2, 1, '2012-02-23', '12:38:34', 'mathewb');
