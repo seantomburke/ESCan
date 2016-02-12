@@ -43,6 +43,11 @@ function define_db()
 {
     $url = parse_url(getenv("CLEARDB_DATABASE_URL")); //if heroku cleardb credentials are defined
 
+    //Save space if the database is using ClearDB
+    if( getenv("CLEARDB_DATABASE_URL") ){
+        define('DISABLE_ERRORS', true);
+    }
+
     if(count($url) > 1) {
         define('DBDATABASE', substr($url["path"], 1));      //cleardb database
         define('DBSERVER', $url["host"]); 				    //cleardb host server

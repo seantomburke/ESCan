@@ -67,10 +67,12 @@ class Page
 		//$this->session = new Session();
 		$this->DB = $GLOBALS['DB'];
 		$this->login = new Login();
-		$this->sniper = new Sniper();
 		$this->name = $name;
 		$this->access = $access;
 		$this->setGoogleAnalytics();
+		if(!DISABLE_ERRORS) {
+			$this->sniper = new Sniper();
+		}
 
 		$sql = "SELECT p.* FROM pages AS p
 				WHERE name = '$name'";
@@ -132,7 +134,9 @@ class Page
 		$this->alert = $class;
 		
 		//store the message with the sniper class for debugging
-		$this->sniper->storeMessage($message, $_SESSION['ucinetid'], $class);
+		if(!DISABLE_ERRORS) {
+			$this->sniper->storeMessage($message, $_SESSION['ucinetid'], $class);
+		}
 	}
 
 	/**
