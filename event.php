@@ -4,10 +4,13 @@ require_once 'inc/standard.php';
 //$page = new Page($name, $css);
 $page = new Page('event', ALL);
 $var = new VarArray();
+$eid = $_GET['eid'];
 //clean each $_POST value of dangerous ps
 //example $newsettings['email'] = 'stburke@uci.edu';
 
-if(!$_GET['eid'])
+
+
+if(!$eid)
 {
 	$bottom = 'No event selected, please return to the <a href="events.php">Events Page</a>.';
 	
@@ -21,11 +24,11 @@ if(!$_GET['eid'])
 else
 {
 	$sql = 'SELECT * FROM events
-			WHERE eid ="'.$_GET['eid'].'"';
+			WHERE eid ="'.$eid.'"';
 	$page->DB->query($sql);
 	$event = $page->DB->resultToSingleArray();
 	
-	$total_count = $page->DB->countOf('scans', 'eid = "'.$_GET['eid'].'"');
+	$total_count = $page->DB->countOf('scans', 'eid = "'.$eid.'"');
 	
 	$box = new Box($event['name']);
 	$box->setBadge('Return to Events', 'events.php');
@@ -79,7 +82,7 @@ else
 	$sql = 'SELECT scans.*, users.name, users.ucinetid, users.major, users.level
 			FROM scans LEFT JOIN users
 			ON scans.barcode = users.barcode
-			WHERE scans.eid = "'.$_GET['eid'].'"
+			WHERE scans.eid = "'.$eid.'"
 			ORDER BY date DESC, time DESC
 			'.$limit;
 			
@@ -147,14 +150,14 @@ else
 		{
 		$ticker_content .= '
 			<div class="row center">
-			<label id="view"><a href="'.$_SERVER['PHP_SELF'].'?eid='.$_GET['eid'].'&view=less#view">View Less Scans</a></label>
+			<label id="view"><a href="'.$_SERVER['PHP_SELF'].'?eid='.$eid.'&view=less#view">View Less Scans</a></label>
 			</div>';
 		}
 		else 
 		{
 		$ticker_content .= '
 			<div class="row center">
-			<label id="view"><a href="'.$_SERVER['PHP_SELF'].'?eid='.$_GET['eid'].'&view=all#view">View All Scans</a></label>
+			<label id="view"><a href="'.$_SERVER['PHP_SELF'].'?eid='.$eid.'&view=all#view">View All Scans</a></label>
 			</div>';
 		}
 	}
@@ -177,16 +180,14 @@ else
 	 
 	$box->setContent( $bottom.$ticker_content);
 	$box->setBadge('Return to Events', 'events.php');
-	$var_array = new VarArray();
 	
-	
-	foreach ($var_array->getMajors() as $major) {
+	foreach ($var->getMajors() as $major) {
 		
 		$sql = 'SELECT *
 				FROM scans
 				LEFT JOIN users 
 				ON scans.barcode = users.barcode
-				WHERE scans.eid = "'.$scan['eid'].'"
+				WHERE scans.eid = "'.$eid.'"
 				AND users.major = "'.$major.'"';
 		$page->DB->query($sql);
 		$temp = $page->DB->numRows();
