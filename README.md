@@ -1,6 +1,6 @@
 <h1><a href="http://esc.eng.uci.edu/escan">ESCan UCI</a></h1>
 
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/hawaiianchimp/escan)
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/seantomburke/escan)
 
 
 <a href="http://esc.eng.uci.edu/escan">
